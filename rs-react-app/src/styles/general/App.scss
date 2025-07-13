@@ -1,0 +1,11 @@
+@import './vars.scss';
+@import './mixins/_adaptive-properties.sass';
+@import './index.sass';
+@import './general.sass';
+
+@import '../../ts/components/pageWrapper/pageWrapper.sass';
+@import '../../ts/components/contentBlock/contentBlock.sass';
+@import '../../ts/components/searchBtn/searchBtn.sass';
+@import '../../ts/components/searchInput/searchInput.sass';
+@import '../../ts/components/errorBtn/errorBtn.sass';
+@import '../../ts/components/errorBoundaryMsg/ErrorBoundaryMsg.sass'

@@ -1,0 +1,37 @@
+.errorBoundaryMsg
+  position: relative
+  width: 100%
+  height: 100%
+  display: grid 
+  justify-content: center
+  align-items: center
+  &__message
+    width: aCalc(600)
+    height: aCalc(300)
+    background-color: #ffffff
+    // opacity: 0
+    transition: opacity .3s, transform .3s
+    padding: aCalc(20)
+    border-radius: aCalc(8)
+    display: grid 
+    margin: 0 auto
+    justify-content: center
+    align-items: center
+    animation: message-show 0.35s ease-in forwards
+    h1 
+      color: #000000
+      text-align: center
+
+@keyframes message-show
+  0%
+    //transform: translateY(100%)
+    transform: scale(0)
+    transition: opacity 0.2s, visibility 0s 0.41s, transform 0.2s
+    opacity: 0
+    visibility: hidden
+  100%
+    ransform: scale(1)
+    opacity: 1
+    visibility: visible
+    transition: transform 0.4s, visibility 0s 0s, opacity 0.2s
+    //transform: translateY(0)

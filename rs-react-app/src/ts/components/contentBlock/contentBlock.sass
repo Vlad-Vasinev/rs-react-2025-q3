@@ -1,0 +1,24 @@
+.contentBlock
+  display: flex
+  flex-direction: column
+  &__top 
+    border-bottom: 1px solid #000000
+    height: aCalc(80)
+    display: flex
+    justify-content: space-between
+    align-items: center
+    gap: aCalc(24)
+    padding: 0 aCalc(300)
+    height: aCalc(100)
+  &__middle
+    padding: aCalc(40) aCalc(300) aCalc(40)
+    height: 100%
+    .listApi
+      display: grid
+      grid-template-columns: repeat(auto-fit, aCalc(300))
+      gap: aCalc(20)
+      &__el-info 
+        display: flex
+        gap: aCalc(10)
+      h2 
+        margin-bottom: 0
