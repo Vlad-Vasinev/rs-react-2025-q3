@@ -1,10 +1,8 @@
 import { Component } from 'react';
 
-import SearchInput from '../searchInput/searchInput';
-import SearchBtn from '../searchBtn/searchBtn';
-
 import loaderIcon from '../../../assets/general/loadingIcon.svg';
 import ErrorBtn from '../errorBtn/errorBtn';
+import HandleForm from '../handleForm/handleForm';
 
 interface ContentBlockProps {
   title?: string,
@@ -18,7 +16,7 @@ interface Berry {
 interface ContentBlockState {
   data: Berry[] | null, 
   loading: boolean, 
-  errorMessage: boolean
+  errorMessage: boolean,
 }
 
 class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
@@ -60,8 +58,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
       return (
         <section className='contentBlock'>
           <div className='contentBlock__top'>
-            <SearchInput></SearchInput>
-            <SearchBtn textInside='Click to see result'></SearchBtn>
+            <HandleForm></HandleForm>
           </div>
           <div className='contentBlock__middle'>
             <div className='loadingIcon'>
@@ -76,8 +73,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
     return (
       <section className='contentBlock'>
         <div className='contentBlock__top'>
-          <SearchInput></SearchInput>
-          <SearchBtn textInside='Click to see result'></SearchBtn>
+          <HandleForm></HandleForm>
         </div>
         <div className='contentBlock__middle'>
           <ul className='listApi'>

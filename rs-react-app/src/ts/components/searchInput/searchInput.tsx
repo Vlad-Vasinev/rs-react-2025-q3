@@ -1,16 +1,24 @@
 import { Component } from 'react';
 
-class SearchInput extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     stateKey: stateValue
-  //   };
-  // }
+interface SearchInputProps {
+  value: string,
+}
+
+interface SearchInputState {
+  value: string,
+}
+
+class SearchInput extends Component<SearchInputProps, SearchInputState> {
+  constructor(props: SearchInputProps) {
+    super(props);
+    this.state = {
+      value: ''
+    };
+  }
 
   render() {
     return (
-      <input name='search' className='searchInput' placeholder='what are you looking for?' />
+      <input type='text' name='search' className='searchInput' placeholder='what are you looking for?' />
     );
   }
 }
