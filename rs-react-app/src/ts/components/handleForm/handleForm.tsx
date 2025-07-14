@@ -22,8 +22,11 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
     this.setState({inputValue: event.target.value})
   }
 
+  reloadLs = () => {
+    localStorage.clear()
+  }
+
   handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
     this.setState({searchValue: true}, () => {
       localStorage.setItem('inputValue', this.state.inputValue)
 
@@ -36,7 +39,7 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
           })
           .then(result => {
             console.log(result)
-            localStorage.setItem('resultRequest', result)
+            localStorage.setItem('resultRequest', JSON.stringify(result))
           })
       }
     })
@@ -49,6 +52,9 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
         <input type='text' name='search' onChange={this.handleInput} value={this.state.inputValue} className='searchInput' placeholder='what are you looking for?' />
         <button className='searchBtn'>
           <p>Click to see result</p>
+        </button>
+        <button className='searchBtn' onClick={this.reloadLs}>
+          <p>Reload LS</p>
         </button>
       </form>
     );

@@ -17,6 +17,7 @@ interface ContentBlockState {
   data: Berry[] | null, 
   loading: boolean, 
   errorMessage: boolean,
+  fetchResult: any
 }
 
 class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
@@ -27,6 +28,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
       data: null,
       loading: true, 
       errorMessage: false,
+      fetchResult: null
     }
   }
 
@@ -44,8 +46,17 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
           this.setState({data: result.results, loading: false})
         })
     }, 3000)
-  }
 
+    const storedData = localStorage.getItem('resultRequest')
+
+    
+    if(storedData) {
+      const parcedData = JSON.parse(storedData)
+      console.log(typeof(parcedData))
+      this.setState({fetchResult: parcedData})
+    }
+  }
+  
   render() {
 
     if(this.state.errorMessage) {
@@ -58,7 +69,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
       return (
         <section className='contentBlock'>
           <div className='contentBlock__top'>
-            <HandleForm></HandleForm>
+            <HandleForm ></HandleForm>
           </div>
           <div className='contentBlock__middle'>
             <div className='loadingIcon'>
@@ -68,6 +79,26 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
         </section>
       )
 
+    }
+
+    if(localStorage.getItem('inputValue')) {
+      return (
+        <section className='contentBlock'>
+          <div className='contentBlock__top'>
+            <HandleForm ></HandleForm>
+          </div>
+          <div className='contentBlock__middle'>
+            <ul className='listApi'>
+              {this.state.fetchResult.name}
+              <p>berry id is: {this.state.fetchResult.id}</p>
+              <p>berry id name: {this.state.fetchResult.name}</p>
+              <p>berry id natural_gift_power: {this.state.fetchResult.natural_gift_power}</p>
+              <p>berry id size: {this.state.fetchResult.size}</p>
+            </ul>
+            <ErrorBtn onClick={this.ErrorClick}></ErrorBtn>
+          </div>
+        </section>
+      );
     }
 
     return (
