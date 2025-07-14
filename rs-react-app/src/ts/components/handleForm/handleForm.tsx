@@ -26,7 +26,7 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
     localStorage.clear()
   }
 
-  handleSubmit = (event: React.FormEvent) => {
+  handleSubmit = () => {
     this.setState({searchValue: true}, () => {
       localStorage.setItem('inputValue', this.state.inputValue)
 
