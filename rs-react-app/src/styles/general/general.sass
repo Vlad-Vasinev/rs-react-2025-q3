@@ -43,7 +43,7 @@ input
   &::-webkit-search-results-decoration
     display: none
 
-p 
+p, h1, h2, h3, h4, h5, h6
   margin: 0 
   padding: 0
 
@@ -66,6 +66,24 @@ ul, ol
     margin: 0
     padding: 0
 
+.header, .footer 
+  display: flex
+  justify-content: space-between
+  padding: aCalc(20) aCalc(34)
+  background-color: #2C56C2
+  +mob($sm)
+    flex-direction: column
+    gap: 20px
+    padding: 20px 12px
+  a, h1, h2, p
+    color: #ffffff
+  p 
+    font-size: aCalc(20)
+    line-height: 100%
+    font-weight: 400
+    +mob($sm)
+      font-size: 18px
+
 .header 
   position: fixed
   top: 0
@@ -75,15 +93,6 @@ ul, ol
     font-size: aCalc(26)
     line-height: 100%
     font-weight: 400
-
-.header, .footer 
-  display: flex
-  justify-content: space-between
-  padding: aCalc(20) aCalc(34)
-  background-color: #2C56C2
-  a, h1, h2, p
-    color: #ffffff
-  p 
-    font-size: aCalc(20)
-    line-height: 100%
-    font-weight: 400
+    +mob($sm)
+      font-size: 22px
+      line-height: 132%

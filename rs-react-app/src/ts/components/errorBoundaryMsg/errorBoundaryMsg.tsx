@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import './ErrorBoundaryMsg.sass'
 
 class ErrorBoundaryMsg extends Component {
 

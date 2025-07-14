@@ -9,8 +9,15 @@
   width: 100%
   background-color: #D9D9D9
   transition: background-color .3s
+  +mob($sm)
+    font-size: 18px
+    border-radius: 4px
+    height: 60px
+    padding: 20px 14px
   &::placeholder
     font-size: aCalc(20)
     line-height: 100%
     font-weight: 400
     color: #000000
+    +mob($sm)
+      font-size: 18px

@@ -10,15 +10,30 @@
     gap: aCalc(24)
     padding: 0 aCalc(300)
     height: aCalc(100)
+    +mob($sm)
+      height: auto
+      padding: 14px 20px
+      flex-direction: column
+      gap: 10px
   &__middle
     padding: aCalc(40) aCalc(300) aCalc(40)
     height: 100%
+    +mob($sm)
+      padding: 20px 12px
     .listApi
       display: grid
       grid-template-columns: repeat(auto-fit, aCalc(300))
       gap: aCalc(20)
+      +mob($sm)
+        display: flex
+        flex-direction: column
+        gap: 14px
+        height: 29vh
+        overflow-y: scroll
       &__el-info 
         display: flex
         gap: aCalc(10)
+        +mob($sm)
+          gap: 14px
       h2 
         margin-bottom: 0

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './pageWrapper.sass'
 
 interface PageWrapperProps {
   children?: React.ReactNode

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import './contentBlock.sass'
 
 import SearchInput from '../searchInput/searchInput';
 import SearchBtn from '../searchBtn/searchBtn';
