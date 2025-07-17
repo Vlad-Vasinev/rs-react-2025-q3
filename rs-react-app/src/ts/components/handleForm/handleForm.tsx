@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 interface handleFormProps {
-  title?: string
+  title?: string, 
+  onClick?: () => void
 }
 
 interface handleFormState {
@@ -14,7 +15,7 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
     super(props);
     this.state = {
       inputValue: '',
-      searchValue: false
+      searchValue: false,
     };
   }
 
@@ -24,39 +25,40 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
 
   reloadLs = () => {
     localStorage.clear()
+    if(this.props.onClick) {
+      this.props.onClick()
+    }
   }
 
   handleSubmit = () => {
-    this.setState({searchValue: true}, () => {
-      localStorage.setItem('inputValue', this.state.inputValue)
+    localStorage.setItem('inputValue', this.state.inputValue)
 
-      if(this.state.searchValue) {
-        fetch(`https://pokeapi.co/api/v2/berry/${this.state.inputValue}/`)
-          .then(response => {
-            if(response.ok) {
-              return response.json()
-            }
-          })
-          .then(result => {
-            console.log(result)
-            localStorage.setItem('resultRequest', JSON.stringify(result))
-          })
-      }
-    })
+    fetch(`https://pokeapi.co/api/v2/berry/${this.state.inputValue}/`)
+      .then(response => {
+        if(response.ok) {
+          return response.json()
+        }
+      })
+      .then(result => {
+        localStorage.setItem('resultRequest', JSON.stringify(result))
+        if(this.props.onClick) {
+          this.props.onClick()
+        }
+      })
 
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div >
         <input type='text' name='search' onChange={this.handleInput} value={this.state.inputValue} className='searchInput' placeholder='what are you looking for?' />
-        <button className='searchBtn'>
+        <button className='searchBtn' onClick={this.handleSubmit}>
           <p>Click to see result</p>
         </button>
         <button className='searchBtn' onClick={this.reloadLs}>
           <p>Reload LS</p>
         </button>
-      </form>
+      </div>
     );
   }
 }
