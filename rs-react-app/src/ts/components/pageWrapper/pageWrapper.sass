@@ -1,0 +1,20 @@
+.page 
+  width: 100%
+  height: 100vh
+  &__container 
+    width: 100%
+    height: 100%
+    padding: aCalc(140) aCalc(160) aCalc(40)
+    +mob($sm)
+      padding: 160px 12px 20px
+      display: grid 
+      justify-content: center
+      align-items: center
+    section
+      background-color: #ffffff
+      width: 100%
+      height: 100%
+      border-radius: aCalc(4)
+      +mob($sm)
+        height: auto
+        border-radius: 4px
