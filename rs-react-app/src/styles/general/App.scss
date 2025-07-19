@@ -3,9 +3,9 @@
 @import './index.sass';
 @import './general.sass';
 
-@import '../../ts/components/pageWrapper/pageWrapper.sass';
-@import '../../ts/components/contentBlock/contentBlock.sass';
-@import '../../ts/components/searchBtn/searchBtn.sass';
-@import '../../ts/components/searchInput/searchInput.sass';
-@import '../../ts/components/errorBtn/errorBtn.sass';
-@import '../../ts/components/errorBoundaryMsg/ErrorBoundaryMsg.sass'
+@import '../../components/pageWrapper/pageWrapper.sass';
+@import '../../components/contentBlock/contentBlock.sass';
+@import '../../components/searchBtn/searchBtn.sass';
+@import '../../components/searchInput/searchInput.sass';
+@import '../../components/errorBtn/errorBtn.sass';
+@import '../../components/errorBoundaryMsg/ErrorBoundaryMsg.sass'

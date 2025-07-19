@@ -50,12 +50,12 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
 
   render() {
     return (
-      <div >
-        <input type='text' name='search' onChange={this.handleInput} value={this.state.inputValue} className='searchInput' placeholder='what are you looking for?' />
-        <button className='searchBtn' onClick={this.handleSubmit}>
+      <div data-testid="handleForm-form">
+        <input data-testid="handleForm-input" type='text' name='search' onChange={this.handleInput} value={this.state.inputValue} className='searchInput' placeholder='what are you looking for?' />
+        <button data-testid="handleForm-btn" className='searchBtn' onClick={this.handleSubmit}>
           <p>Click to see result</p>
         </button>
-        <button className='searchBtn' onClick={this.reloadLs}>
+        <button data-testid="handleForm-reload-ls" className='searchBtn' onClick={this.reloadLs}>
           <p>Reload LS</p>
         </button>
       </div>
@@ -64,3 +64,6 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
 }
 
 export default HandleForm;
+
+
+// "test": "vitest --ui --coverage.enabled --coverage.all --coverage.src='./src --coverage.reporter='html"

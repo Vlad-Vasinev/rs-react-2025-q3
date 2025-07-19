@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import loaderIcon from '../../../assets/general/loadingIcon.svg';
+import loaderIcon from '../../assets/general/loadingIcon.svg';
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
 

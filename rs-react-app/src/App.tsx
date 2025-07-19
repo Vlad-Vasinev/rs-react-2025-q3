@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import './styles/general/App.scss'
 
-import Header from './ts/components/header/header';
-import Footer from './ts/components/footer/footer';
+import Header from './components/header/header';
+import Footer from './components/footer/footer';
 
-import PageWrapper from './ts/components/pageWrapper/pageWrapper';
-import ContentBlock from './ts/components/contentBlock/contentBlock';
+import PageWrapper from './components/pageWrapper/pageWrapper';
+import ContentBlock from './components/contentBlock/contentBlock';
 
 class App extends Component {
 
