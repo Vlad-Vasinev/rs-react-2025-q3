@@ -4,7 +4,7 @@ class ErrorBoundaryMsg extends Component {
 
   render() {
     return (
-      <div className='errorBoundaryMsg'>
+      <div data-testid="error-message" className='errorBoundaryMsg'>
         <div className='errorBoundaryMsg__message'>
           <h1>We got an error, something went wrong...</h1>
         </div>

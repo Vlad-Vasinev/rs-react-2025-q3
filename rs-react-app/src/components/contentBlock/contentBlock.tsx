@@ -93,8 +93,11 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
 
     setTimeout(() => {
       fetch('https://pokeapi.co/api/v2/berry')
-        .then(response => response.json())
+        .then(response => {
+          return response.json()
+        })
         .then(result => {
+          console.log(result)
           this.setState({data: result.results, loading: false})
         })
     }, 3000)
@@ -110,7 +113,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
 
     if(loading) {
       return (
-        <section className='contentBlock'>
+        <section className='contentBlock' data-testid="content-block">
           <div className='contentBlock__top'>
             <HandleForm ></HandleForm>
           </div>
@@ -126,7 +129,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
 
     if(this.state.searchResult) {
       return (
-        <section className='contentBlock'>
+        <section className='contentBlock' data-testid="content-block">
           <div className='contentBlock__top'>
             <HandleForm onClick={this.onClick}></HandleForm>
           </div>

@@ -3,12 +3,13 @@ import { render, renderHook, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'
 
 
-describe('handleForm.tsx', () => {
+describe('HandleForm.tsx', () => {
 
-  it('HandleForm component exists', () => {
+  it('handleForm component exists', () => {
 
     render(<HandleForm></HandleForm>)
     const formEl = screen.getByTestId('handleForm-form')
+
     expect(formEl).toBeInTheDocument()
 
   })
@@ -17,6 +18,7 @@ describe('handleForm.tsx', () => {
 
     render(<HandleForm></HandleForm>)
     const formBtn = screen.getByTestId('handleForm-btn')
+
     expect(formBtn).toBeInTheDocument()
 
   })
@@ -25,6 +27,7 @@ describe('handleForm.tsx', () => {
 
     render(<HandleForm></HandleForm>)
     const formInput = screen.getByTestId('handleForm-input')
+    
     expect(formInput).toBeInTheDocument()
 
   })
@@ -39,7 +42,7 @@ describe('handleForm.tsx', () => {
 
   })
 
-  it('search input value goes to the localStorage after user clicks the button', async () => {
+  it('input value goes to the localStorage after user clicks the button', async () => {
 
     render(<HandleForm></HandleForm>)
     localStorage.clear()
