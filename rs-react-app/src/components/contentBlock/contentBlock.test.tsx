@@ -1,18 +1,24 @@
+import { act } from "react";
 import ContentBlock from "./contentBlock";
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 describe('ContentBlock.tsx', () => {
 
   it('contentBlock exists', () => {
 
     render(<ContentBlock></ContentBlock>)
-    const contentBlock = screen.getByTestId('content-block')
+    const contentBlock = screen.getAllByTestId('content-block')
 
-    expect(contentBlock).toBeInTheDocument()
+    contentBlock.forEach((el) => {
+      expect(el).toBeInTheDocument()
+    })
     
   })
 
-  it('contentBlock makes fetch request', () => {
+  it('contentBlock makes fetch request', async  () => {
+
+    vi.useFakeTimers()
+
     const mockResponse = {
       count: 64,
       next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
@@ -20,7 +26,18 @@ describe('ContentBlock.tsx', () => {
       results: [
         {
           name: "cheri", 
-          url: "https://pokeapi.co/api/v2/berry/1/"
+          url: "https://pokeapi.co/api/v2/berry/1/",
+          size: 1
+        },
+        {
+          name: "chesto", 
+          url: "https://pokeapi.co/api/v2/berry/2/",
+          size: 2
+        },
+        {
+          name: "pecha", 
+          url: "https://pokeapi.co/api/v2/berry/3/",
+          size: 3
         }
       ]
     };
@@ -31,6 +48,22 @@ describe('ContentBlock.tsx', () => {
 
       } as Response)
     })
+
+    render(<ContentBlock></ContentBlock>)
+
+    await act (async () => {
+      vi.advanceTimersByTime(4000)
+
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(screen.getByText(/cheri/i)).toBeInTheDocument();
+    expect(screen.getByText(/chesto/i)).toBeInTheDocument();
+    expect(screen.getByText(/pecha/i)).toBeInTheDocument();
+
+    expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry')
+
   })
-  
+
 })

@@ -97,7 +97,6 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
           return response.json()
         })
         .then(result => {
-          console.log(result)
           this.setState({data: result.results, loading: false})
         })
     }, 3000)
@@ -124,7 +123,6 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
           </div>
         </section>
       )
-
     }
 
     if(this.state.searchResult) {
@@ -149,7 +147,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
               </li>
               <li className='listApi__el-info'>
                 <p>berry size:</p>
-                <span>{this.state.fetchResult?.size}</span>
+                <span data-testid="berry-size">{this.state.fetchResult?.size}</span>
               </li>
               <li className='listApi__el-info'>
                 <p>berry id:</p>
@@ -157,7 +155,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
               </li>
               <li className='listApi__el-info'>
                 <p>berry name:</p>
-                <span>{this.state.fetchResult?.name}</span>
+                <span >{this.state.fetchResult?.name}</span>
               </li>
               <li className='listApi__el-info'>
                 <p>berry natural_gift_power:</p>
@@ -175,7 +173,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
     }
 
     return (
-      <section className='contentBlock'>
+      <section className='contentBlock' data-testid="content-block">
         <div className='contentBlock__top'>
           <HandleForm onClick={this.onClick}></HandleForm>
         </div>
@@ -183,9 +181,9 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
           <ul className='listApi'>
             {data && data.map((berry) => (
               <li key={berry.name} className='listApi__el'>
-                <h2>{berry.name} - </h2>
+                <h2 >{berry.name} - </h2>
                 <div className='listApi__el-info'>
-                  <p>url:</p>
+                  <p >url:</p>
                   <a href={berry.url}>{berry.url}</a>
                 </div>
               </li>
