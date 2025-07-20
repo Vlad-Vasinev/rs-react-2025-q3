@@ -46,7 +46,7 @@ describe('ContentBlock.tsx', () => {
       return Promise.resolve({
         json: () => Promise.resolve(mockResponse),
 
-      } as Response)
+      })
     })
 
     render(<ContentBlock></ContentBlock>)
