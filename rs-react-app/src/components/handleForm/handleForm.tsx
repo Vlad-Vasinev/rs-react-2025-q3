@@ -30,7 +30,7 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
     }
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     localStorage.setItem('inputValue', this.state.inputValue)
 
     fetch(`https://pokeapi.co/api/v2/berry/${this.state.inputValue}/`)
@@ -64,6 +64,3 @@ class HandleForm extends Component<handleFormProps, handleFormState> {
 }
 
 export default HandleForm;
-
-
-// "test": "vitest --ui --coverage.enabled --coverage.all --coverage.src='./src --coverage.reporter='html"

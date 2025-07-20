@@ -85,7 +85,6 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
       this.setState({fetchResult: parsedData})
     }
 
-    console.log(typeof(localStorage.getItem('resultRequest')))
     this.setState({searchResult: localStorage.getItem('inputValue')})
   }
 
@@ -118,7 +117,7 @@ class ContentBlock extends Component<ContentBlockProps, ContentBlockState> {
           </div>
           <div className='contentBlock__middle'>
             <div className='loadingIcon'>
-              <img src={loaderIcon} alt='loading icon'></img>
+              <img data-testid="loader-icon" src={loaderIcon} alt='loading icon'></img>
             </div>
           </div>
         </section>

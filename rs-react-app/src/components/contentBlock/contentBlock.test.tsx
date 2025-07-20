@@ -40,7 +40,7 @@ describe('ContentBlock.tsx', () => {
           size: 3
         }
       ]
-    };
+    }
 
     vi.spyOn(window, "fetch").mockImplementationOnce(() => {
       return Promise.resolve({
@@ -63,6 +63,53 @@ describe('ContentBlock.tsx', () => {
     expect(screen.getByText(/pecha/i)).toBeInTheDocument();
 
     expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry')
+
+  })
+
+  it('loader exists, spins and got removed after positive fetch', async () => {
+
+    const mockResponse = {
+      count: 64,
+      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      previous: null,
+      results: [
+        {
+          name: "cheri", 
+          url: "https://pokeapi.co/api/v2/berry/1/",
+          size: 1
+        },
+        {
+          name: "chesto", 
+          url: "https://pokeapi.co/api/v2/berry/2/",
+          size: 2
+        },
+        {
+          name: "pecha", 
+          url: "https://pokeapi.co/api/v2/berry/3/",
+          size: 3
+        }
+      ]
+    }
+
+    vi.useFakeTimers()
+
+    vi.spyOn(window, "fetch").mockImplementationOnce(() => {
+      return Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+
+      } as Response)
+    })
+
+    render(<ContentBlock></ContentBlock>)
+    const loaderIcon = screen.getByTestId('loader-icon')
+
+    await act (async () => {
+      vi.advanceTimersByTime(4000)
+      expect(loaderIcon).toBeInTheDocument()
+      await Promise.resolve()
+    })
+
+    expect(loaderIcon).not.toBeInTheDocument()
 
   })
 

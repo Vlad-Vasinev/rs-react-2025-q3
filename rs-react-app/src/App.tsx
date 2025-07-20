@@ -11,7 +11,7 @@ class App extends Component {
 
   render() {
     return (
-      <>
+      <div data-testid="app-component">
         <Header></Header>
         <PageWrapper>
 
@@ -19,7 +19,7 @@ class App extends Component {
           
         </PageWrapper>
         <Footer></Footer>
-      </>
+      </div>
     );
   }
 }

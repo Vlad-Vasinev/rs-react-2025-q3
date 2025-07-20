@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest --ui --coverage.enabled --coverage.all --coverage.src='./src --coverage.reporter='html"
+    "test": "vitest --ui --coverage.enabled --coverage.all --coverage.src=./src --coverage.reporter=html"
   },
   "dependencies": {
     "@testing-library/dom": "^10.4.0",

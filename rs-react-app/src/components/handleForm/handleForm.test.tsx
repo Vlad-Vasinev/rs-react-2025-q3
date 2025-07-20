@@ -1,6 +1,8 @@
+import { act } from "react";
 import HandleForm from "./handleForm";
-import { render, renderHook, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event'
+import ContentBlock from "../contentBlock/contentBlock";
 
 
 describe('HandleForm.tsx', () => {
@@ -52,6 +54,26 @@ describe('HandleForm.tsx', () => {
     await userEvent.type(formInput, 'testing text for handle-input')
     await userEvent.click(formBtn)
     expect(localStorage.getItem('inputValue')).toBe('testing text for handle-input')
+
+  })
+
+  it('fetch request for a specific name in the list', async () => {
+
+    vi.spyOn(window, "fetch").mockImplementationOnce(() => {
+      return Promise.resolve({
+        json: () => Promise.resolve(),
+
+      } as Response)
+    })
+
+    render(<HandleForm></HandleForm>)
+    const formBtn = screen.getByTestId('handleForm-btn')
+    const formInput = screen.getByTestId('handleForm-input')
+
+    await userEvent.type(formInput, 'cheri')
+    await userEvent.click(formBtn)
+
+    expect(window.fetch).toHaveBeenCalledWith(`https://pokeapi.co/api/v2/berry/cheri/`)
 
   })
 
