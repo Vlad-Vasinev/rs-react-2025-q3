@@ -17,7 +17,7 @@ describe('ContentBlock.tsx', () => {
 
   it('contentBlock makes fetch request', async  () => {
 
-    //vi.useFakeTimers()
+    vi.useFakeTimers()
 
     const mockResponse = {
       count: 64,
