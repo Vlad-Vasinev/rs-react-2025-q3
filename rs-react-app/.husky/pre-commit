@@ -1,2 +1,1 @@
 npm test
-echo "Husky pre-commit hook is running!" > husky-test.log
