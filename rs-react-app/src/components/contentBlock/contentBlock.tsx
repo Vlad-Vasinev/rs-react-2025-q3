@@ -4,6 +4,7 @@ import loaderIcon from '../../assets/general/loadingIcon.svg';
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
 import Pagination from '../pagination/pagination';
+import { useSearchParams } from 'react-router';
 
 interface BerryFirmness {
   name: string, 
@@ -64,6 +65,8 @@ const ContentBlock = () => {
     fetchResult: null, 
     searchResult: '',
   })
+
+  const [useSearchParameters, updateSearchParameters] = useSearchParams()
   
   function ErrorClick () {
     setContentState(prev => ({
@@ -95,6 +98,11 @@ const ContentBlock = () => {
 
     if(localStorage.getItem('inputNumberValue')) {
       setTimeout(() => {
+
+        const newParams = new URLSearchParams(useSearchParameters)
+        newParams.set('q', String(localStorage.getItem('inputValue')))
+        updateSearchParameters(newParams)
+
         setContentState(prev => ({
           ...prev, 
           searchResult: localStorage.getItem('inputNumberValue'),
@@ -104,6 +112,11 @@ const ContentBlock = () => {
     }
     else {
       setTimeout(() => {
+
+        const newParams = new URLSearchParams(useSearchParameters)
+        newParams.set('q', String(localStorage.getItem('inputValue')))
+        updateSearchParameters(newParams)
+
         setContentState(prev => ({
           ...prev, 
           searchResult: localStorage.getItem('inputValue'),
@@ -126,6 +139,10 @@ const ContentBlock = () => {
       .then(result => {
         localStorage.setItem('resultRequest', JSON.stringify(result))
         onClick()
+        
+        const newParams = new URLSearchParams(useSearchParameters)
+        newParams.set('q', String(number))
+        updateSearchParameters(newParams)
       })
   }
   function onPaginationClick (number: number) {
