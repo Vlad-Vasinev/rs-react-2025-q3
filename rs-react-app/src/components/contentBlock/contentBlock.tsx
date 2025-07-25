@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import loaderIcon from '../../assets/general/loadingIcon.svg';
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
+import Pagination from '../pagination/pagination';
 
 interface BerryFirmness {
   name: string, 
@@ -92,13 +93,43 @@ const ContentBlock = () => {
       }))
     }
 
-    setTimeout(() => {
-      setContentState(prev => ({
-        ...prev, 
-        searchResult: localStorage.getItem('inputValue'),
-        loading: false,
-      }))
-    }, 3000)
+    if(localStorage.getItem('inputNumberValue')) {
+      setTimeout(() => {
+        setContentState(prev => ({
+          ...prev, 
+          searchResult: localStorage.getItem('inputNumberValue'),
+          loading: false,
+        }))
+      }, 3000)
+    }
+    else {
+      setTimeout(() => {
+        setContentState(prev => ({
+          ...prev, 
+          searchResult: localStorage.getItem('inputValue'),
+          loading: false,
+        }))
+      }, 3000)
+    }
+
+  }
+
+  function usePaginationHook (number: number) {
+    localStorage.setItem('inputNumberValue', `${number}`)
+
+    fetch(`https://pokeapi.co/api/v2/berry/${number}/`)
+      .then(response => {
+        if(response.ok) {
+          return response.json()
+        }
+      })
+      .then(result => {
+        localStorage.setItem('resultRequest', JSON.stringify(result))
+        onClick()
+      })
+  }
+  function onPaginationClick (number: number) {
+    usePaginationHook(number)
   }
 
   useEffect(() => {
@@ -179,6 +210,7 @@ const ContentBlock = () => {
             </li>
           </ul>
           <ErrorBtn onClick={ErrorClick}></ErrorBtn>
+          <Pagination onClick={onPaginationClick}></Pagination>
         </div>
       </section>
     );
@@ -202,6 +234,7 @@ const ContentBlock = () => {
           ))}
         </ul>
         <ErrorBtn onClick={ErrorClick}></ErrorBtn>
+        <Pagination onClick={onPaginationClick}></Pagination>
       </div>
     </section>
   );
