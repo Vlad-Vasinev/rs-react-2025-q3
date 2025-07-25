@@ -1,0 +1,16 @@
+.error-page 
+  display: grid 
+  justify-content: center
+  align-items: center
+  height: 100%
+  img 
+    width: aCalc(1200)
+    height: aCalc(600)
+    object-fit: cover
+    border-radius: aCalc(6)
+    +mob($sm)
+      width: 100%
+      height: 200px
+  a 
+    @extend .searchBtn !optional
+

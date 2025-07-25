@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/h"
+
+echo " Running tests before push..."
+npm run test

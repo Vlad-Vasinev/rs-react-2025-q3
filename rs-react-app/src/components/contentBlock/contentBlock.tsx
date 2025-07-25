@@ -76,20 +76,30 @@ const ContentBlock = () => {
     const storedData = localStorage.getItem('resultRequest');
     let parsedData: BerryDate;
 
+    if(!storedData) {
+      setContentState(prev => ({
+        ...prev, 
+        loading: true,
+      }))
+    }
+
     if (storedData) {
       parsedData = JSON.parse(storedData)
       setContentState(prev => ({
         ...prev, 
-        fetchResult: parsedData
+        fetchResult: parsedData,
+        loading: true,
       }))
     }
 
-    setContentState(prev => ({
-      ...prev, 
-      searchResult: localStorage.getItem('inputValue')
-    }))
+    setTimeout(() => {
+      setContentState(prev => ({
+        ...prev, 
+        searchResult: localStorage.getItem('inputValue'),
+        loading: false,
+      }))
+    }, 3000)
   }
-
 
   useEffect(() => {
     setTimeout(() => {
