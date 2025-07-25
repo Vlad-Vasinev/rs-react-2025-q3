@@ -1,16 +1,13 @@
-import { Component } from 'react';
+import React from 'react';
 
 interface ErrorBtnProps {
   onClick: () => void
 }
 
-class ErrorBtn extends Component<ErrorBtnProps> {
-
-  render() {
-    return (
-      <button data-testid="error-btn" className='errorBtn' onClick={this.props.onClick}>Throw an error</button>
-    );
-  }
-}
+const ErrorBtn = (props: ErrorBtnProps) => {
+  return (
+    <button data-testid="error-btn" className='errorBtn' onClick={props.onClick}>Throw an error</button>
+  );
+};
 
 export default ErrorBtn;
