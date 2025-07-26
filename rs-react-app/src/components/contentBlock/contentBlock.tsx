@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
-import Preloader from '../loader/preloader';
+import Preloader from '../preloader/preloader';
 import Pagination from '../pagination/pagination';
 import { useSearchParams } from 'react-router';
 
@@ -75,6 +75,11 @@ const ContentBlock = () => {
     }))
   }
 
+  function closeDetailView() {
+    localStorage.clear()
+    onPaginationClick('')
+  }
+
   function masterDetail (berryName: string) {
     onPaginationClick(berryName)
   }
@@ -86,7 +91,12 @@ const ContentBlock = () => {
 
       if(param === null) return
       localStorage.setItem('inputNumberValue', `${param}`)
-      setContentState(prev => ({ ...prev, loading: true, errorMessage: false }))
+      setContentState(prev => ({ ...prev, errorMessage: false }))
+
+      setContentState(prev => ({
+        ...prev,
+        searchResult: '',
+      }));
 
       fetch(`https://pokeapi.co/api/v2/berry/${param}/`)
         .then(response => {
@@ -102,10 +112,9 @@ const ContentBlock = () => {
               ...prev,
               fetchResult: result,
               searchResult: String(param),
-              loading: false,
               errorMessage: false,
             }));
-          }, 2500)
+          }, 2000)
 
           const newParams = new URLSearchParams(searchParams)
           newParams.set('q', String(param))
@@ -131,7 +140,7 @@ const ContentBlock = () => {
             loading: false
           }))
         })
-    }, 3000)
+    }, 2000)
   }, [])
 
   if(contentState.errorMessage) {
@@ -163,7 +172,7 @@ const ContentBlock = () => {
             </li>
           ))}
         </ul>
-        {contentState.searchResult &&
+        {contentState.searchResult ?
           (
             <>
               <ul className='listApi _information'>
@@ -202,16 +211,20 @@ const ContentBlock = () => {
                 <li className='listApi__el-info'>
                   <Pagination onClick={onPaginationClick}></Pagination>
                 </li>
+                <li className='listApi__el-info'>
+                  <button style={{width: '100%'}} data-testid="handleForm-reload-ls" className='searchBtn' onClick={closeDetailView}>
+                    <p>close detailView</p>
+                  </button>
+                </li>
               </ul>
             </>
           )
-          // : (
-          //   <>
-          //     <div className='listApi _information'>  
-          //       <Preloader></Preloader>
-          //     </div>
-          //   </>
-          // )
+          : (
+            <div className='listApi _information'>
+              <p className='listApi__clue'>Please click on item/pagination/use search field to see results... :D</p>
+              <Preloader></Preloader>
+            </div>
+          )
         }
       </div>
       <ErrorBtn onClick={ErrorClick}></ErrorBtn>

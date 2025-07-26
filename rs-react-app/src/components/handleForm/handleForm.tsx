@@ -23,16 +23,16 @@ const HandleForm = (props: handleFormProps, ) => {
     }))
   }
 
-  function reloadLs () {
-    setFormState(prev => ({
-      ...prev, 
-      inputValue: ''
-    }))
-    localStorage.clear()
-    if(props.onClick) {
-      props.onClick(formState.inputValue)
-    }
-  }
+  // function reloadLs () {
+  //   setFormState(prev => ({
+  //     ...prev, 
+  //     inputValue: ''
+  //   }))
+  //   localStorage.clear()
+  //   if(props.onClick) {
+  //     props.onClick(formState.inputValue)
+  //   }
+  // }
 
   async function handleSubmit () {
     if(props.onClick) {
@@ -47,9 +47,9 @@ const HandleForm = (props: handleFormProps, ) => {
       <button data-testid="handleForm-btn" className='searchBtn' onClick={handleSubmit}>
         <p>Click to see result</p>
       </button>
-      <button data-testid="handleForm-reload-ls" className='searchBtn' onClick={reloadLs}>
+      {/* <button data-testid="handleForm-reload-ls" className='searchBtn' onClick={reloadLs}>
         <p>Reload LS</p>
-      </button>
+      </button> */}
     </div>
   );
 };
