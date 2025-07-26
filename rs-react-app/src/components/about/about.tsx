@@ -12,19 +12,19 @@ const About = () => {
         <div className='about-page__block'>
           <h2>Main user information:</h2>
           <p>
-            <h4>Name: </h4>
+            <span>Name: </span>
             <span>Vladislav</span>
           </p>
           <p>
-            <h4>Age: </h4>
+            <span>Age: </span>
             <span>23</span>
           </p>
           <p>
-            <h4>Occupation: </h4>
+            <span>Occupation: </span>
             <span>Frontend-developer</span>
           </p>
           <p>
-            <h4>Hobby: </h4>
+            <span>Hobby: </span>
             <span>True crime</span>
           </p>
         </div>
@@ -37,7 +37,7 @@ const About = () => {
         <div className='about-page__block'>
           <h2>Navigate back to main:</h2>
           <p>
-            <h4>Link from router:</h4>
+            <span>Link from router:</span>
             <span><Link to="/">Go back to main page</Link></span>
           </p>
         </div>

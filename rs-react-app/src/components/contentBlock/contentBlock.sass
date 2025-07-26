@@ -31,6 +31,17 @@
         gap: 14px
         height: 29vh
         overflow-y: scroll
+      li 
+        transition: background-color .3s
+        padding: aCalc(8)
+        border-radius: aCalc(6)
+        cursor: pointer
+        &:hover
+          background-color: #2C56C2
+          p, span 
+            color: #ffffff
+        p, span 
+          transition: color .3s
       &__el-info 
         display: flex
         gap: aCalc(10)

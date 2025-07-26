@@ -75,6 +75,11 @@ const ContentBlock = () => {
     }))
   }
 
+  function masterDetail (berryName: string) {
+    console.log('master-detail func' + ' ' + berryName)
+    onPaginationClick(berryName)
+  }
+
   function onClick () {
 
     const storedData = localStorage.getItem('resultRequest');
@@ -127,10 +132,10 @@ const ContentBlock = () => {
 
   }
 
-  function usePaginationHook (number: number) {
-    localStorage.setItem('inputNumberValue', `${number}`)
+  function usePaginationHook (param: number | string) {
+    localStorage.setItem('inputNumberValue', `${param}`)
 
-    fetch(`https://pokeapi.co/api/v2/berry/${number}/`)
+    fetch(`https://pokeapi.co/api/v2/berry/${param}/`)
       .then(response => {
         if(response.ok) {
           return response.json()
@@ -141,12 +146,12 @@ const ContentBlock = () => {
         onClick()
         
         const newParams = new URLSearchParams(useSearchParameters)
-        newParams.set('q', String(number))
+        newParams.set('q', String(param))
         updateSearchParameters(newParams)
       })
   }
-  function onPaginationClick (number: number) {
-    usePaginationHook(number)
+  function onPaginationClick (param: number | string) {
+    usePaginationHook(param)
   }
 
   useEffect(() => {
@@ -173,9 +178,9 @@ const ContentBlock = () => {
   if(contentState.loading) {
     return (
       <section className='contentBlock' data-testid="content-block">
-        <div className='contentBlock__top'>
+        {/* <div className='contentBlock__top'>
           <HandleForm ></HandleForm>
-        </div>
+        </div> */}
         <div className='contentBlock__middle'>
           <div className='loadingIcon'>
             <img data-testid="loader-icon" src={loaderIcon} alt='loading icon'></img>
@@ -241,11 +246,11 @@ const ContentBlock = () => {
       <div className='contentBlock__middle'>
         <ul className='listApi'>
           {contentState.data && contentState.data.map((berry) => (
-            <li key={berry.name} className='listApi__el'>
+            <li key={berry.name} onClick={() => masterDetail(berry.name)} className='listApi__el'>
               <h2 >{berry.name} - </h2>
               <div className='listApi__el-info'>
                 <p >url:</p>
-                <a href={berry.url}>{berry.url}</a>
+                <p >{berry.url}</p>
               </div>
             </li>
           ))}
