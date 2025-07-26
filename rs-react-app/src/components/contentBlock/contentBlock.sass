@@ -44,12 +44,10 @@
         border-radius: aCalc(4)
         margin-left: aCalc(20)
         border: 1px solid #121212
-        // transition: transform .3s, opacity .3s
-        // transform: translateX(-100%)
-        // &._active 
-        //   opacity: 1
-        //   opacity: 0
-        //   transform: unset
+        &._preload
+          opacity: 0
+          &._active 
+            opacity: 1
         +mob($sm)
           margin-left: unset
           margin-top: 20px

@@ -51,6 +51,7 @@ interface BerryDate {
 interface ContentBlockState {
   data: Berry[] | null, 
   loading: boolean, 
+  loadingDetails: boolean
   errorMessage: boolean,
   fetchResult: BerryDate | null, 
   searchResult: string | null,
@@ -61,6 +62,7 @@ const ContentBlock = () => {
   const [contentState, setContentState] = useState<ContentBlockState>({
     data: null,
     loading: true, 
+    loadingDetails: false,
     errorMessage: false,
     fetchResult: null, 
     searchResult: '',
@@ -77,6 +79,10 @@ const ContentBlock = () => {
 
   function closeDetailView() {
     localStorage.clear()
+    setContentState(prev => ({
+      ...prev,
+      loadingDetails: false,
+    }));
     onPaginationClick('')
   }
 
@@ -96,6 +102,7 @@ const ContentBlock = () => {
       setContentState(prev => ({
         ...prev,
         searchResult: '',
+        loadingDetails: true,
       }));
 
       fetch(`https://pokeapi.co/api/v2/berry/${param}/`)
@@ -113,6 +120,7 @@ const ContentBlock = () => {
               fetchResult: result,
               searchResult: String(param),
               errorMessage: false,
+              loadingDetails: false
             }));
           }, 2000)
 
@@ -220,7 +228,7 @@ const ContentBlock = () => {
             </>
           )
           : (
-            <div className='listApi _information'>
+            <div className={ contentState.loadingDetails ? 'listApi _information _preload _active' : 'listApi _preload _information' }>
               <p className='listApi__clue'>Please click on item/pagination/use search field to see results... :D</p>
               <Preloader></Preloader>
             </div>
