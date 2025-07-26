@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface handleFormProps {
-  onClick?: () => void
+  onClick?: (number: number | string) => void
 }
 
 interface handleFormState {
@@ -24,27 +24,20 @@ const HandleForm = (props: handleFormProps, ) => {
   }
 
   function reloadLs () {
+    setFormState(prev => ({
+      ...prev, 
+      inputValue: ''
+    }))
     localStorage.clear()
     if(props.onClick) {
-      props.onClick()
+      props.onClick(formState.inputValue)
     }
   }
 
   async function handleSubmit () {
-    localStorage.setItem('inputValue', formState.inputValue)
-
-    fetch(`https://pokeapi.co/api/v2/berry/${formState.inputValue}/`)
-      .then(response => {
-        if(response.ok) {
-          return response.json()
-        }
-      })
-      .then(result => {
-        localStorage.setItem('resultRequest', JSON.stringify(result))
-        if(props.onClick) {
-          props.onClick()
-        }
-      })
+    if(props.onClick) {
+      props.onClick(formState.inputValue)
+    }
   }
 
 

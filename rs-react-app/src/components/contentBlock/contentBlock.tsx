@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import loaderIcon from '../../assets/general/loadingIcon.svg';
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
+import Preloader from '../loader/preloader';
 import Pagination from '../pagination/pagination';
 import { useSearchParams } from 'react-router';
 
@@ -65,8 +65,8 @@ const ContentBlock = () => {
     fetchResult: null, 
     searchResult: '',
   })
-
-  const [useSearchParameters, updateSearchParameters] = useSearchParams()
+  const [searchParams, updateSearchParams] = useSearchParams()
+  const [param, updateParam] = useState<number | string | undefined>('')
   
   function ErrorClick () {
     setContentState(prev => ({
@@ -76,82 +76,45 @@ const ContentBlock = () => {
   }
 
   function masterDetail (berryName: string) {
-    console.log('master-detail func' + ' ' + berryName)
     onPaginationClick(berryName)
   }
+  usePaginationHook(param)
 
-  function onClick () {
+  function usePaginationHook (param: number | string | undefined) {
 
-    const storedData = localStorage.getItem('resultRequest');
-    let parsedData: BerryDate;
+    useEffect(() => {
 
-    if(!storedData) {
-      setContentState(prev => ({
-        ...prev, 
-        loading: true,
-      }))
-    }
+      if(param === null) return
+      localStorage.setItem('inputNumberValue', `${param}`)
+      setContentState(prev => ({ ...prev, loading: true, errorMessage: false }))
 
-    if (storedData) {
-      parsedData = JSON.parse(storedData)
-      setContentState(prev => ({
-        ...prev, 
-        fetchResult: parsedData,
-        loading: true,
-      }))
-    }
+      fetch(`https://pokeapi.co/api/v2/berry/${param}/`)
+        .then(response => {
+          if(response.ok) {
+            return response.json()
+          }
+        })
+        .then(result => {
+          localStorage.setItem('resultRequest', JSON.stringify(result))
+          
+          setTimeout(() => {
+            setContentState(prev => ({
+              ...prev,
+              fetchResult: result,
+              searchResult: String(param),
+              loading: false,
+              errorMessage: false,
+            }));
+          }, 2500)
 
-    if(localStorage.getItem('inputNumberValue')) {
-      setTimeout(() => {
-
-        const newParams = new URLSearchParams(useSearchParameters)
-        newParams.set('q', String(localStorage.getItem('inputValue')))
-        updateSearchParameters(newParams)
-
-        setContentState(prev => ({
-          ...prev, 
-          searchResult: localStorage.getItem('inputNumberValue'),
-          loading: false,
-        }))
-      }, 3000)
-    }
-    else {
-      setTimeout(() => {
-
-        const newParams = new URLSearchParams(useSearchParameters)
-        newParams.set('q', String(localStorage.getItem('inputValue')))
-        updateSearchParameters(newParams)
-
-        setContentState(prev => ({
-          ...prev, 
-          searchResult: localStorage.getItem('inputValue'),
-          loading: false,
-        }))
-      }, 3000)
-    }
-
-  }
-
-  function usePaginationHook (param: number | string) {
-    localStorage.setItem('inputNumberValue', `${param}`)
-
-    fetch(`https://pokeapi.co/api/v2/berry/${param}/`)
-      .then(response => {
-        if(response.ok) {
-          return response.json()
-        }
-      })
-      .then(result => {
-        localStorage.setItem('resultRequest', JSON.stringify(result))
-        onClick()
-        
-        const newParams = new URLSearchParams(useSearchParameters)
-        newParams.set('q', String(param))
-        updateSearchParameters(newParams)
-      })
+          const newParams = new URLSearchParams(searchParams)
+          newParams.set('q', String(param))
+          updateSearchParams(newParams)
+        })
+    }, [param, searchParams, updateSearchParams])
   }
   function onPaginationClick (param: number | string) {
-    usePaginationHook(param)
+    updateParam(param)
   }
 
   useEffect(() => {
@@ -178,70 +141,15 @@ const ContentBlock = () => {
   if(contentState.loading) {
     return (
       <section className='contentBlock' data-testid="content-block">
-        {/* <div className='contentBlock__top'>
-          <HandleForm ></HandleForm>
-        </div> */}
-        <div className='contentBlock__middle'>
-          <div className='loadingIcon'>
-            <img data-testid="loader-icon" src={loaderIcon} alt='loading icon'></img>
-          </div>
-        </div>
+        <Preloader></Preloader>
       </section>
     )
-  }
-
-  if(contentState.searchResult) {
-    return (
-      <section className='contentBlock' data-testid="content-block">
-        <div className='contentBlock__top'>
-          <HandleForm onClick={onClick}></HandleForm>
-        </div>
-        <div className='contentBlock__middle'>
-          <ul className='listApi'>
-            <li className='listApi__el-info'>
-              <p>berry firmness name:</p>
-              <span>{contentState.fetchResult?.firmness.name}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry firmness url: </p>
-              <span>{contentState.fetchResult?.firmness.url}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry natural_gift_power:</p>
-              <span>{contentState.fetchResult?.natural_gift_power}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry size:</p>
-              <span data-testid="berry-size">{contentState.fetchResult?.size}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry id:</p>
-              <span>{contentState.fetchResult?.id}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry name:</p>
-              <span >{contentState.fetchResult?.name}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry natural_gift_power:</p>
-              <span>{contentState.fetchResult?.natural_gift_power}</span>
-            </li>
-            <li className='listApi__el-info'>
-              <p>berry smoothness:</p>
-              <span>{contentState.fetchResult?.smoothness}</span>
-            </li>
-          </ul>
-          <ErrorBtn onClick={ErrorClick}></ErrorBtn>
-          <Pagination onClick={onPaginationClick}></Pagination>
-        </div>
-      </section>
-    );
   }
 
   return (
     <section className='contentBlock' data-testid="content-block">
       <div className='contentBlock__top'>
-        <HandleForm onClick={onClick}></HandleForm>
+        <HandleForm onClick={onPaginationClick}></HandleForm>
       </div>
       <div className='contentBlock__middle'>
         <ul className='listApi'>
@@ -255,9 +163,58 @@ const ContentBlock = () => {
             </li>
           ))}
         </ul>
-        <ErrorBtn onClick={ErrorClick}></ErrorBtn>
-        <Pagination onClick={onPaginationClick}></Pagination>
+        {contentState.searchResult &&
+          (
+            <>
+              <ul className='listApi _information'>
+                <li className='listApi__el-info'>
+                  <p>berry name:</p>
+                  <span >{contentState.fetchResult?.name}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry size:</p>
+                  <span data-testid="berry-size">{contentState.fetchResult?.size}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry firmness name:</p>
+                  <span>{contentState.fetchResult?.firmness.name}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry firmness url: </p>
+                  <span>{contentState.fetchResult?.firmness.url}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry natural_gift_power:</p>
+                  <span>{contentState.fetchResult?.natural_gift_power}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry id:</p>
+                  <span>{contentState.fetchResult?.id}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry natural_gift_power:</p>
+                  <span>{contentState.fetchResult?.natural_gift_power}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <p>berry smoothness:</p>
+                  <span>{contentState.fetchResult?.smoothness}</span>
+                </li>
+                <li className='listApi__el-info'>
+                  <Pagination onClick={onPaginationClick}></Pagination>
+                </li>
+              </ul>
+            </>
+          )
+          // : (
+          //   <>
+          //     <div className='listApi _information'>  
+          //       <Preloader></Preloader>
+          //     </div>
+          //   </>
+          // )
+        }
       </div>
+      <ErrorBtn onClick={ErrorClick}></ErrorBtn>
     </section>
   );
 };

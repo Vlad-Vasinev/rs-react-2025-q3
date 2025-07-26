@@ -17,10 +17,13 @@
         flex-direction: column
         gap: 10px
   &__middle
-    padding: aCalc(40) aCalc(300) aCalc(40)
+    padding: aCalc(40) aCalc(120) aCalc(40)
     height: 100%
+    display: flex
+    justify-content: space-between
     +mob($sm)
       padding: 20px 12px
+      flex-direction: column
     .listApi
       display: grid
       grid-template-columns: repeat(3, 1fr)
@@ -31,6 +34,31 @@
         gap: 14px
         height: 29vh
         overflow-y: scroll
+      &._information
+        display: flex
+        flex-direction: column
+        gap: aCalc(20)
+        padding: aCalc(20)
+        border-radius: aCalc(4)
+        margin-left: aCalc(20)
+        border: 1px solid #121212
+        +mob($sm)
+          margin-left: unset
+          margin-top: 20px
+          border-radius: 4px
+          padding: 16px
+          gap: 16px
+        .pagination 
+          +mob($sm)
+            flex-direction: column
+            width: 100%
+            gap: 16px
+        li 
+          cursor: unset
+          &:hover
+            background-color: initial
+            p, span 
+              color: initial
       li 
         transition: background-color .3s
         padding: aCalc(8)
