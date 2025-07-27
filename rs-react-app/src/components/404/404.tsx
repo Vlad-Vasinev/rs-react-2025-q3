@@ -7,7 +7,7 @@ import errorImg from '../../assets/general/404.jpg';
 const ErrorPage = () => {
   return (
     <PageWrapper>
-      <div className='error-page '>
+      <div data-testid='404-test' className='error-page'>
         <img src={errorImg} alt="404 error"/>
         <Link to="/">Go back to main page</Link>
       </div>

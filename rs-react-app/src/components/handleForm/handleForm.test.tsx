@@ -1,9 +1,10 @@
 import { act } from "react";
-import HandleForm from "./handleForm";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import userEvent from '@testing-library/user-event'
-import ContentBlock from "../contentBlock/contentBlock";
 
+import HandleForm from "./handleForm";
+import ContentBlock from "../contentBlock/contentBlock";
 
 describe('HandleForm.tsx', () => {
 
@@ -44,48 +45,107 @@ describe('HandleForm.tsx', () => {
 
   })
 
-  // it('input value goes to the localStorage after user clicks the button', async () => {
+  it('input value goes to the localStorage after user clicks the button', async () => {
 
-  //   render(<HandleForm></HandleForm>)
-  //   localStorage.clear()
-  //   const formInput = screen.getByTestId('handleForm-input')
-  //   const formBtn = screen.getByTestId('handleForm-btn')
+    const mockResponse = {
+      count: 64,
+      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      previous: null,
+      results: [
+        {
+          name: "cheri", 
+          url: "https://pokeapi.co/api/v2/berry/1/",
+        },
+        {
+          name: "chesto", 
+          url: "https://pokeapi.co/api/v2/berry/2/",
+        },
+        {
+          name: "pecha", 
+          url: "https://pokeapi.co/api/v2/berry/3/",
+        }
+      ]
+    }
+    vi.spyOn(window, "fetch").mockImplementationOnce(() => {
+      return Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
 
-  //   await userEvent.type(formInput, 'testing text for handle-input')
-  //   await userEvent.click(formBtn)
-  //   expect(localStorage.getItem('inputValue')).toBe('testing text for handle-input')
+      } as Response)
+    })
 
-  // })
+    render(
+      <MemoryRouter>
+        <ContentBlock></ContentBlock>
+      </MemoryRouter>
+    )
 
-  // it('fetch request for a specific name in the list', async () => {
+    await act (async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
 
-  //   vi.spyOn(window, "fetch").mockImplementationOnce(() => {
-  //     return Promise.resolve({
-  //       json: () => Promise.resolve(),
+    localStorage.clear()
 
-  //     } as Response)
-  //   })
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(screen.queryByTestId('handleForm-input')).toBeInTheDocument(), { timeout: 2000 } )
+    await waitFor(() => expect(screen.queryByTestId('handleForm-btn')).toBeInTheDocument(), { timeout: 2000 } )
 
-  //   render(<HandleForm></HandleForm>)
-  //   const formBtn = screen.getByTestId('handleForm-btn')
-  //   const formInput = screen.getByTestId('handleForm-input')
+    await userEvent.type(screen.getByTestId('handleForm-input'), 'testing text for handle-input')
+    await userEvent.click(screen.getByTestId('handleForm-btn'))
+    expect(localStorage.getItem('inputNumberValue')).toBe('testing text for handle-input')
 
-  //   await userEvent.type(formInput, 'cheri')
-  //   await userEvent.click(formBtn)
+  })
 
-  //   expect(window.fetch).toHaveBeenCalledWith(`https://pokeapi.co/api/v2/berry/cheri/`)
+  it('fetch request for a specific name in the list', async () => {
 
-  // })
+    const mockResponse = {
+      count: 64,
+      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      previous: null,
+      results: [
+        {
+          name: "cheri", 
+          url: "https://pokeapi.co/api/v2/berry/1/",
+        },
+        {
+          name: "chesto", 
+          url: "https://pokeapi.co/api/v2/berry/2/",
+        },
+        {
+          name: "pecha", 
+          url: "https://pokeapi.co/api/v2/berry/3/",
+        }
+      ]
+    }
+    vi.spyOn(window, "fetch").mockImplementationOnce(() => {
+      return Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
 
-  // it('localStorage is clear after user clicks on "ReloadLS" btn', async () => {
+      } as Response)
+    })
 
-  //   render(<HandleForm></HandleForm>)
-  //   localStorage.clear()
-  //   const reloadLsBtn = screen.getByTestId('handleForm-reload-ls')
+    render(
+      <MemoryRouter>
+        <ContentBlock></ContentBlock>
+      </MemoryRouter>
+    )
 
-  //   await userEvent.click(reloadLsBtn)
-  //   expect(localStorage.length).toBe(0)
+    await act (async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
 
-  // })
+    localStorage.clear()
+
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(screen.queryByTestId('handleForm-input')).toBeInTheDocument(), { timeout: 2000 } )
+    await waitFor(() => expect(screen.queryByTestId('handleForm-btn')).toBeInTheDocument(), { timeout: 2000 } )
+
+    await userEvent.type(screen.getByTestId('handleForm-input'), 'cheri')
+    await userEvent.click(screen.getByTestId('handleForm-btn'))
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith(`https://pokeapi.co/api/v2/berry/cheri/`), { timeout: 2000 })
+    
+
+  })
 
 })

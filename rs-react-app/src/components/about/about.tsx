@@ -8,7 +8,7 @@ const About = () => {
   return (
     <PageWrapper>
       <Navigation></Navigation>
-      <div className='about-page'>
+      <div className='about-page' data-testid='about-test'>
         <div className='about-page__block'>
           <h2>Main user information:</h2>
           <p>

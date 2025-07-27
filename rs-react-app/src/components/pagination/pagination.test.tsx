@@ -51,7 +51,8 @@ describe('Pagination.tsx', () => {
     await waitFor(() => expect(screen.getByText(/cheri/i)).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.getByText(/chesto/i)).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.getByText(/pecha/i)).toBeInTheDocument(), { timeout: 5000 })
-    expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry')
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    
 
     const searchEl = screen.getAllByTestId('search-el')
     expect(screen.queryByTestId('pagination-test')).not.toBeInTheDocument()
