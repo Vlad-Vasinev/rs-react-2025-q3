@@ -1,0 +1,30 @@
+.navigation 
+  position: fixed
+  display: flex
+  flex-direction: column
+  left: aCalc(20)
+  gap: aCalc(20)
+  top: 50%
+  transform: translateY(-50%)
+  z-index: 1
+  background-color: #ffffff
+  padding: aCalc(16)
+  border-radius: aCalc(6)
+  +mob($sm)
+    border-radius: 6px
+    padding: 12px
+    gap: 10px
+    right: 0
+    left: unset 
+    bottom: 0
+    top: unset
+    transform: unset
+    position: unset
+  a 
+    padding-bottom: aCalc(2)
+    border-bottom: 1px solid #000000
+    transition: color .3s
+    +mob($sm)
+      padding-bottom: 2px
+    &:hover 
+      color: #000000
