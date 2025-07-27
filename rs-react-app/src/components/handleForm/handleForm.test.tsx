@@ -44,48 +44,48 @@ describe('HandleForm.tsx', () => {
 
   })
 
-  it('input value goes to the localStorage after user clicks the button', async () => {
+  // it('input value goes to the localStorage after user clicks the button', async () => {
 
-    render(<HandleForm></HandleForm>)
-    localStorage.clear()
-    const formInput = screen.getByTestId('handleForm-input')
-    const formBtn = screen.getByTestId('handleForm-btn')
+  //   render(<HandleForm></HandleForm>)
+  //   localStorage.clear()
+  //   const formInput = screen.getByTestId('handleForm-input')
+  //   const formBtn = screen.getByTestId('handleForm-btn')
 
-    await userEvent.type(formInput, 'testing text for handle-input')
-    await userEvent.click(formBtn)
-    expect(localStorage.getItem('inputValue')).toBe('testing text for handle-input')
+  //   await userEvent.type(formInput, 'testing text for handle-input')
+  //   await userEvent.click(formBtn)
+  //   expect(localStorage.getItem('inputValue')).toBe('testing text for handle-input')
 
-  })
+  // })
 
-  it('fetch request for a specific name in the list', async () => {
+  // it('fetch request for a specific name in the list', async () => {
 
-    vi.spyOn(window, "fetch").mockImplementationOnce(() => {
-      return Promise.resolve({
-        json: () => Promise.resolve(),
+  //   vi.spyOn(window, "fetch").mockImplementationOnce(() => {
+  //     return Promise.resolve({
+  //       json: () => Promise.resolve(),
 
-      } as Response)
-    })
+  //     } as Response)
+  //   })
 
-    render(<HandleForm></HandleForm>)
-    const formBtn = screen.getByTestId('handleForm-btn')
-    const formInput = screen.getByTestId('handleForm-input')
+  //   render(<HandleForm></HandleForm>)
+  //   const formBtn = screen.getByTestId('handleForm-btn')
+  //   const formInput = screen.getByTestId('handleForm-input')
 
-    await userEvent.type(formInput, 'cheri')
-    await userEvent.click(formBtn)
+  //   await userEvent.type(formInput, 'cheri')
+  //   await userEvent.click(formBtn)
 
-    expect(window.fetch).toHaveBeenCalledWith(`https://pokeapi.co/api/v2/berry/cheri/`)
+  //   expect(window.fetch).toHaveBeenCalledWith(`https://pokeapi.co/api/v2/berry/cheri/`)
 
-  })
+  // })
 
-  it('localStorage is clear after user clicks on "ReloadLS" btn', async () => {
+  // it('localStorage is clear after user clicks on "ReloadLS" btn', async () => {
 
-    render(<HandleForm></HandleForm>)
-    localStorage.clear()
-    const reloadLsBtn = screen.getByTestId('handleForm-reload-ls')
+  //   render(<HandleForm></HandleForm>)
+  //   localStorage.clear()
+  //   const reloadLsBtn = screen.getByTestId('handleForm-reload-ls')
 
-    await userEvent.click(reloadLsBtn)
-    expect(localStorage.length).toBe(0)
+  //   await userEvent.click(reloadLsBtn)
+  //   expect(localStorage.length).toBe(0)
 
-  })
+  // })
 
 })

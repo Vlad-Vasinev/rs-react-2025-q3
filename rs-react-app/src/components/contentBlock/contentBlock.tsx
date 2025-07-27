@@ -158,7 +158,7 @@ const ContentBlock = () => {
   if(contentState.loading) {
     return (
       <section className='contentBlock' data-testid="content-block">
-        <Preloader></Preloader>
+        <Preloader testId='loader-icon'></Preloader>
       </section>
     )
   }
@@ -171,7 +171,7 @@ const ContentBlock = () => {
       <div className='contentBlock__middle'>
         <ul className='listApi'>
           {contentState.data && contentState.data.map((berry) => (
-            <li key={berry.name} onClick={() => masterDetail(berry.name)} className='listApi__el'>
+            <li data-testid='search-el' key={berry.name} onClick={() => masterDetail(berry.name)} className='listApi__el'>
               <h2 >{berry.name} - </h2>
               <div className='listApi__el-info'>
                 <p >url:</p>
@@ -217,7 +217,7 @@ const ContentBlock = () => {
                   <span>{contentState.fetchResult?.smoothness}</span>
                 </li>
                 <li className='listApi__el-info'>
-                  <Pagination onClick={onPaginationClick}></Pagination>
+                  <Pagination testId='pagination-test' onClick={onPaginationClick}></Pagination>
                 </li>
                 <li className='listApi__el-info'>
                   <button style={{width: '100%'}} data-testid="handleForm-reload-ls" className='searchBtn' onClick={closeDetailView}>
@@ -228,9 +228,9 @@ const ContentBlock = () => {
             </>
           )
           : (
-            <div className={ contentState.loadingDetails ? 'listApi _information _preload _active' : 'listApi _preload _information' }>
+            <div data-testid='loader-parent' className={ contentState.loadingDetails ? 'listApi _information _preload _active' : 'listApi _preload _information' }>
               <p className='listApi__clue'>Please click on item/pagination/use search field to see results... :D</p>
-              <Preloader></Preloader>
+              <Preloader testId='master-detail'></Preloader>
             </div>
           )
         }
