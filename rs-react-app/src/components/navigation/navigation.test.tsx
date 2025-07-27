@@ -1,5 +1,5 @@
-import { act } from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+
+import { render, screen } from "@testing-library/react";
 import Navigation from "./navigation";
 import { MemoryRouter } from "react-router";
 

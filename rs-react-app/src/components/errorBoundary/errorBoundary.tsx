@@ -1,7 +1,6 @@
 import React, { type ReactNode } from 'react';
 
 import PageWrapper from '../pageWrapper/pageWrapper';
-
 import ErrorBoundaryMsg from '../errorBoundaryMsg/errorBoundaryMsg';
 
 interface ErrorBoundaryProps {

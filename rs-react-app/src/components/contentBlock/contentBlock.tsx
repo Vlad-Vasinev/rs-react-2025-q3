@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
