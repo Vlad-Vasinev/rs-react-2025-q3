@@ -229,7 +229,7 @@ const ContentBlock = () => {
           )
           : (
             <div data-testid='loader-parent' className={ contentState.loadingDetails ? 'listApi _information _preload _active' : 'listApi _preload _information' }>
-              <p className='listApi__clue'>Please click on item/pagination/use search field to see results... :D</p>
+              <p className='listApi__clue'>We are carefully loading results, please wait... :D</p>
               <Preloader testId='master-detail'></Preloader>
             </div>
           )

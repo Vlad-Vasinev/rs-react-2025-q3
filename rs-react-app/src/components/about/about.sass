@@ -6,12 +6,20 @@
   display: flex
   flex-direction: column
   gap: aCalc(40)
+  +mob($sm)
+    gap: 24px
+    border-radius: 6px
+    padding: 12px
   &__block
     & + & 
       padding-top: aCalc(8)
       border-top: 1px solid #000000
+      +mob($sm)
+        padding-top: 8px
     p + p 
       margin-top: aCalc(8)
+      +mob($sm)
+        margin-top: 8px
     p
       display: flex
       margin: 0 auto
@@ -22,6 +30,8 @@
       font-size: aCalc(14)
       +mob($sm)
         font-size: 14px
+        margin: 0
+        width: unset
       span 
         font-size: aCalc(14)
         color: #646cff
@@ -38,3 +48,4 @@
       +mob($sm)
         font-size: 18px
         line-height: 24px
+        margin-bottom: 20px
