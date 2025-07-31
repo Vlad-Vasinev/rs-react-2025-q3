@@ -1,61 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
+import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
 import Preloader from '../preloader/preloader';
 import Pagination from '../pagination/pagination';
-import { useSearchParams } from 'react-router';
 
-interface BerryFirmness {
-  name: string, 
-  url: string
-}
-interface BerryFlavors {
-  name: string, 
-  url: string
-}
-interface BerryNatural_Gift_Type {
-  name: string, 
-  url: string
-}
-interface BerryItem {
-  name: string, 
-  url: string
-}
-
-interface BerryDate {
-  firmness: BerryFirmness,
-  flavors: BerryFlavors[]
-  growth_time: number,
-  id: number,
-  item: BerryItem,
-  max_harvest: number,
-  name: string,
-  natural_gift_power: number,
-  natural_gift_type: BerryNatural_Gift_Type
-  size: number,
-  smoothness: number,
-  soil_dryness: number,
-}
-
-interface Berry {
-  name: string, 
-  url: string,
-}
-
-interface BerryDate {
-  id: number,
-  name: string, 
-}
-
-interface ContentBlockState {
-  data: Berry[] | null, 
-  loading: boolean, 
-  loadingDetails: boolean
-  errorMessage: boolean,
-  fetchResult: BerryDate | null, 
-  searchResult: string | null,
-}
+import type { ContentBlockState } from '../../types/types';
 
 const ContentBlock = () => {
 
@@ -67,76 +19,17 @@ const ContentBlock = () => {
     fetchResult: null, 
     searchResult: '',
   })
+
   const [searchParams, updateSearchParams] = useSearchParams()
   const [param, updateParam] = useState<number | string | undefined>('')
-  
-  function ErrorClick () {
-    setContentState(prev => ({
-      ...prev, 
-      errorMessage: true
-    }))
-  }
-
-  function closeDetailView() {
-    localStorage.clear()
-    setContentState(prev => ({
-      ...prev,
-      loadingDetails: false,
-    }));
-    onPaginationClick('')
-  }
-
-  function masterDetail (berryName: string) {
-    onPaginationClick(berryName)
-  }
-  usePaginationHook(param)
-
-  function usePaginationHook (param: number | string | undefined) {
-
-    useEffect(() => {
-
-      if(param === null) return
-      localStorage.setItem('inputNumberValue', `${param}`)
-      setContentState(prev => ({ ...prev, errorMessage: false }))
-
-      setContentState(prev => ({
-        ...prev,
-        searchResult: '',
-        loadingDetails: true,
-      }));
-
-      fetch(`https://pokeapi.co/api/v2/berry/${param}/`)
-        .then(response => {
-          if(response.ok) {
-            return response.json()
-          }
-        })
-        .then(result => {
-          localStorage.setItem('resultRequest', JSON.stringify(result))
-          
-          setTimeout(() => {
-            setContentState(prev => ({
-              ...prev,
-              fetchResult: result,
-              searchResult: String(param),
-              errorMessage: false,
-              loadingDetails: false
-            }));
-          }, 2000)
-
-          const newParams = new URLSearchParams(searchParams)
-          newParams.set('q', String(param))
-          updateSearchParams(newParams)
-        })
-    }, [param, searchParams, updateSearchParams])
-  }
-  function onPaginationClick (param: number | string) {
-    updateParam(param)
-  }
+  const [apiPaginaion, updateApiPagination] = useState({
+    loading: false, 
+    parameter: 1,
+  })
 
   useEffect(() => {
     setTimeout(() => {
-      fetch('https://pokeapi.co/api/v2/berry')
+      fetch('https://pokeapi.co/api/v2/berry/?limit=10')
         .then(response => {
           return response.json()
         })
@@ -150,6 +43,76 @@ const ContentBlock = () => {
         })
     }, 2000)
   }, [])
+
+  useEffect(() => {
+
+    if(!apiPaginaion.loading) return 
+
+    setTimeout(() => {
+      fetch(`https://pokeapi.co/api/v2/berry/?limit=10&offset=${apiPaginaion.parameter}`)
+        .then(response => {
+          return response.json()
+        })
+        .then(result => {
+
+          console.log(result)
+
+          setContentState(prev => ({
+            ...prev, 
+            data: result.results, 
+            loading: false
+          }))
+          updateApiPagination(prev => ({
+            ...prev, 
+            loading: true
+          }))
+        })
+    }, 2000)
+  }, [apiPaginaion.parameter])
+
+  function ErrorClick () {
+    setContentState(prev => ({
+      ...prev, 
+      errorMessage: true
+    }))
+  }
+
+  function closeDetailView() {
+    localStorage.clear()
+    setContentState(prev => ({
+      ...prev,
+      loadingDetails: false,
+      searchResult: '',
+    }));
+    onPaginationClick('')
+  }
+
+  function masterDetail (berryName: string) {
+    onPaginationClick(berryName)
+  }
+  usePaginationHook(param, setContentState, searchParams, updateSearchParams)
+
+  function onPaginationClick (param: number | string) {
+    updateParam(param)
+  }
+
+  function paginationControl (param: number) {
+    setContentState(prev => ({
+      ...prev, 
+      loading: true, 
+    }))
+    updateApiPagination(({
+      loading: true, 
+      parameter: param
+    }))
+    setTimeout(() => {
+      setContentState(prev => ({
+        ...prev, 
+        loading: false, 
+      }))
+    }, 2000)
+    console.log('paginationControl' + param)
+  }
 
   if(contentState.errorMessage) {
     throw new Error("I am an artificial error!");
@@ -217,7 +180,7 @@ const ContentBlock = () => {
                   <span>{contentState.fetchResult?.smoothness}</span>
                 </li>
                 <li className='listApi__el-info'>
-                  <Pagination testId='pagination-test' onClick={onPaginationClick}></Pagination>
+                  <Pagination testId='pagination-test' onClick={paginationControl}></Pagination>
                 </li>
                 <li className='listApi__el-info'>
                   <button style={{width: '100%'}} data-testid="handleForm-reload-ls" className='searchBtn' onClick={closeDetailView}>
