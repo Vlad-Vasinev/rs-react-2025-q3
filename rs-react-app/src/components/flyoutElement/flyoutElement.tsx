@@ -14,7 +14,7 @@ const FlyoutElement = () => {
   }
 
   return (
-    <div className='flyoutElement'>
+    <div className={selectedElements.length > 0 ? 'flyoutElement _active' : 'flyoutElement'}>
       <button className='flyoutElement-download'>download all</button>
       <button className='flyoutElement-unselect' onClick={deleteAllFromState}>unselect all</button>
       <p>you have choosed {selectedElements.length} items</p>

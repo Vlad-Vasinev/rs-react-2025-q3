@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 
+import type { BerryDate } from "../types/types"
+
 interface Elements {
-  elements: string[]
+  elements: string[],
+  data: BerryDate[] | null
 }
 
 const initialState: Elements = {
-  elements: []
+  elements: [],
+  data: null
 }
 
 const elementsSlice = createSlice({
@@ -23,12 +27,26 @@ const elementsSlice = createSlice({
     },
     deleteAll(state) {
       state.elements = []
+      state.data = null
     },
+    addData(state, action: PayloadAction<BerryDate>) {
+      if (state.data === null) {
+        state.data = []
+      }
+      state.data.push(action.payload)
+    },
+    removeSpecificData(state, action: PayloadAction<string>) {
+      console.log('inside removeSpecificData')
+      if(state.data !== null) {
+        state.data = state.data.filter(el => el.name !== action.payload)
+      }
+      
+    }
     // downloadAll(state) {
 
     // }
   }
 })
 
-export const { addEl, removeEl, deleteAll } = elementsSlice.actions
+export const { addEl, removeEl, deleteAll, addData, removeSpecificData } = elementsSlice.actions
 export const itemsReducer = elementsSlice.reducer

@@ -4,7 +4,7 @@ import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
-import { addEl, removeEl, deleteAll } from '../../store/elementsSlice';
+import { addEl, removeEl, deleteAll, addData, removeSpecificData } from '../../store/elementsSlice';
 
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
@@ -41,7 +41,6 @@ const ContentBlock = () => {
           return response.json()
         })
         .then(result => {
-
           setContentState(prev => ({
             ...prev, 
             data: result.results, 
@@ -122,16 +121,23 @@ const ContentBlock = () => {
   }
 
   function checkboxControl(item: string, checked: boolean) {
+
     if(checked) {
-      dispatch(addEl(item))
-      console.log()
+      fetch(`https://pokeapi.co/api/v2/berry/${item}/`)
+        .then(response => {
+          return response.json()
+        })
+        .then(result => {
+          dispatch(addData(result))
+          dispatch(addEl(item))
+          console.log(result)
+        })
     }
     else {
       dispatch(removeEl(item))
+      dispatch(removeSpecificData(item))
     }
   }
-
-  console.log(selectedElements.length)
 
   if(contentState.errorMessage) {
     throw new Error("I am an artificial error!");
