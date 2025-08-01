@@ -14,7 +14,6 @@ const App = () => {
       <PageWrapper>
         <Navigation></Navigation>
         <ContentBlock></ContentBlock>
-        
       </PageWrapper>
       <Footer></Footer>
     </div>

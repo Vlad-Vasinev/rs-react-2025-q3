@@ -7,7 +7,7 @@
   top: 50%
   transform: translateY(-50%)
   z-index: 1
-  background-color: #ffffff
+  background-color: var(--background-color)
   padding: aCalc(16)
   border-radius: aCalc(6)
   +mob($sm)
@@ -22,9 +22,11 @@
     position: unset
   a 
     padding-bottom: aCalc(2)
-    border-bottom: 1px solid #000000
+    border-bottom: 1px solid var(--text-color)
     transition: color .3s
     +mob($sm)
       padding-bottom: 2px
     &:hover 
-      color: #000000
+      color: var(--text-color)
+  h2 
+    color: var(--text-color)
