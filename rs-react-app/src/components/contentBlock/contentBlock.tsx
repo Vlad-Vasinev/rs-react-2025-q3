@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../../store';
+import { addEl, removeEl, deleteAll } from '../../store/elementsSlice';
+
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
 import Preloader from '../preloader/preloader';
@@ -26,6 +30,9 @@ const ContentBlock = () => {
     loading: false, 
     parameter: 1,
   })
+
+  const selectedElements = useSelector((state: RootState) => state.items.elements)
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     setTimeout(() => {
@@ -114,6 +121,18 @@ const ContentBlock = () => {
     console.log('paginationControl' + param)
   }
 
+  function checkboxControl(item: string, checked: boolean) {
+    if(checked) {
+      dispatch(addEl(item))
+      console.log()
+    }
+    else {
+      dispatch(removeEl(item))
+    }
+  }
+
+  console.log(selectedElements.length)
+
   if(contentState.errorMessage) {
     throw new Error("I am an artificial error!");
   }
@@ -140,6 +159,19 @@ const ContentBlock = () => {
                 <p >url:</p>
                 <p >{berry.url}</p>
               </div>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedElements.includes(berry.name)}
+                  onChange={e => {
+                    // e.stopPropagation()
+                    console.log('on change checkbox')
+                    checkboxControl(berry.name, e.target.checked)
+                  }}
+                  onClick={e => e.stopPropagation()}
+                />
+                <span className="input-control"></span>
+              </label>  
             </li>
           ))}
         </ul>

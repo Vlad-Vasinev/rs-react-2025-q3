@@ -3,9 +3,12 @@ import { Link } from 'react-router';
 import Navigation from '../navigation/navigation';
 import PageWrapper from '../pageWrapper/pageWrapper';
 
+import FlyoutElement from '../flyoutElement/flyoutElement';
+
 const About = () => {
   return (
     <PageWrapper>
+      <FlyoutElement></FlyoutElement>
       <Navigation></Navigation>
       <div className='about-page' data-testid='about-test'>
         <div className='about-page__block'>

@@ -1,0 +1,22 @@
+
+.flyoutElement 
+  position: fixed
+  right: aCalc(16)
+  top: 50%
+  width: aCalc(400)
+  height: aCalc(200)
+  overflow-y: scroll
+  background-color: var(--background-color)
+  border-radius: aCalc(6)
+  border: 1px solid var(--text-color)
+  opacity: 1
+  transition: opacity .3s
+  z-index: 1
+  &._active 
+    opacity: 1
+  p, h2 
+    color: var(--text-color)
+  &-download 
+    @extend .searchBtn !optional
+  &-unselect
+    @extend .searchBtn !optional 

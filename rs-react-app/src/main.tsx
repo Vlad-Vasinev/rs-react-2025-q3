@@ -9,17 +9,22 @@ import ErrorPage from './components/404/404'
 import ErrorBoundary from './components/errorBoundary/errorBoundary'
 
 import { ThemeProvider } from './components/context/themeContext'
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <ErrorBoundary >
-        <ThemeProvider>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/about" element={<About />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </ThemeProvider>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/about" element={<About />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </ThemeProvider>
+        </Provider>
+
       </ErrorBoundary>
     </BrowserRouter>
   
