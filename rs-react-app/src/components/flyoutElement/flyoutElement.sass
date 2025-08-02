@@ -4,9 +4,6 @@
   padding: aCalc(16)
   right: aCalc(16)
   bottom: aCalc(16)
-  display: flex
-  flex-wrap: wrap
-  gap: aCalc(20)
   width: aCalc(400)
   height: aCalc(200)
   background-color: var(--background-color)
@@ -19,8 +16,14 @@
   &._active 
     opacity: 1
     transform: translateX(0)
+  &__wrapper 
+    display: flex
+    flex-wrap: wrap
+    gap: aCalc(20)
   p, h2 
     color: var(--text-color)
+    width: 100%
+    margin-bottom: aCalc(20)
   &-download 
     @extend .searchBtn !optional
   &-unselect
