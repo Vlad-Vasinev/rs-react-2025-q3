@@ -44,7 +44,7 @@ const FlyoutElement = () => {
     <div data-testid="flyoutElement-test" className={selectedElements.length > 0 ? 'flyoutElement _active' : 'flyoutElement'}>
       <p>you have choosed {selectedElements.length} items</p>
       <div className='flyoutElement__wrapper'>
-        <a onClick={downloadData} download={`${selectedElements.length}_items`} ref={downloadLink} href="#" className='flyoutElement-download'>download all</a>
+        <a data-testid="download-all-test" onClick={downloadData} download={`${selectedElements.length}_items`} ref={downloadLink} href="#" className='flyoutElement-download'>download all</a>
         <button data-testid="delete-all-test" className='flyoutElement-unselect' onClick={deleteAllFromState}>unselect all</button>
       </div>
     </div>

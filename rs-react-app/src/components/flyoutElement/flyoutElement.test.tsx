@@ -38,6 +38,10 @@ describe('FlyoutElement.tsx', () => {
 
       } as Response)
     })
+    if (!URL.createObjectURL) {
+      URL.createObjectURL = vi.fn()
+    }
+    const createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:url')
 
     render(
       <Provider store={store}>
@@ -80,6 +84,9 @@ describe('FlyoutElement.tsx', () => {
     await waitFor(() => expect(screen.queryByTestId('flyoutElement-test')).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.queryByTestId('flyoutElement-test')).toHaveClass('_active'), { timeout: 5000 })
     await waitFor(() => expect(screen.queryByTestId('delete-all-test')).toBeInTheDocument(), { timeout: 5000 })
+
+    await userEvent.click(screen.getByTestId('download-all-test')) 
+    await waitFor(() => expect(createObjectURLSpy).toHaveBeenCalled(), { timeout: 5000 })
 
     await userEvent.click(screen.getByTestId('delete-all-test')) 
     await waitFor(() => expect(screen.queryByTestId('flyoutElement-test')).not.toHaveClass('_active'), { timeout: 5000 })
