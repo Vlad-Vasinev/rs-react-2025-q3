@@ -6,11 +6,18 @@ import userEvent from '@testing-library/user-event'
 import HandleForm from "./handleForm";
 import ContentBlock from "../contentBlock/contentBlock";
 
+import { Provider } from "react-redux";
+import { store } from "../../store";
+
 describe('HandleForm.tsx', () => {
 
   it('handleForm component exists', () => {
 
-    render(<HandleForm></HandleForm>)
+    render(
+      <Provider store={store}>
+        <HandleForm></HandleForm>
+      </Provider>
+    )
     const formEl = screen.getByTestId('handleForm-form')
 
     expect(formEl).toBeInTheDocument()
@@ -19,7 +26,11 @@ describe('HandleForm.tsx', () => {
 
   it('search button exists inside HandleForm', () => {
 
-    render(<HandleForm></HandleForm>)
+    render(
+      <Provider store={store}>
+        <HandleForm></HandleForm>
+      </Provider>
+    )
     const formBtn = screen.getByTestId('handleForm-btn')
 
     expect(formBtn).toBeInTheDocument()
@@ -28,7 +39,11 @@ describe('HandleForm.tsx', () => {
 
   it('search input exists inside HandleForm', () => {
 
-    render(<HandleForm></HandleForm>)
+    render(
+      <Provider store={store}>
+        <HandleForm></HandleForm>
+      </Provider>
+    )
     const formInput = screen.getByTestId('handleForm-input')
     
     expect(formInput).toBeInTheDocument()
@@ -37,7 +52,11 @@ describe('HandleForm.tsx', () => {
 
   it('search input updates when user types', async () => {
 
-    render(<HandleForm></HandleForm>)
+    render(
+      <Provider store={store}>
+        <HandleForm></HandleForm>
+      </Provider>
+    )
     const formInput = screen.getByTestId('handleForm-input')
 
     await userEvent.type(formInput, 'testing text for handle-input')
@@ -49,7 +68,7 @@ describe('HandleForm.tsx', () => {
 
     const mockResponse = {
       count: 64,
-      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      next: "https://pokeapi.co/api/v2/berry/?limit=10",
       previous: null,
       results: [
         {
@@ -74,9 +93,11 @@ describe('HandleForm.tsx', () => {
     })
 
     render(
-      <MemoryRouter>
-        <ContentBlock></ContentBlock>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContentBlock></ContentBlock>
+        </MemoryRouter>
+      </Provider>
     )
 
     await act (async () => {
@@ -86,7 +107,7 @@ describe('HandleForm.tsx', () => {
 
     localStorage.clear()
 
-    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry/?limit=10'), { timeout: 5000 })
     await waitFor(() => expect(screen.queryByTestId('handleForm-input')).toBeInTheDocument(), { timeout: 2000 } )
     await waitFor(() => expect(screen.queryByTestId('handleForm-btn')).toBeInTheDocument(), { timeout: 2000 } )
 
@@ -100,7 +121,7 @@ describe('HandleForm.tsx', () => {
 
     const mockResponse = {
       count: 64,
-      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      next: "https://pokeapi.co/api/v2/berry/?limit=10",
       previous: null,
       results: [
         {
@@ -125,9 +146,11 @@ describe('HandleForm.tsx', () => {
     })
 
     render(
-      <MemoryRouter>
-        <ContentBlock></ContentBlock>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContentBlock></ContentBlock>
+        </MemoryRouter>
+      </Provider>
     )
 
     await act (async () => {
@@ -137,7 +160,7 @@ describe('HandleForm.tsx', () => {
 
     localStorage.clear()
 
-    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry/?limit=10'), { timeout: 5000 })
     await waitFor(() => expect(screen.queryByTestId('handleForm-input')).toBeInTheDocument(), { timeout: 2000 } )
     await waitFor(() => expect(screen.queryByTestId('handleForm-btn')).toBeInTheDocument(), { timeout: 2000 } )
 

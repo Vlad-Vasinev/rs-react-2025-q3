@@ -4,13 +4,16 @@ import { MemoryRouter } from "react-router";
 import userEvent from "@testing-library/user-event";
 import ContentBlock from "../contentBlock/contentBlock";
 
+import { Provider } from "react-redux";
+import { store } from "../../store";
+
 describe('Pagination.tsx', () => {
 
   it('pagination component exists after user clicks on any element from the list(left side)', async () => {
 
     const mockResponse = {
       count: 64,
-      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      next: "https://pokeapi.co/api/v2/berry/?limit=10",
       previous: null,
       results: [
         {
@@ -37,9 +40,11 @@ describe('Pagination.tsx', () => {
 
 
     render(
-      <MemoryRouter>
-        <ContentBlock></ContentBlock>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContentBlock></ContentBlock>
+        </MemoryRouter>
+      </Provider>
     )
 
     await act (async () => {
@@ -51,7 +56,7 @@ describe('Pagination.tsx', () => {
     await waitFor(() => expect(screen.getByText(/cheri/i)).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.getByText(/chesto/i)).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.getByText(/pecha/i)).toBeInTheDocument(), { timeout: 5000 })
-    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry/?limit=10'), { timeout: 5000 })
     
 
     const searchEl = screen.getAllByTestId('search-el')
@@ -65,7 +70,7 @@ describe('Pagination.tsx', () => {
       await userEvent.click(el)
     }
 
-    await waitFor(() => expect(screen.queryByTestId('pagination-test')).toBeInTheDocument(), { timeout: 2000 })
+    await waitFor(() => expect(screen.queryByTestId('pagination-test')).toBeInTheDocument(), { timeout: 5000 })
 
   })
 

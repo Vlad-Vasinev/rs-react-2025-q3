@@ -24,7 +24,6 @@ createRoot(document.getElementById('root')!).render(
             </Routes>
           </ThemeProvider>
         </Provider>
-
       </ErrorBoundary>
     </BrowserRouter>
   

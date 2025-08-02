@@ -4,7 +4,7 @@ import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
-import { addEl, removeEl, deleteAll, addData, removeSpecificData } from '../../store/elementsSlice';
+import { addEl, removeEl, addData, removeSpecificData } from '../../store/elementsSlice';
 
 import ErrorBtn from '../errorBtn/errorBtn';
 import HandleForm from '../handleForm/handleForm';
@@ -167,6 +167,7 @@ const ContentBlock = () => {
               </div>
               <label>
                 <input
+                  data-testid="checkbox-test"
                   type="checkbox"
                   checked={selectedElements.includes(berry.name)}
                   onChange={e => {

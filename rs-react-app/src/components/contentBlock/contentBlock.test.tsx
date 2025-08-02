@@ -3,14 +3,19 @@ import ContentBlock from "./contentBlock";
 import { MemoryRouter } from "react-router";
 import { render, screen, waitFor } from '@testing-library/react'
 
+import { Provider } from "react-redux";
+import { store } from "../../store";
+
 describe('ContentBlock.tsx', () => {
 
   it('contentBlock exists', () => {
 
     render (
-      <MemoryRouter>
-        <ContentBlock></ContentBlock>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContentBlock></ContentBlock>
+        </MemoryRouter>
+      </Provider>
     )
     
     const contentBlock = screen.getAllByTestId('content-block')
@@ -25,7 +30,7 @@ describe('ContentBlock.tsx', () => {
 
     const mockResponse = {
       count: 64,
-      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      next: "https://pokeapi.co/api/v2/berry/?limit=10",
       previous: null,
       results: [
         {
@@ -50,9 +55,11 @@ describe('ContentBlock.tsx', () => {
     })
 
     render(
-      <MemoryRouter>
-        <ContentBlock></ContentBlock>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContentBlock></ContentBlock>
+        </MemoryRouter>
+      </Provider>
     )
 
     await act (async () => {
@@ -63,7 +70,7 @@ describe('ContentBlock.tsx', () => {
     await waitFor(() => expect(screen.getByText(/cheri/i)).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.getByText(/chesto/i)).toBeInTheDocument(), { timeout: 5000 })
     await waitFor(() => expect(screen.getByText(/pecha/i)).toBeInTheDocument(), { timeout: 5000 })
-    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry/?limit=10'), { timeout: 5000 })
 
   })
 
@@ -71,7 +78,7 @@ describe('ContentBlock.tsx', () => {
 
     const mockResponse = {
       count: 64,
-      next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
+      next: "https://pokeapi.co/api/v2/berry/?limit=10",
       previous: null,
       results: [
         {
@@ -96,9 +103,11 @@ describe('ContentBlock.tsx', () => {
     })
 
     render(
-      <MemoryRouter>
-        <ContentBlock></ContentBlock>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ContentBlock></ContentBlock>
+        </MemoryRouter>
+      </Provider>
     )
 
     await act (async () => {
@@ -107,7 +116,7 @@ describe('ContentBlock.tsx', () => {
       await Promise.resolve()
     })
 
-    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry'), { timeout: 5000 })
+    await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry/?limit=10'), { timeout: 5000 })
     await waitFor(() => expect(screen.queryByTestId('loader-icon')).not.toBeInTheDocument() )
 
   })

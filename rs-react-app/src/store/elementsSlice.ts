@@ -42,9 +42,6 @@ const elementsSlice = createSlice({
       }
       
     }
-    // downloadAll(state) {
-
-    // }
   }
 })
 

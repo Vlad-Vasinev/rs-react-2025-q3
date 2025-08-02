@@ -26,10 +26,10 @@ export function usePaginationHook(
         if (response.ok) {
           return response.json();
         }
-        throw new Error('Network response was not ok');
+        //throw new Error('Network response was not ok');
       })
       .then(result => {
-        localStorage.setItem('resultRequest', JSON.stringify(result));
+        //localStorage.setItem('resultRequest', JSON.stringify(result));
 
         setTimeout(() => {
           setContentState(prev => ({

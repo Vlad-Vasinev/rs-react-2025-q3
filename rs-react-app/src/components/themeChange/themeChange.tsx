@@ -7,7 +7,7 @@ const ThemeChange = () => {
   const {theme, toggleTheme} = useContext(ThemeContext)
 
   return (
-    <button onClick={toggleTheme} className='theme-change'>Change to {theme === 'light' ? 'dark' : 'light'} theme-mode</button>
+    <button data-testid="theme-change-test" onClick={toggleTheme} className='theme-change'>Change to {theme === 'light' ? 'dark' : 'light'} theme-mode</button>
   );
 };
 
