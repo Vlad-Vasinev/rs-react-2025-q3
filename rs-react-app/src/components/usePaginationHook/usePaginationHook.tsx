@@ -41,9 +41,29 @@ export function usePaginationHook(
           }));
         }, 2000);
 
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set('q', String(param));
-        updateSearchParams(newParams);
+        console.log(typeof(param))
+
+        if(typeof(param) === 'number') {
+
+          const newParams = new URLSearchParams(searchParams)
+
+          newParams.delete('q')
+
+          newParams.set('page', `${String(param)}`) 
+          newParams.set('details', '1')
+          updateSearchParams(newParams)
+        } 
+        else {
+          const newParams = new URLSearchParams(searchParams)
+
+          newParams.delete('page')
+          newParams.delete('details')
+
+          newParams.set('q', String(param))
+          updateSearchParams(newParams)
+        }
+
+
       })
       // .catch(() => {
       //   setContentState(prev => ({

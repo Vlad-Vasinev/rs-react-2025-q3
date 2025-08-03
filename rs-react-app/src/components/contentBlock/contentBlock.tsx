@@ -117,6 +117,10 @@ const ContentBlock = () => {
         loading: false, 
       }))
     }, 2000)
+    updateParam(param)
+    // const newParams = new URLSearchParams(searchParams);
+    // newParams.set('q', String(param));
+    // updateSearchParams(newParams);
     console.log('paginationControl' + param)
   }
 
