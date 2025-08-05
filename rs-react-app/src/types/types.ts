@@ -38,9 +38,11 @@ export interface Berry {
   url: string,
 }
 
-export interface BerryDate {
-  id: number,
-  name: string, 
+export interface BerriesQuery {
+  count: number, 
+  next: string | null, 
+  previous: string | null
+  results: Berry[] | null, 
 }
 
 export interface ContentBlockState {
@@ -48,11 +50,6 @@ export interface ContentBlockState {
   loading: boolean, 
   loadingDetails: boolean
   errorMessage: boolean,
-  fetchResult: BerryDate | null, 
+  fetchResult: BerryDate | null | undefined, 
   searchResult: string | null,
-}
-
-export interface ApiLoad{
-  dataApi: Berry[] | null, 
-  loadingApi: boolean, 
 }

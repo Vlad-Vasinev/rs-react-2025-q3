@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
+import { useGetSpecificQuery } from '../../store/apiSlice';
+
+import { useGetBerriesQuery, useGetBerryPaginationQuery } from '../../store/apiSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
@@ -34,47 +37,38 @@ const ContentBlock = () => {
   const selectedElements = useSelector((state: RootState) => state.items.elements)
   const dispatch = useDispatch<AppDispatch>()
 
+  const { data, isLoading } = useGetBerriesQuery()
+  const { data: paginationData } = useGetBerryPaginationQuery(apiPaginaion.parameter)
+  // const { data: specificItem } = useGetSpecificQuery('')
+
   useEffect(() => {
     setTimeout(() => {
-      fetch('https://pokeapi.co/api/v2/berry/?limit=10')
-        .then(response => {
-          return response.json()
-        })
-        .then(result => {
-          setContentState(prev => ({
-            ...prev, 
-            data: result.results, 
-            loading: false
-          }))
-        })
+      if(data)
+      setContentState(prev => ({
+        ...prev, 
+        data: data.results, 
+        loading: isLoading
+      }))
     }, 2000)
-  }, [])
+  }, [data, isLoading])
 
   useEffect(() => {
 
     if(!apiPaginaion.loading) return 
 
     setTimeout(() => {
-      fetch(`https://pokeapi.co/api/v2/berry/?limit=10&offset=${apiPaginaion.parameter}`)
-        .then(response => {
-          return response.json()
-        })
-        .then(result => {
-
-          console.log(result)
-
-          setContentState(prev => ({
-            ...prev, 
-            data: result.results, 
-            loading: false
-          }))
-          updateApiPagination(prev => ({
-            ...prev, 
-            loading: true
-          }))
-        })
+      if(paginationData)
+      setContentState(prev => ({
+        ...prev, 
+        data: paginationData.results, 
+        loading: false
+      }))
+      updateApiPagination(prev => ({
+        ...prev, 
+        loading: true
+      }))
     }, 2000)
-  }, [apiPaginaion.parameter])
+  }, [paginationData])
 
   function ErrorClick () {
     setContentState(prev => ({
@@ -84,7 +78,6 @@ const ContentBlock = () => {
   }
 
   function closeDetailView() {
-    localStorage.clear()
     setContentState(prev => ({
       ...prev,
       loadingDetails: false,
@@ -118,9 +111,6 @@ const ContentBlock = () => {
       }))
     }, 2000)
     updateParam(param)
-    // const newParams = new URLSearchParams(searchParams);
-    // newParams.set('q', String(param));
-    // updateSearchParams(newParams);
     console.log('paginationControl' + param)
   }
 
@@ -175,11 +165,9 @@ const ContentBlock = () => {
                   type="checkbox"
                   checked={selectedElements.includes(berry.name)}
                   onChange={e => {
-                    // e.stopPropagation()
                     console.log('on change checkbox')
                     checkboxControl(berry.name, e.target.checked)
                   }}
-                  onClick={e => e.stopPropagation()}
                 />
                 <span className="input-control"></span>
               </label>  
