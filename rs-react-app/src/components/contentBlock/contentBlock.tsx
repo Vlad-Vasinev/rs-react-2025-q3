@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
-import { useGetSpecificQuery } from '../../store/apiSlice';
 
-import { useGetBerriesQuery, useGetBerryPaginationQuery } from '../../store/apiSlice';
+import { useGetBerriesQuery, useGetBerryPaginationQuery, useLazyGetSpecificQuery } from '../../store/apiSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
@@ -39,7 +38,7 @@ const ContentBlock = () => {
 
   const { data, isLoading } = useGetBerriesQuery()
   const { data: paginationData } = useGetBerryPaginationQuery(apiPaginaion.parameter)
-  // const { data: specificItem } = useGetSpecificQuery('')
+  const [triggerGetSpecific, { data: specificEl }] = useLazyGetSpecificQuery();
 
   useEffect(() => {
     setTimeout(() => {
@@ -115,23 +114,21 @@ const ContentBlock = () => {
   }
 
   function checkboxControl(item: string, checked: boolean) {
-
     if(checked) {
-      fetch(`https://pokeapi.co/api/v2/berry/${item}/`)
-        .then(response => {
-          return response.json()
-        })
-        .then(result => {
-          dispatch(addData(result))
-          dispatch(addEl(item))
-          console.log(result)
-        })
+      triggerGetSpecific(item)
     }
     else {
       dispatch(removeEl(item))
       dispatch(removeSpecificData(item))
     }
   }
+
+  useEffect(() => {
+    if (specificEl) {
+      dispatch(addData(specificEl));
+      dispatch(addEl(specificEl.name || ''));
+    }
+  }, [specificEl, dispatch]);
 
   if(contentState.errorMessage) {
     throw new Error("I am an artificial error!");

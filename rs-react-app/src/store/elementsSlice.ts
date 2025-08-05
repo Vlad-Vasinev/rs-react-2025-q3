@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 
 import type { BerryDate } from "../types/types"
 
-interface Elements {
+export interface Elements {
   elements: string[],
   data: BerryDate[] | null
 }

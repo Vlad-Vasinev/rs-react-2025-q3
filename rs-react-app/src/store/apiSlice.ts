@@ -18,4 +18,4 @@ export const apiSlice = createApi({
   })
 })
 
-export const { useGetBerriesQuery, useGetBerryPaginationQuery, useGetSpecificQuery } = apiSlice
+export const { useGetBerriesQuery, useGetBerryPaginationQuery, useGetSpecificQuery, useLazyGetSpecificQuery } = apiSlice
