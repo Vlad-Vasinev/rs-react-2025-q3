@@ -22,6 +22,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     return { hasError: true };
   }
 
+  setErrorFalse = () => {
+    this.setState({ hasError: false })
+  }
+
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Error Boundary has caught an error: ", error, errorInfo);
   }
@@ -30,7 +34,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     if (this.state.hasError) {
       return (
         <PageWrapper>
-          <ErrorBoundaryMsg></ErrorBoundaryMsg>
+          <ErrorBoundaryMsg onReset={this.setErrorFalse}></ErrorBoundaryMsg>
         </PageWrapper>
       )
     }
