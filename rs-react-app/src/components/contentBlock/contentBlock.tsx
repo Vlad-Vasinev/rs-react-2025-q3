@@ -121,7 +121,6 @@ const ContentBlock = () => {
         <div className='queryError'>
           Error status: {specificDataError.status} <br/>
           Error data: {JSON.stringify(specificDataError.data)}
-          <button className='refresh-btn' onClick={ () => (refetch(), setCurrentPage(1)) }>Refresh cashed data from RTK-Query</button>
         </div>
       )
     }
