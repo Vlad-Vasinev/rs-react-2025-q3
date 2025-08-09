@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
-import { useGetBerriesQuery, useGetBerryPaginationQuery, useLazyGetSpecificQuery } from '../../store/apiSlice';
+import { useGetBerriesQuery, useLazyGetSpecificQuery } from '../../store/apiSlice';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-
-import { useGetSpecificQuery } from '../../store/apiSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../store';
@@ -32,55 +30,27 @@ const ContentBlock = () => {
 
   const [searchParams, updateSearchParams] = useSearchParams()
   const [param, updateParam] = useState<number | string | undefined>('')
-  const [apiPaginaion, updateApiPagination] = useState({
-    loading: false, 
-    parameter: 1,
-  })
 
   const selectedElements = useSelector((state: RootState) => state.items.elements)
   const dispatch = useDispatch<AppDispatch>()
 
   const { data, isLoading, error: firstLoadingError, refetch } = useGetBerriesQuery()
   const [trigger, { data: specificData, isLoading: specificDataLoading }] = useLazyGetSpecificQuery()
-  //const { data: specificData, isLoading: specificDataLoading } = useGetSpecificQuery(param)
-  const { data: paginationData, error: paginationError } = useGetBerryPaginationQuery(apiPaginaion.parameter)
   const [triggerGetSpecific, { data: specificEl }] = useLazyGetSpecificQuery();
 
   function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
     return typeof error === 'object' && error !== null && 'status' in error
   }
 
-  const itemsForRender = paginationData?.results ?? data?.results ?? [];
+  const pageSize = 10;
+  const [currentPage, setCurrentPage] = React.useState(1)
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if(data) {
-  //       setContentState(prev => ({
-  //         ...prev, 
-  //         data: data.results, 
-  //         loading: isLoading
-  //       }))
-  //     }
-  //   }, 2000)
-  // }, [data, isLoading])
-
-  // useEffect(() => {
-
-  //   if(!apiPaginaion.loading) return 
-
-  //   setTimeout(() => {
-  //     if(paginationData)
-  //     setContentState(prev => ({
-  //       ...prev, 
-  //       data: paginationData.results, 
-  //       loading: false
-  //     }))
-  //     updateApiPagination(prev => ({
-  //       ...prev, 
-  //       loading: true
-  //     }))
-  //   }, 2000)
-  // }, [paginationData])
+  const itemsForCurrentPage = React.useMemo(() => {
+    if (!data) return [];
+    const start = (currentPage - 1) * pageSize
+    if(data.results)
+    return data.results.slice(start, start + pageSize)
+  }, [data, currentPage])
 
   function ErrorClick () {
     setContentState(prev => ({
@@ -94,7 +64,6 @@ const ContentBlock = () => {
       ...prev,
       masterDetail: false,
     }));
-    //onPaginationClick('')
   }
 
   function masterDetail (berryName: string) {
@@ -112,28 +81,8 @@ const ContentBlock = () => {
   }
 
   function paginationControl (param: number) {
-    setContentState(prev => ({
-      ...prev, 
-      loading: true, 
-    }))
-    updateApiPagination(({
-      loading: true, 
-      parameter: param
-    }))
-    setTimeout(() => {
-      setContentState(prev => ({
-        ...prev, 
-        loading: false,
-      }))
-    }, 2000)
+    setCurrentPage(param)
     updateParam(param)
-    console.log('paginationControl' + param + ' ' + JSON.stringify(paginationData))
-    if(paginationData)
-    setContentState(prev => ({
-      ...prev,
-      data: paginationData?.results
-    }));
-    //console.log(data?.results)
   }
 
   function checkboxControl(item: string, checked: boolean) {
@@ -166,16 +115,6 @@ const ContentBlock = () => {
       )
     }
   }
-  if(paginationError) {
-    if(isFetchBaseQueryError(paginationError)) {
-      return (
-        <div className='queryError'>
-          Error status: { paginationError.status }
-          Error data: { JSON.stringify(paginationError.data) }
-        </div>
-      )
-    }
-  }
 
   if(isLoading) {
     return (
@@ -196,7 +135,7 @@ const ContentBlock = () => {
       </div>
       <div className='contentBlock__middle'>
         <ul className='listApi'>
-          {itemsForRender && itemsForRender.map((berry) => (
+          {itemsForCurrentPage && itemsForCurrentPage.map((berry) => (
             <li data-testid='search-el' key={berry.name} onClick={() => masterDetail(berry.name)} className='listApi__el'>
               <h2 >{berry.name} - </h2>
               <div className='listApi__el-info'>
@@ -274,7 +213,7 @@ const ContentBlock = () => {
         }
       </div>
       <ErrorBtn onClick={ErrorClick}></ErrorBtn>
-      <button className='refresh-btn' onClick={ () => refetch() }>Refresh cashed data from RTK-Query</button>
+      <button className='refresh-btn' onClick={ () => (refetch(), setCurrentPage(1)) }>Refresh cashed data from RTK-Query</button>
     </section>
   );
 };

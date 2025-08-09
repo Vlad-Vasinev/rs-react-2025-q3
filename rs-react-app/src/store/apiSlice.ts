@@ -7,7 +7,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/berry' }),
   endpoints: (builder) => ({
     getBerries: builder.query<BerriesQuery, void>({
-      query: () => '?limit=10'
+      query: () => ''
     }),
     getBerryPagination: builder.query<BerriesQuery, number>({
       query: (offset) => `?limit=10&offset=${offset}`

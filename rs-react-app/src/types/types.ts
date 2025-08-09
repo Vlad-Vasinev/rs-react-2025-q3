@@ -55,7 +55,7 @@ export interface ContentBlockState {
   masterDetail: boolean
 }
 
-export interface checkedItem {
-  itemList: '', 
-  itemChecked: boolean
-}
+// export interface checkedItem {
+//   itemList: '', 
+//   itemChecked: boolean
+// }
