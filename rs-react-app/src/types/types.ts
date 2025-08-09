@@ -52,6 +52,7 @@ export interface ContentBlockState {
   errorMessage: boolean,
   fetchResult: BerryDate | null | undefined, 
   searchResult: string | null,
+  masterDetail: boolean
 }
 
 export interface checkedItem {

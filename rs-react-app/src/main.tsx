@@ -1,4 +1,3 @@
-
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router'
 
@@ -13,18 +12,17 @@ import { Provider } from 'react-redux'
 import { store } from './store'
 
 createRoot(document.getElementById('root')!).render(
-    <BrowserRouter>
-      <ErrorBoundary >
-        <Provider store={store}>
-          <ThemeProvider>
-            <Routes>
-              <Route path="/" element={<App />} />
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
-          </ThemeProvider>
-        </Provider>
-      </ErrorBoundary>
-    </BrowserRouter>
-  
+  <BrowserRouter>
+    <ErrorBoundary >
+      <Provider store={store}>
+        <ThemeProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </ThemeProvider>
+      </Provider>
+    </ErrorBoundary>
+  </BrowserRouter>
 )

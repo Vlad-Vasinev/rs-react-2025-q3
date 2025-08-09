@@ -19,3 +19,5 @@ export const apiSlice = createApi({
 })
 
 export const { useGetBerriesQuery, useGetBerryPaginationQuery, useGetSpecificQuery, useLazyGetSpecificQuery } = apiSlice
+
+// use https://pokeapi.co/api/v2/berrydfdf wrong request to test PARSING_ERROR
