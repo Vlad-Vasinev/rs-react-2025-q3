@@ -46,16 +46,6 @@ export interface BerriesQuery {
 }
 
 export interface ContentBlockState {
-  data: Berry[] | null, 
-  loading: boolean, 
-  loadingDetails: boolean
   errorMessage: boolean,
-  fetchResult: BerryDate | null | undefined, 
-  searchResult: string | null,
   masterDetail: boolean
 }
-
-// export interface checkedItem {
-//   itemList: '', 
-//   itemChecked: boolean
-// }

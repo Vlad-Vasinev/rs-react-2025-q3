@@ -6,14 +6,12 @@ interface handleFormProps {
 
 interface handleFormState {
   inputValue: string, 
-  searchValue: boolean,
 }
 
 const HandleForm = (props: handleFormProps, ) => {
 
   const [formState, setFormState] = useState<handleFormState>({
     inputValue: '', 
-    searchValue: false
   })
 
   function handleInput (event: React.ChangeEvent<HTMLInputElement>) {
@@ -26,6 +24,10 @@ const HandleForm = (props: handleFormProps, ) => {
   async function handleSubmit () {
     if(props.onClick) {
       props.onClick(formState.inputValue)
+      setFormState(prev => ({
+      ...prev, 
+      inputValue: ''
+    }))
     }
   }
 

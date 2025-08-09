@@ -19,12 +19,7 @@ import type { ContentBlockState } from '../../types/types';
 const ContentBlock = () => {
 
   const [contentState, setContentState] = useState<ContentBlockState>({
-    data: null,
-    loading: true, 
-    loadingDetails: false,
     errorMessage: false,
-    fetchResult: null, 
-    searchResult: '',
     masterDetail: false
   })
 
@@ -35,8 +30,7 @@ const ContentBlock = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   const { data, isLoading, error: firstLoadingError, refetch } = useGetBerriesQuery()
-  const [trigger, { data: specificData, isLoading: specificDataLoading }] = useLazyGetSpecificQuery()
-  const [triggerGetSpecific, { data: specificEl }] = useLazyGetSpecificQuery();
+  const [trigger, { data: specificData, isLoading: specificDataLoading, error: specificDataError }] = useLazyGetSpecificQuery()
 
   function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
     return typeof error === 'object' && error !== null && 'status' in error
@@ -67,7 +61,9 @@ const ContentBlock = () => {
   }
 
   function masterDetail (berryName: string) {
-    onPaginationClick(berryName)
+    updateParam(berryName)
+    trigger(berryName)
+    //trigger('unknown berry request')
     setContentState(prev => ({
       ...prev,
       masterDetail: true,
@@ -78,6 +74,10 @@ const ContentBlock = () => {
   function onPaginationClick (param: number | string) {
     updateParam(param)
     trigger(param)
+    setContentState(prev => ({
+      ...prev,
+      masterDetail: true
+    }))
   }
 
   function paginationControl (param: number) {
@@ -87,7 +87,8 @@ const ContentBlock = () => {
 
   function checkboxControl(item: string, checked: boolean) {
     if(checked) {
-      triggerGetSpecific(item)
+      trigger(item)
+      dispatch(addEl(item || ''))
     }
     else {
       dispatch(removeEl(item))
@@ -96,11 +97,10 @@ const ContentBlock = () => {
   }
 
   useEffect(() => {
-    if (specificEl) {
-      dispatch(addData(specificEl));
-      dispatch(addEl(specificEl.name || ''));
+    if (specificData) {
+      dispatch(addData(specificData));
     }
-  }, [specificEl, dispatch]);
+  }, [specificData, dispatch]);
 
   if(contentState.errorMessage) {
     throw new Error("I am an artificial error!");
@@ -115,6 +115,17 @@ const ContentBlock = () => {
       )
     }
   }
+  if(specificDataError) {
+    if(isFetchBaseQueryError(specificDataError)){
+      return (
+        <div className='queryError'>
+          Error status: {specificDataError.status} <br/>
+          Error data: {JSON.stringify(specificDataError.data)}
+          <button className='refresh-btn' onClick={ () => (refetch(), setCurrentPage(1)) }>Refresh cashed data from RTK-Query</button>
+        </div>
+      )
+    }
+  }
 
   if(isLoading) {
     return (
@@ -123,10 +134,6 @@ const ContentBlock = () => {
       </section>
     )
   }
-
-  // you might wanna see Preloader more clearly, in that case,
-  // go to incognito mode, turn down vpn(in case if you're from russia)
-  // pokeapi can't fetch data without vpn, so, now you can see Preloader is running
 
   return (
     <section className='contentBlock' data-testid="content-block">

@@ -1,14 +1,10 @@
 import { useEffect } from 'react';
 
-import { useGetSpecificQuery } from '../../store/apiSlice';
-
 export function usePaginationHook(
   param: number | string | undefined,
   searchParams: URLSearchParams,
   updateSearchParams: (params: URLSearchParams) => void
 ) {
-
-  const { data } = useGetSpecificQuery(param)
 
   useEffect(() => {
     if (param === null || param === '') return;
@@ -29,5 +25,5 @@ export function usePaginationHook(
       updateSearchParams(newParams)
     }
 
-  }, [data, searchParams, updateSearchParams]);
+  }, [searchParams, updateSearchParams]);
 }
