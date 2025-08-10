@@ -29,7 +29,6 @@ describe('ThemeContext.tsx', () => {
 
     await userEvent.click(screen.getByTestId('theme-change-test')) 
     await waitFor(() => expect(localStorage.getItem('theme')).toBe('dark'), { timeout: 5000 } )
-    await waitFor(() => expect(localStorage.getItem('theme')).toBe('dark'), { timeout: 5000 } )
 
   })
 

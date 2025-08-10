@@ -14,7 +14,12 @@ export default defineConfig ({
         'src/**/*.spec.{js,jsx,ts,tsx}',
         'src/index.{js,jsx,ts,tsx}',
         'src/setupTests.{js,ts}',
-        'src/**/*.d.ts'
+        'src/**/*.d.ts',
+        'src/node.ts',
+        'src/handler.ts',
+        'src/types.ts',
+        'src/mocks/**',  
+        'src/types/**',  
       ],
       thresholds: { 
         statements: 80,

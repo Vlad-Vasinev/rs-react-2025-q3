@@ -166,7 +166,7 @@ const ContentBlock = () => {
         {specificData && contentState.masterDetail ?
           (
             <>
-              <ul className='listApi _information'>
+              <ul data-testid="master-detail-test" className='listApi _information'>
                 <li className='listApi__el-info'>
                   <p>berry name:</p>
                   <span >{specificData?.name}</span>

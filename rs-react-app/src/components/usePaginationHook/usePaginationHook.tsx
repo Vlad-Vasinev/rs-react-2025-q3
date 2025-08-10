@@ -25,5 +25,5 @@ export function usePaginationHook(
       updateSearchParams(newParams)
     }
 
-  }, [searchParams, updateSearchParams]);
+  }, [param, searchParams, updateSearchParams]);
 }
