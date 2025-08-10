@@ -1,0 +1,19 @@
+@import './vars.scss';
+@import './mixins/_adaptive-properties.sass';
+@import './index.sass';
+@import './general.sass';
+
+@import '../../components/pageWrapper/pageWrapper.sass';
+@import '../../components/contentBlock/contentBlock.sass';
+@import '../../components/searchBtn/searchBtn.sass';
+@import '../../components/searchInput/searchInput.sass';
+@import '../../components/errorBtn/errorBtn.sass';
+@import '../../components/errorBoundaryMsg/ErrorBoundaryMsg.sass';
+@import '../../components/404/404.sass';
+@import '../../components/about/about.sass';
+@import '../../components/navigation/navigation.sass';
+@import '../../components/pagination//pagination.sass';
+@import '../../components/preloader/preloader.sass';
+@import '../../components/themeChange/themeChange.sass';
+@import '../../components//flyoutElement//flyoutElement.sass';
+@import '../../components/queryError/queryError.sass'
