@@ -1,4 +1,3 @@
-import { act } from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import userEvent from '@testing-library/user-event'
@@ -64,64 +63,6 @@ describe('HandleForm.tsx', () => {
 
   })
 
-  // it('input value saved after user clicks the button', async () => {
-
-  //   const response = await fetch('https://pokeapi.co/api/v2/berry')
- 
-  //   await expect(response.json()).resolves.toEqual({
-  //     count: 64,
-  //     next: "https://pokeapi.co/api/v2/berry?offset=20&limit=20",
-  //     previous: null,
-  //     results: [
-  //       { name: "cheri", url: "https://pokeapi.co/api/v2/berry/1/", },
-  //       { name: "chesto", url: "https://pokeapi.co/api/v2/berry/2/", },
-  //       { name: "pecha", url: "https://pokeapi.co/api/v2/berry/3/", },
-  //       { name: "rawst", url: "https://pokeapi.co/api/v2/berry/4/" },
-  //       { name: "aspear", url: "https://pokeapi.co/api/v2/berry/5/" },
-  //       { name: "leppa", url: "https://pokeapi.co/api/v2/berry/6/" },
-  //       { name: "oran", url: "https://pokeapi.co/api/v2/berry/7/" },
-  //       { name: "persim", url: "https://pokeapi.co/api/v2/berry/8/" },
-  //       { name: "lum", url: "https://pokeapi.co/api/v2/berry/9/" },
-  //       { name: "sitrus", url: "https://pokeapi.co/api/v2/berry/10/" },
-  //       { name: "figy", url: "https://pokeapi.co/api/v2/berry/11/" },
-  //       { name: "wiki", url: "https://pokeapi.co/api/v2/berry/12/" },
-  //       { name: "mago", url: "https://pokeapi.co/api/v2/berry/13/" },
-  //       { name: "aguav", url: "https://pokeapi.co/api/v2/berry/14/" },
-  //       { name: "iapapa", url: "https://pokeapi.co/api/v2/berry/15/" },
-  //       { name: "razz", url: "https://pokeapi.co/api/v2/berry/16/" },
-  //       { name: "bluk", url: "https://pokeapi.co/api/v2/berry/17/" },
-  //       { name: "nanab", url: "https://pokeapi.co/api/v2/berry/18/" },
-  //       { name: "wepear", url: "https://pokeapi.co/api/v2/berry/19/" },
-  //       { name: "pinap", url: "https://pokeapi.co/api/v2/berry/20/" },
-  //     ]
-  //   })
-
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <ContentBlock></ContentBlock>
-  //       </MemoryRouter>
-  //     </Provider>
-  //   )
-
-  //   await act (async () => {
-  //     await Promise.resolve()
-  //     await Promise.resolve()
-  //   })
-
-  //   //await waitFor(() => expect(window.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/berry/?limit=10'), { timeout: 5000 })
-  //   await waitFor(() => expect(screen.queryByTestId('handleForm-input')).toBeInTheDocument(), { timeout: 2000 } )
-  //   await waitFor(() => expect(screen.queryByTestId('handleForm-btn')).toBeInTheDocument(), { timeout: 2000 } )
-
-  //   await userEvent.type(screen.getByTestId('handleForm-input'), 'cheri')
-  //   await userEvent.click(screen.getByTestId('handleForm-btn'))
-
-  //   await waitFor(() => expect(screen.getByText(/berry name:/i)).toBeInTheDocument(), { timeout: 2000 })
-  //   await waitFor(() => expect(screen.getByText(/berry name:/i)).toBeInTheDocument(), { timeout: 2000 })
-  //   //expect(localStorage.getItem('inputNumberValue')).toBe('testing text for handle-input')
-
-  // })
-
   it('fetch request for a specific name in the list', async () => {
 
     const response = await fetch('https://pokeapi.co/api/v2/berry')
@@ -173,7 +114,6 @@ describe('HandleForm.tsx', () => {
       expect(screen.queryByTestId('pagination-test')).toBeInTheDocument()
       expect(screen.queryByTestId('handleForm-reload-ls')).toBeInTheDocument()
     }, { timeout: 5000 })
-    //await waitFor(() => expect(window.fetch).toHaveBeenCalledWith(`https://pokeapi.co/api/v2/berry/cheri/`), { timeout: 2000 })  
 
   })
 

@@ -33,6 +33,7 @@ const elementsSlice = createSlice({
       if (state.data === null) {
         state.data = []
       }
+      console.log(action.payload)
       state.data.push(action.payload)
     },
     removeSpecificData(state, action: PayloadAction<string>) {

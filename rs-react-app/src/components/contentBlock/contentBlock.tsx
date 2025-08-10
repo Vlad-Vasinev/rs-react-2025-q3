@@ -25,6 +25,7 @@ const ContentBlock = () => {
 
   const [searchParams, updateSearchParams] = useSearchParams()
   const [param, updateParam] = useState<number | string | undefined>('')
+  const [choosedItem, setChoosedItem] = React.useState<string | null>(null)
 
   const selectedElements = useSelector((state: RootState) => state.items.elements)
   const dispatch = useDispatch<AppDispatch>()
@@ -86,9 +87,9 @@ const ContentBlock = () => {
   }
 
   function checkboxControl(item: string, checked: boolean) {
-    if(checked) {
-      trigger(item)
-      dispatch(addEl(item || ''))
+    if (checked) {
+      trigger(item);
+      setChoosedItem(item)
     }
     else {
       dispatch(removeEl(item))
@@ -97,8 +98,10 @@ const ContentBlock = () => {
   }
 
   useEffect(() => {
-    if (specificData) {
-      dispatch(addData(specificData));
+    if (specificData && choosedItem) {
+      dispatch(addData(specificData))
+      dispatch(addEl(choosedItem))
+      setChoosedItem(null)
     }
   }, [specificData, dispatch]);
 

@@ -20,7 +20,6 @@ const FlyoutElement = () => {
   function downloadData() {
     console.log(selectedData)
     let csvString = convertToCSV(selectedData)
-    console.log(csvString)
     if(csvString) {
       downloadCSV(csvString)
     }

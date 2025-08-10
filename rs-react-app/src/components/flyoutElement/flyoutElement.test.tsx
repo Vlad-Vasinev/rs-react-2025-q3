@@ -1,4 +1,3 @@
-import { act } from "react";
 import { MemoryRouter } from "react-router";
 import { render, screen, waitFor } from '@testing-library/react'
 
@@ -42,11 +41,6 @@ describe('FlyoutElement.tsx', () => {
         { name: "pinap", url: "https://pokeapi.co/api/v2/berry/20/" },
       ]
     })
-
-    // if (!URL.createObjectURL) {
-    //   URL.createObjectURL = vi.fn()
-    // }
-    // const createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:url')
 
     if (!window.URL.createObjectURL) {
       window.URL.createObjectURL = vi.fn();
