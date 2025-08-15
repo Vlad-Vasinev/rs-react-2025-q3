@@ -24,6 +24,8 @@ const ContentBlock = () => {
     masterDetail: false
   })
 
+  //const [berryName, updateBerryName] = useState('')
+
   const searchParams = useSearchParams()
   const router = useRouter()
   const [param, updateParam] = useState<number | string | undefined>('')
@@ -33,6 +35,9 @@ const ContentBlock = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   const { data, isLoading, error: firstLoadingError, refetch } = useGetBerriesQuery()
+  // const { data: specificData, isLoading: specificDataLoading, error: specificDataError } = useGetSpecificQuery(berryName, {
+  //   skip: !berryName,
+  // })
   const [trigger, { data: specificData, isLoading: specificDataLoading, error: specificDataError }] = useLazyGetSpecificQuery()
 
   function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
@@ -65,6 +70,7 @@ const ContentBlock = () => {
 
   function masterDetail (berryName: string) {
     updateParam(berryName)
+    //updateBerryName(berryName)
     trigger(berryName)
     //trigger('unknown berry request')
     setContentState(prev => ({
@@ -90,7 +96,7 @@ const ContentBlock = () => {
 
   function checkboxControl(item: string, checked: boolean) {
     if (checked) {
-      trigger(item);
+      trigger(item)
       setChoosedItem(item)
     }
     else {
