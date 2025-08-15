@@ -1,4 +1,4 @@
-
+"use client"
 import type { BerryDate } from "../../types/types";
 
 export function convertToCSV(dataArray: BerryDate[] | null) {

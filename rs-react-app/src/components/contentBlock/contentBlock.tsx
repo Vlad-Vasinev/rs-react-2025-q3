@@ -1,5 +1,6 @@
+"use client"
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
 import { useGetBerriesQuery, useLazyGetSpecificQuery } from '../../store/apiSlice';
@@ -23,7 +24,8 @@ const ContentBlock = () => {
     masterDetail: false
   })
 
-  const [searchParams, updateSearchParams] = useSearchParams()
+  const searchParams = useSearchParams()
+  const router = useRouter()
   const [param, updateParam] = useState<number | string | undefined>('')
   const [choosedItem, setChoosedItem] = React.useState<string | null>(null)
 
@@ -70,7 +72,7 @@ const ContentBlock = () => {
       masterDetail: true,
     }));
   }
-  usePaginationHook(param, searchParams, updateSearchParams)
+  usePaginationHook(param, searchParams, (url) => router.push(url))
 
   function onPaginationClick (param: number | string) {
     updateParam(param)

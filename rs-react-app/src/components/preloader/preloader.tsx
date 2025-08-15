@@ -1,4 +1,4 @@
-
+"use client"
 import loaderIcon from '../../assets/general/loadingIcon.svg';
 
 interface PreloaderInterface {

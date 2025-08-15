@@ -1,4 +1,4 @@
-
+"use client"
 interface PaginationInterface {
   onClick: (number: number) => void,
   testId: string
