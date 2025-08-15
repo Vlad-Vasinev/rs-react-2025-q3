@@ -1,5 +1,6 @@
 "use client"
 import loaderIcon from '../../assets/general/loadingIcon.svg';
+import Image from 'next/image';
 
 interface PreloaderInterface {
   testId: string
@@ -8,7 +9,7 @@ interface PreloaderInterface {
 const Preloader = (props: PreloaderInterface) => {
   return (
     <div className='loadingIcon'>
-      <img data-testid={props.testId} src={loaderIcon} alt='loading icon'></img>
+      <Image src={loaderIcon} data-testid={props.testId} alt="preloader" width={1200} height={600}></Image>
     </div>
   );
 };

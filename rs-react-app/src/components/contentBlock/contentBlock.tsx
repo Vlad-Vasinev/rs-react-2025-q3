@@ -132,6 +132,7 @@ const ContentBlock = () => {
   }
 
   if(isLoading) {
+    console.log('is loading')
     return (
       <section className='contentBlock' data-testid="content-block">
         <Preloader testId='loader-icon'></Preloader> 

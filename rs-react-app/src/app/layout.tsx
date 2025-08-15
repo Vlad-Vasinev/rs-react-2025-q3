@@ -7,7 +7,7 @@ import Footer from '../components/footer/footer'
 import PageWrapper from '../components/pageWrapper/pageWrapper'
 import Navigation from '../components/navigation/navigation'
 
-import ProviderWrapper from '../components/flyoutWrapper/flyoutWrapper'
+import ProviderWrapper from '../components/providerWrapper/providerWrapper'
  
 export const metadata: Metadata = {
   title: 'My App',
