@@ -6,6 +6,7 @@ import Header from '../components/header/header'
 import Footer from '../components/footer/footer'
 import PageWrapper from '../components/pageWrapper/pageWrapper'
 import Navigation from '../components/navigation/navigation'
+import ContentBlock from '../components/contentBlock/contentBlock'
 
 import ProviderWrapper from '../components/providerWrapper/providerWrapper'
  
@@ -27,7 +28,7 @@ export default function RootLayout({
           <PageWrapper>
             <ProviderWrapper>
               <Navigation></Navigation>
-              <div id="root">{children}</div>
+              <ContentBlock></ContentBlock>
             </ProviderWrapper>
           </PageWrapper>
           <Footer></Footer>
