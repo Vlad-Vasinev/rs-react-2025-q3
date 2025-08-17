@@ -1,38 +1,46 @@
-import Link from "next/link";
+"use client"
+
+import { Link } from '../../../i18n/navigation';
+
+import {useTranslations} from 'next-intl';
 
 const About = () => {
+
+  const tHome = useTranslations('HomePage')
+  const t = useTranslations('AboutPage')
+
   return (
     <div className='about-page' data-testid='about-test'>
       <div className='about-page__block'>
-        <h2>Main user information:</h2>
+        <h2>{t('main_info')}</h2>
         <p>
-          <span>Name: </span>
+          <span>{t('name')}</span>
           <span>Vladislav</span>
         </p>
         <p>
-          <span>Age: </span>
+          <span>{t('age')}</span>
           <span>23</span>
         </p>
         <p>
-          <span>Occupation: </span>
+          <span>{t('occupation')}</span>
           <span>Frontend-developer</span>
         </p>
         <p>
-          <span>Hobby: </span>
+          <span>{t('hobby')}</span>
           <span>True crime</span>
         </p>
       </div>
       <div className='about-page__block'>
-        <h2>a link to the RS School React course:</h2>
+        <h2>{t('link_to_rs')}</h2>
         <p>
-          <a href="https://rs.school/courses/reactjs" target='_blank'>https://rs.school/courses/reactjs</a>
+          <Link target='_blank' href={`https://rs.school/courses/reactjs`}>https://rs.school/courses/reactjs</Link>
         </p>
       </div>
       <div className='about-page__block'>
-        <h2>Navigate back to main:</h2>
+        <h2>{t('navigate_to_main')}</h2>
         <p>
           <span>Link from router:</span>
-          <span><Link href="/">Go back to main page</Link></span>
+          <span><Link href={`/`}>{tHome('link_1')}</Link></span>
         </p>
       </div>
   </div>

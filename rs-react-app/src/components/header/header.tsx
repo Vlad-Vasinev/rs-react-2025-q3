@@ -1,8 +1,13 @@
+import {useTranslations} from 'next-intl';
+
 const Header = () => {
+
+  const t = useTranslations('HomePage')
+
   return (
     <>
       <div className='header' data-testid="header">
-        <h2>React-2025-Q3 Task #6, "Next.js. Server Side Rendering"</h2>
+        <h2>{t('header_1')}</h2>
         <h2>Works with PokeApi(use vpn)</h2>
       </div>
     </>

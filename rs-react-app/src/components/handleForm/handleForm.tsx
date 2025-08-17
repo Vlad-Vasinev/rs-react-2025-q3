@@ -1,6 +1,8 @@
 "use client"
 import React, { useState } from 'react';
 
+import {useTranslations} from 'next-intl';
+
 interface handleFormProps {
   onClick?: (number: number | string) => void
 }
@@ -32,12 +34,13 @@ const HandleForm = (props: handleFormProps, ) => {
     }
   }
 
+  const t = useTranslations('HomePage')
 
   return (
     <div data-testid="handleForm-form">
-      <input data-testid="handleForm-input" type='text' name='search' onChange={handleInput} value={formState.inputValue} className='searchInput' placeholder='what are you looking for?' />
+      <input data-testid="handleForm-input" type='text' name='search' onChange={handleInput} value={formState.inputValue} className='searchInput' placeholder={t('handle_input')} />
       <button data-testid="handleForm-btn" className='searchBtn' onClick={handleSubmit}>
-        <p>Click to see result</p>
+        <p>{t('handle_form')}</p>
       </button>
     </div>
   );

@@ -1,7 +1,27 @@
 {
   "HomePage": {
+    "navigation": "Navigation",
     "link_1": "Gehe zum Hauptmenü",
     "link_2": "Gehe zu über",
-    "link_3": "Gehe zu 404"
+    "link_3": "Gehe zu 404",
+    "header_1": "React-2025-Q3 Aufgabe Nr. 6, „Next.js. Serverseitiges Rendering“",
+    "header_2": "Funktioniert mit PokeApi (VPN verwenden)",
+    "handle_form": "Klicken Sie hier, um das Ergebnis anzuzeigen",
+    "handle_input": "wonach suchst du?",
+    "error_btn": "Einen Fehler auslösen",
+    "refresh_btn": "Zwischengespeicherte Daten aus RTK-Abfrage aktualisieren"
+  },
+  "AboutPage": {
+    "main_info": "Wichtigste Benutzerinformationen:",
+    "name": "Name",
+    "age": "Alter",
+    "occupation": "Beruf",
+    "hobby": "Hobby",
+    "link_to_rs": "ein Link zum RS School React-Kurs:",
+    "link_from_router": "Link vom Router:",
+    "navigate_to_main": "Zurück zum Hauptmenü navigieren:"
+  },
+  "NotFoundPage": {
+    "404_btn": "Zurück zur Hauptseite"
   }
 }

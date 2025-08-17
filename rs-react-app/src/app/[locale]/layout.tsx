@@ -13,8 +13,8 @@ import { routing } from '../../i18n/routing'
 import { NextIntlClientProvider } from 'next-intl'
  
 export const metadata: Metadata = {
-  title: 'My App',
-  description: 'My App is a...',
+  title: 'React-Next.js App',
+  description: 'React-2025-Q3 Task #6, "Next.js. Server Side Rendering"',
 }
  
 export default async function RootLayout({
@@ -32,13 +32,11 @@ export default async function RootLayout({
   const messages = (await import(`../../../messages/${locale}.json`)).default
 
   return (
-    <div lang={locale}>
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        <ProviderWrapper>
-          <Navigation></Navigation>
-          {children}
-        </ProviderWrapper>
-      </NextIntlClientProvider>
-    </div>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <ProviderWrapper>
+        <Navigation></Navigation>
+        {children}
+      </ProviderWrapper>
+    </NextIntlClientProvider>
   )
 }

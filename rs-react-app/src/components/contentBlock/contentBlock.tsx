@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { usePaginationHook } from '../usePaginationHook/usePaginationHook';
 
+import {useTranslations} from 'next-intl';
+
 import { useGetBerriesQuery, useLazyGetSpecificQuery } from '../../store/apiSlice';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
@@ -41,6 +43,8 @@ const ContentBlock = () => {
 
   const pageSize = 10;
   const [currentPage, setCurrentPage] = React.useState(1)
+
+  const t = useTranslations('HomePage')
 
   const itemsForCurrentPage = React.useMemo(() => {
     if (!data) return [];
@@ -226,7 +230,7 @@ const ContentBlock = () => {
         }
       </div>
       <ErrorBtn onClick={ErrorClick}></ErrorBtn>
-      <button className='refresh-btn' onClick={ () => (refetch(), setCurrentPage(1)) }>Refresh cashed data from RTK-Query</button>
+      <button className='refresh-btn' onClick={ () => (refetch(), setCurrentPage(1)) }>{t('refresh_btn')}</button>
     </section>
   );
 };
