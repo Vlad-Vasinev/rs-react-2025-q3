@@ -1,0 +1,10 @@
+.errorBtn
+  @extend .searchBtn !optional
+  margin: aCalc(40) auto
+  background-color: red
+  transition: background-color .3s, color .3s
+  +mob($sm)
+    margin: 40px auto 10px
+  &:hover
+    background-color: #D9D9D9
+    color: #000000

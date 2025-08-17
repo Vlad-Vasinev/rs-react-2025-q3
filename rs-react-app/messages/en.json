@@ -1,0 +1,27 @@
+{
+  "HomePage": {
+    "navigation": "Navigation",
+    "link_1": "Go to main",
+    "link_2": "Go to about",
+    "link_3": "Go to 404",
+    "header_1": "React-2025-Q3 Task #6, 'Next.js. Server Side Rendering'",
+    "header_2": "Works with PokeApi(use vpn)",
+    "handle_form": "Click to see result",
+    "handle_input": "what are you looking for?",
+    "error_btn": "Throw an error",
+    "refresh_btn": "Refresh cached data from RTK-Query"
+  },
+  "AboutPage": {
+    "main_info": "Main user information:",
+    "name": "Name",
+    "age": "Age",
+    "occupation": "Occupation",
+    "hobby": "Hobby",
+    "link_to_rs": "a link to the RS School React course:",
+    "link_from_router": "Link from router:",
+    "navigate_to_main": "Navigate back to main:"
+  },
+  "NotFoundPage": {
+    "404_btn": "Go back to main page"
+  }
+}
