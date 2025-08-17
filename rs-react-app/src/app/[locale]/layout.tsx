@@ -1,16 +1,15 @@
+import React from 'react'
+
 import type { Metadata } from 'next'
 
 import '../../styles/general/App.scss'
 
-import Header from '../../components/header/header'
-import Footer from '../../components/footer/footer'
-import PageWrapper from '../../components/pageWrapper/pageWrapper'
 import Navigation from '../../components/navigation/navigation'
 import ContentBlock from '../../components/contentBlock/contentBlock'
 
 import ProviderWrapper from '../../components/providerWrapper/providerWrapper'
 
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
+import {hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import { routing } from '../../i18n/routing'
  
@@ -32,19 +31,15 @@ export default async function RootLayout({
     notFound();
   }
 
+  const hasChildren = React.Children.count(children) > 0
+
   return (
-    <html lang={locale}>
-      <body>
-        <Header></Header>
-        <PageWrapper>
-          <ProviderWrapper>
-            <Navigation></Navigation>
-            <ContentBlock></ContentBlock>
-            {children}
-          </ProviderWrapper>
-        </PageWrapper>
-        <Footer></Footer>
-      </body>
-    </html>
+    <div lang={locale}>
+      <ProviderWrapper>
+        <Navigation></Navigation>
+        {children}
+        {/* { hasChildren ? children : <ContentBlock></ContentBlock>} */}
+      </ProviderWrapper>
+    </div>
   )
 }

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import errorImg from '../../../assets/general/404.jpg';
+import errorImg from '../../assets/general/404.jpg';
 import Image from 'next/image';
 
 const ErrorPage = () => {
