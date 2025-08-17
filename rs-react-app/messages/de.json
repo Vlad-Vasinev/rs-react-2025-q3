@@ -1,6 +1,7 @@
 {
   "HomePage": {
-    "title": "Hallo Welt!",
-    "about": "Zur Infoseite"
+    "link_1": "Gehe zum Hauptmenü",
+    "link_2": "Gehe zu über",
+    "link_3": "Gehe zu 404"
   }
 }

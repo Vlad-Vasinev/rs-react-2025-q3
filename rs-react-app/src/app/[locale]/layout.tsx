@@ -4,14 +4,13 @@ import type { Metadata } from 'next'
 
 import '../../styles/general/App.scss'
 
-import Navigation from '../../components/navigation/navigation'
-import ContentBlock from '../../components/contentBlock/contentBlock'
-
+import { Navigation } from '../../components/navigation/navigation'
 import ProviderWrapper from '../../components/providerWrapper/providerWrapper'
 
 import {hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import { routing } from '../../i18n/routing'
+import { NextIntlClientProvider } from 'next-intl'
  
 export const metadata: Metadata = {
   title: 'My App',
@@ -30,16 +29,16 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
-
-  const hasChildren = React.Children.count(children) > 0
+  const messages = (await import(`../../../messages/${locale}.json`)).default
 
   return (
     <div lang={locale}>
-      <ProviderWrapper>
-        <Navigation></Navigation>
-        {children}
-        {/* { hasChildren ? children : <ContentBlock></ContentBlock>} */}
-      </ProviderWrapper>
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <ProviderWrapper>
+          <Navigation></Navigation>
+          {children}
+        </ProviderWrapper>
+      </NextIntlClientProvider>
     </div>
   )
 }
