@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react";
 import { z } from "zod";
 
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState, AppDispatch } from "../../store";
+
+import { addEl } from "../../store/dataSlice";
+
 const schema = z
   .object({
     Name: z
@@ -21,16 +26,17 @@ const schema = z
       message: "You must accept terms and conditions",
     }),
     picture: z
-      .any()
-      .refine((files) => files?.length === 1, {
-        message: "Picture is required",
-      })
-      .refine(
-        (files) => files?.[0]?.type.startsWith("image/"),
-        {
-          message: "Uploaded file must be an image",
-        }
-      ),
+    .any()
+    .refine((file) => file != null, {
+      message: "Picture is required",
+    })
+    .refine(
+      (file) => file?.type?.startsWith("image/"),
+      {
+        message: "Uploaded file must be an image",
+      }
+    )
+
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -65,6 +71,9 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
 
   const [errors, setErrors] = useState<Errors>({});
 
+  const formData = useSelector((state: RootState) => {state.items.elements})
+  const dispatch = useDispatch<AppDispatch>()
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -76,15 +85,16 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
 
     const data = {
       Name: Name.current?.value || "",
-      age: age.current?.value || null,
+      age: age.current?.value ? Number(age.current.value) : null,
       email: emailRef.current?.value || "",
       password: passwordRef.current?.value || "",
       confirmPassword: confirmPasswordRef.current?.value || "",
       gender,
       acceptTerms: acceptTermsRef.current?.checked || false,
-      picture: pictureRef.current?.files || null,
+      picture: pictureRef.current?.files?.[0] || null,
     };
 
+    dispatch(addEl(data))
     const result = schema.safeParse(data);
 
     if (!result.success) {
@@ -156,14 +166,14 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
         </label>
         {errors.gender && <p className="error">{errors.gender}</p>}
       </fieldset>
-      <div>
+      <div className="form-itemCheckbox">
         <label>
           <input type="checkbox" ref={acceptTermsRef} name="acceptTerms" />
           Accept Terms and Conditions
         </label>
         {errors.acceptTerms && <p className="error">{errors.acceptTerms}</p>}
       </div>
-      <div>
+      <div className="form-itemPicture">
         <label htmlFor="uc-picture">Upload Picture:</label>
         <input id="uc-picture" type="file" ref={pictureRef} name="picture" accept="image/*" />
         {errors.picture && <p className="error">{errors.picture}</p>}
