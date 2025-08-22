@@ -28,6 +28,7 @@ form
   .form-item + .form-item 
     margin-top: aCalc(20)
   .form-item 
+    position: relative
     display: flex
     align-items: center
     border-radius: aCalc(2)
@@ -40,6 +41,46 @@ form
       width: 90%
       padding: aCalc(10)
       border-radius: aCalc(2)
+    p 
+      position: absolute
+      width: aCalc(300)
+      height: unset
+      right: aCalc(-360)
+      padding: aCalc(20) aCalc(14)
+      top: 0
+      border-radius: aCalc(4)
+      background-color: red 
+      color:#ffffff
+  fieldset
+    position: relative
+    p 
+      position: absolute
+      width: aCalc(300)
+      height: unset
+      right: aCalc(-360)
+      padding: aCalc(20) aCalc(14)
+      top: 0
+      border-radius: aCalc(4)
+      background-color: red 
+      color:#ffffff
+  
+  .form-itemCheckbox, .form-itemPicture
+    position: relative 
+    p 
+      position: absolute
+      width: aCalc(300)
+      height: unset
+      left: aCalc(-360)
+      padding: aCalc(20) aCalc(14)
+      top: -150%
+      border-radius: aCalc(4)
+      background-color: red 
+      color:#ffffff
+
+  .form-itemPicture
+    p
+      top: 200%
+
   button 
     margin-top: aCalc(20)
     @extend .btn-primary !optional

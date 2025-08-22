@@ -14,29 +14,65 @@ type FormData = {
   picture: FileList;
 };
 
+const passwordRegex = {
+  number: /\d/,  
+  upper: /[A-Z]/,
+  lower: /[a-z]/,
+  special: /[!@#$%^&*(),.?":{}|<>]/,
+};
+
+const GenderEnum = z.enum(["male", "female"] as const);
+
 const schema = z
   .object({
-    name: z.string().min(1, "Name is required"),
-    age: z.number().min(18).max(99),
+    name: z
+      .string()
+      .min(1, "Name is required")
+      .refine((val) => /^[A-Z]/.test(val), {
+        message: "Name must start with an uppercase letter",
+      }),
+    age: z
+      .number({ error: "Age must be a number" })
+      .min(0, "Age cannot be negative")
+      .max(99, "Age must be less than 100"),
     email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .refine((val) => passwordRegex.number.test(val), {
+        message: "Password must contain at least one number",
+      })
+      .refine((val) => passwordRegex.upper.test(val), {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .refine((val) => passwordRegex.lower.test(val), {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .refine((val) => passwordRegex.special.test(val), {
+        message: "Password must contain at least one special character",
+      }),
     confirmPassword: z.string().min(6, "Confirm password is required"),
-    gender: z.enum(["male", "female"], "Gender is required"),
-    acceptTerms: z.boolean().refine(val => val === true, {
+    gender: GenderEnum,
+    acceptTerms: z.boolean().refine((val) => val === true, {
       message: "You must accept terms and conditions",
     }),
     picture: z
       .any()
-      .refine((files) => files?.length === 1, "Picture is required")
+      .refine((files) => files?.length === 1, {
+        message: "Picture is required",
+      })
       .refine(
         (files) => files?.[0]?.type.startsWith("image/"),
-        "Uploaded file must be an image"
+        {
+          message: "Uploaded file must be an image",
+        }
       ),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
 
 type ReactHookFormProps = {
   onSubmit: (data: {
@@ -77,26 +113,26 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
     <div className="form-item">
         <label htmlFor="rhf-name">Name Field</label>
         <input id="rhf-name" placeholder="name" {...register("name")} />
-        {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
+        {errors.name && <p >{errors.name.message}</p>}
       </div>
 
       <div className="form-item">
         <label htmlFor="rhf-age">Age Field</label>
         <input id="rhf-age" type="number" placeholder="age" {...register("age", { valueAsNumber: true })} />
-        {errors.age && <p style={{ color: "red" }}>{errors.age.message}</p>}
+        {errors.age && <p >{errors.age.message}</p>}
       </div>
 
       <div className="form-item">
         <label htmlFor="rhf-email">Email Field</label>
         <input id="rhf-email" type="email" placeholder="email" {...register("email")} />
-        {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
+        {errors.email && <p >{errors.email.message}</p>}
       </div>
 
       <div className="form-item">
         <label htmlFor="rhf-password">Password Field</label>
         <input id="rhf-password" type="password" placeholder="password" {...register("password")} />
         {errors.password && (
-          <p style={{ color: "red" }}>{errors.password.message}</p>
+          <p >{errors.password.message}</p>
         )}
       </div>
 
@@ -104,7 +140,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         <label htmlFor="rhf-confirm-password">Confirm Field</label>
         <input id="rhf-confirm-password" type="password" placeholder="confirm password" {...register("confirmPassword")} />
         {errors.confirmPassword && (
-          <p style={{ color: "red" }}>{errors.confirmPassword.message}</p>
+          <p >{errors.confirmPassword.message}</p>
         )}
       </div>
 
@@ -119,25 +155,25 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
           Female
         </label>
         {errors.gender && (
-          <p style={{ color: "red" }}>{errors.gender.message}</p>
+          <p>{errors.gender.message}</p>
         )}
       </fieldset>
 
-      <div>
+      <div className="form-itemCheckbox">
         <label>
           <input type="checkbox" {...register("acceptTerms")} />
           Accept Terms and Conditions
         </label>
         {errors.acceptTerms && (
-          <p style={{ color: "red" }}>{errors.acceptTerms.message}</p>
+          <p >{errors.acceptTerms.message}</p>
         )}
       </div>
 
-      <div>
+      <div className="form-itemPicture">
         <label htmlFor="rhf-picture">Upload Picture:</label>
         <input id="rhf-picture" type="file" {...register("picture")} accept="image/*" />
         {errors.picture && (
-          <p style={{ color: "red" }}>{errors.picture.message}</p>
+          <p >{errors.picture.message}</p>
         )}
       </div>
 
