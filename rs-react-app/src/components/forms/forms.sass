@@ -18,3 +18,29 @@
       width: 100% 
       height: 100% 
       object-fit: cover
+
+form 
+  h2 
+    text-align: center
+    margin-bottom: aCalc(40)
+  fieldset
+    margin: aCalc(20) auto
+  .form-item + .form-item 
+    margin-top: aCalc(20)
+  .form-item 
+    display: flex
+    align-items: center
+    border-radius: aCalc(2)
+    padding: aCalc(14)
+    background-color: #868282
+    label 
+      color: #ffffff
+      width: 20% 
+    input
+      width: 90%
+      padding: aCalc(10)
+      border-radius: aCalc(2)
+  button 
+    margin-top: aCalc(20)
+    @extend .btn-primary !optional
+    width: 100%
