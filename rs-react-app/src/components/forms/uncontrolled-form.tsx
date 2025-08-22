@@ -1,10 +1,48 @@
+import React, { useRef, useState } from "react";
+import { z } from "zod";
 
-import React, { useRef } from "react";
+const schema = z
+  .object({
+    Name: z
+      .string()
+      .min(1, "Name is required")
+      .refine((val) => /^[A-Z]/.test(val), {
+        message: "Name must start with an uppercase letter",
+      }),
+    age: z
+      .number({ error: "Age must be a number" })
+      .min(0, "Age cannot be negative")
+      .max(99, "Age must be less than 100"),
+    email: z.string().email("Invalid email"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(1, "Confirm your password"),
+    gender: z.enum(["male", "female"], "Select a gender"),
+    acceptTerms: z.boolean().refine((val) => val === true, {
+      message: "You must accept terms and conditions",
+    }),
+    picture: z
+      .any()
+      .refine((files) => files?.length === 1, {
+        message: "Picture is required",
+      })
+      .refine(
+        (files) => files?.[0]?.type.startsWith("image/"),
+        {
+          message: "Uploaded file must be an image",
+        }
+      ),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 type UncontrolledFormProps = {
   onSubmit: (data: {
     Name: string;
-    age: string;
+    age: number;
     email: string;
     password: string;
     confirmPassword: string;
@@ -25,43 +63,75 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
   const acceptTermsRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
 
+  const [errors, setErrors] = useState<Errors>({});
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let gender = "";
-    if (genderMaleRef.current?.checked) gender = "male";
-    else if (genderFemaleRef.current?.checked) gender = "female";
+    const gender = genderMaleRef.current?.checked
+      ? "male"
+      : genderFemaleRef.current?.checked
+      ? "female"
+      : "";
 
-    onSubmit({
+    const data = {
       Name: Name.current?.value || "",
-      age: age.current?.value || "",
+      age: age.current?.value || null,
       email: emailRef.current?.value || "",
       password: passwordRef.current?.value || "",
       confirmPassword: confirmPasswordRef.current?.value || "",
       gender,
       acceptTerms: acceptTermsRef.current?.checked || false,
-      picture: pictureRef.current?.files?.[0] || null,
+      picture: pictureRef.current?.files || null,
+    };
+
+    const result = schema.safeParse(data);
+
+    if (!result.success) {
+      const fieldErrors: Errors = {};
+
+    result.error.issues.forEach(({ path, message }) => {
+      if (path.length > 0) {
+        const key = path[0] as keyof Errors;
+        if (!fieldErrors[key]) {
+          fieldErrors[key] = message;
+        }
+      }
+    });
+
+
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setErrors({});
+    onSubmit({
+      ...result.data,
+      picture: result.data.picture ? result.data.picture[0] : null,
     });
   };
-
   return (
     <form onSubmit={handleSubmit} noValidate>
       <h2>Uncontrolled Form</h2>
       <div className="form-item">
         <label htmlFor="uc-name">Name Field</label>
         <input id="uc-name" placeholder="name" type="text" ref={Name} name="name" />
+        {errors.Name && <p className="error">{errors.Name}</p>}
       </div>
       <div className="form-item">
         <label htmlFor="uc-age">Age Field</label>
         <input id="uc-age" placeholder="age" type="text" ref={age} name="age" />
+        {errors.age && <p className="error">{errors.age}</p>}
       </div>
       <div className="form-item">
         <label htmlFor="uc-email">Email Field</label>
         <input id="uc-email" placeholder="email" type="email" ref={emailRef} name="email" />
+        {errors.email && <p className="error">{errors.email}</p>}
       </div>
       <div className="form-item">
         <label htmlFor="uc-password">Password Field</label>
         <input id="uc-password" placeholder="password" type="password" ref={passwordRef} name="password" />
+        {errors.password && <p className="error">{errors.password}</p>}
       </div>
       <div className="form-item">
         <label htmlFor="uc-confirm-password">Confirm Field</label>
@@ -72,6 +142,7 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
           ref={confirmPasswordRef}
           name="confirmPassword"
         />
+        {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>} 
       </div>
       <fieldset>
         <legend>Gender:</legend>
@@ -83,16 +154,19 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
           <input type="radio" name="gender" value="female" ref={genderFemaleRef} />
           Female
         </label>
+        {errors.gender && <p className="error">{errors.gender}</p>}
       </fieldset>
       <div>
         <label>
           <input type="checkbox" ref={acceptTermsRef} name="acceptTerms" />
           Accept Terms and Conditions
         </label>
+        {errors.acceptTerms && <p className="error">{errors.acceptTerms}</p>}
       </div>
       <div>
         <label htmlFor="uc-picture">Upload Picture:</label>
         <input id="uc-picture" type="file" ref={pictureRef} name="picture" accept="image/*" />
+        {errors.picture && <p className="error">{errors.picture}</p>}
       </div>
       <button type="submit">Submit</button>
     </form>
