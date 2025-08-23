@@ -54,7 +54,7 @@ const [modalOpen, setModalOpen] = useState(false);
       <PageWrapper>
 
         <div className='btns-wrapper' data-testid="app-component">
-          <button className='btn-primary' onClick={() => openModal("uncontrolled")}>Open Uncontrolled Form</button>
+          <button data-testid="uncontrolled-btn-test" className='btn-primary' onClick={() => openModal("uncontrolled")}>Open Uncontrolled Form</button>
           {details && (
             <>
               <h2>Selected info:</h2>
@@ -93,7 +93,7 @@ const [modalOpen, setModalOpen] = useState(false);
               </div>
             </>
           )}
-          <button className='btn-primary' onClick={() => openModal("react-hook-form")}>Open React-Hook Form</button>
+          <button data-testid="hook-btn-test" className='btn-primary' onClick={() => openModal("react-hook-form")}>Open React-Hook Form</button>
         </div>
 
         {modalOpen && (

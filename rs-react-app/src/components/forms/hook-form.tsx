@@ -115,25 +115,25 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
   return (
     <form onSubmit={handleSubmit(submitHandler)} noValidate>
       <h2>React Hook Form</h2>
-    <div className="form-item">
+      <div className="form-item" data-testid="form-item-test">
         <label htmlFor="rhf-name">Name Field</label>
         <input id="rhf-name" placeholder="name" {...register("name")} />
         {errors.name && <p >{errors.name.message}</p>}
       </div>
 
-      <div className="form-item">
+      <div className="form-item" data-testid="form-item-test">
         <label htmlFor="rhf-age">Age Field</label>
         <input id="rhf-age" type="number" placeholder="age" {...register("age", { valueAsNumber: true })} />
         {errors.age && <p >{errors.age.message}</p>}
       </div>
 
-      <div className="form-item">
+      <div className="form-item" data-testid="form-item-test">
         <label htmlFor="rhf-email">Email Field</label>
         <input id="rhf-email" type="email" placeholder="email" {...register("email")} />
         {errors.email && <p >{errors.email.message}</p>}
       </div>
 
-      <div className="form-item">
+      <div className="form-item" data-testid="form-item-test">
         <label htmlFor="rhf-password">Password Field</label>
         <input id="rhf-password" type="password" placeholder="password" {...register("password")} />
         {errors.password && (
@@ -141,7 +141,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         )}
       </div>
 
-      <div className="form-item">
+      <div className="form-item" data-testid="form-item-test">
         <label htmlFor="rhf-confirm-password">Confirm Field</label>
         <input id="rhf-confirm-password" type="password" placeholder="confirm password" {...register("confirmPassword")} />
         {errors.confirmPassword && (
@@ -149,7 +149,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         )}
       </div>
 
-      <fieldset>
+      <fieldset data-testid="form-item-test">
         <legend>Gender:</legend>
         <label className="radio-label">
           Male
@@ -166,7 +166,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         )}
       </fieldset>
 
-      <div className="form-itemCheckbox">
+      <div className="form-itemCheckbox" data-testid="form-item-test">
         <label>
           Accept Terms and Conditions
           <input type="checkbox" {...register("acceptTerms")} />
@@ -177,7 +177,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         )}
       </div>
 
-      <div className="form-itemPicture">
+      <div className="form-itemPicture" data-testid="form-item-test">
         <label htmlFor="rhf-picture">Upload Picture:</label>
         <Controller
           name="picture"

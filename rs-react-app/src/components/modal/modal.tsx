@@ -8,9 +8,12 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const modalRoot = document.getElementById("modal-root")!;
+// const modalRoot = document.getElementById("modal-root")!;
 
 export function Modal({ children, onClose }: ModalProps) {
+
+  const modalRoot = document.getElementById("modal-root")!;
+
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
@@ -26,9 +29,9 @@ export function Modal({ children, onClose }: ModalProps) {
   }
 
   return ReactDOM.createPortal(
-    <div className="modal-background" onClick={onClickOutside}>
+    <div className="modal-background" onClick={onClickOutside} data-testid="modal-test">
       <div className="form">
-        <button onClick={onClose} className="form__close close-btn">
+        <button data-testid="modal-close-test" onClick={onClose} className="form__close close-btn">
             <img src={closeIcon} alt="close icon" />
         </button>
         {children}
