@@ -185,6 +185,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
           defaultValue=""
           render={({ field }) => (
             <input
+              id="rhf-picture"
               type="file"
               accept="image/*"
               onChange={async (e) => {
@@ -209,7 +210,7 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         )}
       </div>
 
-      <button type="submit">Submit</button>
+      <button data-testid="submit-btn-test" type="submit">Submit</button>
     </form>
   );
 }
