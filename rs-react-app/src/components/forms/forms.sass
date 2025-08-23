@@ -63,9 +63,12 @@ form
       border-radius: aCalc(4)
       background-color: red 
       color:#ffffff
-  
   .form-itemCheckbox, .form-itemPicture
     position: relative 
+    label 
+      display: flex
+      align-items: center
+      gap: aCalc(10)
     p 
       position: absolute
       width: aCalc(300)
@@ -76,6 +79,85 @@ form
       border-radius: aCalc(4)
       background-color: red 
       color:#ffffff
+    input 
+      position: absolute
+      opacity: 0
+      width: 0
+      height: 0
+      z-index: 100
+      &:checked + span 
+        background-color: #007BFF
+        border-color: #007BFF
+        position: relative
+      &:checked + span::after  
+        content: ""
+        position: absolute
+        left: 5px
+        top: 1px
+        width: 5px
+        height: 10px
+        border: solid white
+        border-width: 0 2px 2px 0
+        transform: rotate(45deg)
+    span
+      cursor: pointer
+      display: block
+      width: 18px
+      height: 18px
+      border: 2px solid #666
+      border-radius: 4px
+      margin-right: 8px
+      box-sizing: border-box
+      transition: background-color 0.3s, border-color 0.3s
+      &:hover 
+        border-color: #7fd8d4
+  .form-itemPicture
+    display: flex
+    gap: aCalc(10)
+    padding: aCalc(10)
+    input 
+      cursor: pointer
+      left: 0
+      opacity: 1
+      width: 100%
+      height: 100%
+      background-color: #f0884c
+  .radio-label
+    position: relative
+    padding-left: aCalc(28)
+    margin-right: aCalc(14)
+    cursor: pointer
+    user-select: none
+    input[type="radio"]
+      position: absolute
+      opacity: 0
+      width: 0
+      height: 0
+    span
+      position: absolute
+      left: 0
+      top: 50%
+      transform: translateY(-50%)
+      width: aCalc(18)
+      height: aCalc(18)
+      border-radius: 50%
+      border: aCalc(2) solid #555
+      background-color: #fff
+      box-sizing: border-box
+      &::after
+        content: ""
+        position: absolute
+        top: 50%
+        left: 50%
+        width: aCalc(10)
+        height: aCalc(10)
+        background-color: transparent
+        border-radius: 50%
+        transform: translate(-50%, -50%)
+        transition: background-color .2s ease
+    input[type="radio"]:checked + span::after
+      background-color: #f0884c
+
 
   .form-itemPicture
     p

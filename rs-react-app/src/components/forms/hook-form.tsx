@@ -151,13 +151,15 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
 
       <fieldset>
         <legend>Gender:</legend>
-        <label>
-          <input type="radio" value="male" {...register("gender")} />
+        <label className="radio-label">
           Male
+          <input type="radio" value="male" {...register("gender")} />
+          <span></span>
         </label>
-        <label>
-          <input type="radio" value="female" {...register("gender")} />
+        <label className="radio-label">
           Female
+          <input type="radio" value="female" {...register("gender")} />
+          <span></span>
         </label>
         {errors.gender && (
           <p>{errors.gender.message}</p>
@@ -166,8 +168,9 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
 
       <div className="form-itemCheckbox">
         <label>
-          <input type="checkbox" {...register("acceptTerms")} />
           Accept Terms and Conditions
+          <input type="checkbox" {...register("acceptTerms")} />
+          <span></span>
         </label>
         {errors.acceptTerms && (
           <p >{errors.acceptTerms.message}</p>

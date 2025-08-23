@@ -165,20 +165,23 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
       </div>
       <fieldset>
         <legend>Gender:</legend>
-        <label>
-          <input type="radio" name="gender" value="male" ref={genderMaleRef} />
+        <label className="radio-label">
           Male
+          <input type="radio" name="gender" value="male" ref={genderMaleRef} />
+          <span></span>
         </label>
-        <label>
-          <input type="radio" name="gender" value="female" ref={genderFemaleRef} />
+        <label className="radio-label">
           Female
+          <input type="radio" name="gender" value="female" ref={genderFemaleRef} />
+          <span></span>
         </label>
         {errors.gender && <p className="error">{errors.gender}</p>}
       </fieldset>
       <div className="form-itemCheckbox">
         <label>
-          <input type="checkbox" ref={acceptTermsRef} name="acceptTerms" />
           Accept Terms and Conditions
+          <input type="checkbox" ref={acceptTermsRef} name="acceptTerms" />
+          <span></span>
         </label>
         {errors.acceptTerms && <p className="error">{errors.acceptTerms}</p>}
       </div>
