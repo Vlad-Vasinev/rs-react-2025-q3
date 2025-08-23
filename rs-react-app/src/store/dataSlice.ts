@@ -16,7 +16,7 @@ const initialState: Elements = {
     confirmPassword: '',
     gender: '',
     acceptTerms: false,
-    picture: null,
+    picture: undefined,
   },
 }
 

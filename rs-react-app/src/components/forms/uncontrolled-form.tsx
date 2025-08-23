@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { z } from "zod";
 
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState, AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store";
 
 import { addEl } from "../../store/dataSlice";
 
@@ -26,16 +26,12 @@ const schema = z
       message: "You must accept terms and conditions",
     }),
     picture: z
-    .any()
-    .refine((file) => file != null, {
-      message: "Picture is required",
-    })
-    .refine(
-      (file) => file?.type?.startsWith("image/"),
-      {
-        message: "Uploaded file must be an image",
-      }
-    )
+    .string()
+    .nonempty("Picture is required")
+    .refine((val) => val.startsWith("data:image/"), {
+      message: "Picture must be an image",
+    }),
+
 
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -54,7 +50,7 @@ type UncontrolledFormProps = {
     confirmPassword: string;
     gender: string;
     acceptTerms: boolean;
-    picture: File | null;
+    picture: string | undefined;
   }) => void;
 };
 
@@ -71,7 +67,6 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
 
   const [errors, setErrors] = useState<Errors>({});
 
-  const formData = useSelector((state: RootState) => {state.items.elements})
   const dispatch = useDispatch<AppDispatch>()
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -83,43 +78,57 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
       ? "female"
       : "";
 
-    const data = {
-      name: name.current?.value || "",
-      age: age.current?.value ? Number(age.current.value) : null,
-      email: emailRef.current?.value || "",
-      password: passwordRef.current?.value || "",
-      confirmPassword: confirmPasswordRef.current?.value || "",
-      gender,
-      acceptTerms: acceptTermsRef.current?.checked || false,
-      picture: pictureRef.current?.files?.[0] || null,
-    };
+    const file = pictureRef.current?.files?.[0] || null;
 
-    dispatch(addEl(data))
-    const result = schema.safeParse(data);
-
-    if (!result.success) {
-      const fieldErrors: Errors = {};
-
-    result.error.issues.forEach(({ path, message }) => {
-      if (path.length > 0) {
-        const key = path[0] as keyof Errors;
-        if (!fieldErrors[key]) {
-          fieldErrors[key] = message;
-        }
-      }
-    });
-
-
-      setErrors(fieldErrors);
+    if (!file) {
+      setErrors({ picture: "Picture is required" });
       return;
     }
 
-    setErrors({});
-    onSubmit({
-      ...result.data,
-      picture: result.data.picture ? result.data.picture[0] : null,
-    });
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+
+      const data = {
+        name: name.current?.value || "",
+        age: age.current?.value ? Number(age.current.value) : NaN,
+        email: emailRef.current?.value || "",
+        password: passwordRef.current?.value || "",
+        confirmPassword: confirmPasswordRef.current?.value || "",
+        gender,
+        acceptTerms: acceptTermsRef.current?.checked || false,
+        picture: base64,
+      };
+
+      const result = schema.safeParse(data);
+
+      if (!result.success) {
+        const fieldErrors: Errors = {};
+        result.error.issues.forEach(({ path, message }) => {
+          if (path.length > 0) {
+            const key = path[0] as keyof Errors;
+            if (!fieldErrors[key]) {
+              fieldErrors[key] = message;
+            }
+          }
+        });
+        setErrors(fieldErrors);
+        return;
+      }
+
+      setErrors({});
+      dispatch(addEl(result.data));
+      onSubmit(result.data);
+    };
+
+    reader.onerror = () => {
+      setErrors({ picture: "Failed to read the picture file" });
+    };
+
+    reader.readAsDataURL(file);
   };
+
+  
   return (
     <form onSubmit={handleSubmit} noValidate>
       <h2>Uncontrolled Form</h2>

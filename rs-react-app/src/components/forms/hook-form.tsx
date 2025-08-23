@@ -7,17 +7,6 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../store";
 import { addEl } from "../../store/dataSlice";
 
-// type FormData = {
-//   name: string;
-//   age: number;
-//   email: string;
-//   password: string;
-//   confirmPassword: string;
-//   gender: "male" | "female";
-//   acceptTerms: boolean;
-//   picture: File | null;
-// };
-
 const passwordRegex = {
   number: /\d/,  
   upper: /[A-Z]/,
@@ -61,9 +50,10 @@ const schema = z
       message: "You must accept terms and conditions",
     }),
     picture: z
-    .instanceof(File, { message: "Picture is required" })
-    .refine((file) => file.type.startsWith("image/"), {
-      message: "Uploaded file must be an image",
+    .string()
+    .nonempty("Picture is required")
+    .refine((val) => val.startsWith("data:image/"), {
+      message: "Picture must be an image",
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -81,7 +71,7 @@ type ReactHookFormProps = {
     confirmPassword: string;
     gender: "male" | "female";
     acceptTerms: boolean;
-    picture: File | null;
+    picture: string | null;
   }) => void;
 };
 
@@ -99,6 +89,18 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
   });
 
   const dispatch = useDispatch<AppDispatch>()
+
+  function fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === "string") resolve(reader.result);
+        else reject(new Error("Failed to convert file to base64"));
+      };
+      reader.onerror = () => reject(new Error("File reading error"));
+      reader.readAsDataURL(file);
+    });
+  }
 
   const submitHandler = (data: FormData) => {
     dispatch(addEl(data))
@@ -177,15 +179,24 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
         <Controller
           name="picture"
           control={control}
-          defaultValue={undefined}
-          rules={{ required: "Picture is required" }}
+          defaultValue=""
           render={({ field }) => (
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0] ?? null;
-                field.onChange(file);
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) {
+                  field.onChange("");
+                  return;
+                }
+                try {
+                  const base64 = await fileToBase64(file);
+                  field.onChange(base64);
+                } catch (error) {
+                  console.error(error);
+                  field.onChange("");
+                }
               }}
             />
           )}

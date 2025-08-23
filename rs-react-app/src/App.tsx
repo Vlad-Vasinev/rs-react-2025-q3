@@ -9,12 +9,18 @@ import { UncontrolledForm } from './components/forms/uncontrolled-form'
 import { ReactHookForm } from './components/forms/hook-form'
 import { Modal } from './components/modal/modal'
 
+import type { RootState } from './store'
+import { useSelector } from 'react-redux'
+
 type FormType = "uncontrolled" | "react-hook-form" | null
 
 function App() {
 
 const [modalOpen, setModalOpen] = useState(false);
   const [formType, setFormType] = useState<FormType>(null);
+
+  const detailsData = useSelector((state: RootState) => state.items.elements)
+  const [details, setDetails] = useState(false)
 
   function openModal(type: FormType) {
     setFormType(type);
@@ -28,6 +34,7 @@ const [modalOpen, setModalOpen] = useState(false);
 
   function handleSubmit() {
     closeModal();
+    setDetails(true)
   }
   return (
     <>
@@ -48,6 +55,19 @@ const [modalOpen, setModalOpen] = useState(false);
               <ReactHookForm onSubmit={handleSubmit} />
             )}
           </Modal>
+        )}
+
+        {details &&(
+          <>
+            {detailsData.name}
+            {detailsData.age}
+            {detailsData.email}
+            {detailsData.gender}
+            {detailsData.acceptTerms}
+            {detailsData.confirmPassword}
+            {detailsData.password}
+            <img src={detailsData.picture}/>
+          </>
         )}
 
       </PageWrapper>

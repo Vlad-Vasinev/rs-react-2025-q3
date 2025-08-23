@@ -6,5 +6,5 @@ export type data = {
   confirmPassword: string;
   gender: string;
   acceptTerms: boolean;
-  picture: File | null;
+  picture: string | undefined
 }
