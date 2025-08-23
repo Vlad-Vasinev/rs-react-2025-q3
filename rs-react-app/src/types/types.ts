@@ -1,5 +1,5 @@
 export type data = {
-  Name: string;
+  name: string;
   age: number | null;
   email: string;
   password: string;

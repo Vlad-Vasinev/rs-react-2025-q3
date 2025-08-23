@@ -8,7 +8,7 @@ import { addEl } from "../../store/dataSlice";
 
 const schema = z
   .object({
-    Name: z
+    name: z
       .string()
       .min(1, "Name is required")
       .refine((val) => /^[A-Z]/.test(val), {
@@ -47,7 +47,7 @@ type Errors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 type UncontrolledFormProps = {
   onSubmit: (data: {
-    Name: string;
+    name: string;
     age: number;
     email: string;
     password: string;
@@ -59,7 +59,7 @@ type UncontrolledFormProps = {
 };
 
 export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
-  const Name = useRef<HTMLInputElement>(null);
+  const name = useRef<HTMLInputElement>(null);
   const age = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -84,7 +84,7 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
       : "";
 
     const data = {
-      Name: Name.current?.value || "",
+      name: name.current?.value || "",
       age: age.current?.value ? Number(age.current.value) : null,
       email: emailRef.current?.value || "",
       password: passwordRef.current?.value || "",
@@ -125,8 +125,8 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
       <h2>Uncontrolled Form</h2>
       <div className="form-item">
         <label htmlFor="uc-name">Name Field</label>
-        <input id="uc-name" placeholder="name" type="text" ref={Name} name="name" />
-        {errors.Name && <p className="error">{errors.Name}</p>}
+        <input id="uc-name" placeholder="name" type="text" ref={name} name="name" />
+        {errors.name && <p className="error">{errors.name}</p>}
       </div>
       <div className="form-item">
         <label htmlFor="uc-age">Age Field</label>

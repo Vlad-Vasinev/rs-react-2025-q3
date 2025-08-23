@@ -5,12 +5,11 @@ import type { data } from "../types/types"
 
 export interface Elements {
   elements: data,
-  data: data | null
 }
 
 const initialState: Elements = {
   elements: {
-    Name: '',
+    name: '',
     age: null,
     email: '',
     password: '',
@@ -19,7 +18,6 @@ const initialState: Elements = {
     acceptTerms: false,
     picture: null,
   },
-  data: null
 }
 
 const elementsSlice = createSlice({

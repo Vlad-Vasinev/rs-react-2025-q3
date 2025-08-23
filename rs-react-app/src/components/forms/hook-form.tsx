@@ -1,18 +1,22 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type FormData = {
-  name: string;
-  age: number;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: "male" | "female";
-  acceptTerms: boolean;
-  picture: FileList;
-};
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store";
+import { addEl } from "../../store/dataSlice";
+
+// type FormData = {
+//   name: string;
+//   age: number;
+//   email: string;
+//   password: string;
+//   confirmPassword: string;
+//   gender: "male" | "female";
+//   acceptTerms: boolean;
+//   picture: File | null;
+// };
 
 const passwordRegex = {
   number: /\d/,  
@@ -57,16 +61,10 @@ const schema = z
       message: "You must accept terms and conditions",
     }),
     picture: z
-      .any()
-      .refine((files) => files?.length === 1, {
-        message: "Picture is required",
-      })
-      .refine(
-        (files) => files?.[0]?.type.startsWith("image/"),
-        {
-          message: "Uploaded file must be an image",
-        }
-      ),
+    .instanceof(File, { message: "Picture is required" })
+    .refine((file) => file.type.startsWith("image/"), {
+      message: "Uploaded file must be an image",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -87,9 +85,11 @@ type ReactHookFormProps = {
   }) => void;
 };
 
+type FormData = z.infer<typeof schema>;
 
 export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -98,10 +98,13 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
     resolver: zodResolver(schema),
   });
 
+  const dispatch = useDispatch<AppDispatch>()
+
   const submitHandler = (data: FormData) => {
+    dispatch(addEl(data))
     onSubmit({
       ...data,
-      picture: data.picture?.[0] || null,
+      picture: data.picture,
     });
     reset();
   };
@@ -171,7 +174,22 @@ export function ReactHookForm({ onSubmit }: ReactHookFormProps) {
 
       <div className="form-itemPicture">
         <label htmlFor="rhf-picture">Upload Picture:</label>
-        <input id="rhf-picture" type="file" {...register("picture")} accept="image/*" />
+        <Controller
+          name="picture"
+          control={control}
+          defaultValue={undefined}
+          rules={{ required: "Picture is required" }}
+          render={({ field }) => (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0] ?? null;
+                field.onChange(file);
+              }}
+            />
+          )}
+        />
         {errors.picture && (
           <p >{errors.picture.message}</p>
         )}

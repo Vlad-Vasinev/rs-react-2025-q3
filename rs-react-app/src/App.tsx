@@ -26,8 +26,7 @@ const [modalOpen, setModalOpen] = useState(false);
     setFormType(null);
   }
 
-  function handleSubmit(data: any) {
-    alert(`Submitted data:\n${JSON.stringify(data, null, 2)}`);
+  function handleSubmit() {
     closeModal();
   }
   return (
