@@ -11,6 +11,7 @@ import { Modal } from './components/modal/modal'
 
 import type { RootState } from './store'
 import { useSelector } from 'react-redux'
+import { fa } from 'zod/locales'
 
 type FormType = "uncontrolled" | "react-hook-form" | null
 
@@ -30,6 +31,7 @@ const [modalOpen, setModalOpen] = useState(false);
   function closeModal() {
     setModalOpen(false);
     setFormType(null);
+    setDetails(false)
   }
 
   function handleSubmit() {
@@ -43,6 +45,44 @@ const [modalOpen, setModalOpen] = useState(false);
 
         <div className='btns-wrapper'>
           <button className='btn-primary' onClick={() => openModal("uncontrolled")}>Open Uncontrolled Form</button>
+          {details && (
+            <>
+              <h2>Selected info:</h2>
+              <div className='details-wrapper'>
+                <div className='details-data'>
+                  <div className='details-data__item'>
+                    <h3>Name:</h3>
+                    <p>{detailsData.name}</p>
+                  </div>
+                  <div className='details-data__item'>
+                    <h3>Age:</h3>
+                    <p>{detailsData.age}</p>
+                  </div>
+                  <div className='details-data__item'>
+                    <h3>Email:</h3>
+                    <p>{detailsData.email}</p>
+                  </div>
+                  <div className='details-data__item'>
+                    <h3>Password:</h3>
+                    <p>{detailsData.password}</p>
+                  </div>
+                  <div className='details-data__item'>
+                    <h3>Confirmed Password:</h3>
+                    <p>{detailsData.confirmPassword}</p>
+                  </div>
+                  <div className='details-data__item'>
+                    <h3>Gender:</h3>
+                    <p>{detailsData.gender}</p>
+                  </div>
+                  <div className='details-data__item'>
+                    <h3>AcceptTerms:</h3>
+                    <p>true</p>
+                  </div>
+                </div>
+                <img src={detailsData.picture}/>
+              </div>
+            </>
+          )}
           <button className='btn-primary' onClick={() => openModal("react-hook-form")}>Open React-Hook Form</button>
         </div>
 
@@ -57,18 +97,44 @@ const [modalOpen, setModalOpen] = useState(false);
           </Modal>
         )}
 
-        {details &&(
-          <>
-            {detailsData.name}
-            {detailsData.age}
-            {detailsData.email}
-            {detailsData.gender}
-            {detailsData.acceptTerms}
-            {detailsData.confirmPassword}
-            {detailsData.password}
-            <img src={detailsData.picture}/>
-          </>
-        )}
+        {/* {details &&(
+          <Modal onClose={closeModal}>
+            <h2>Selected info:</h2>
+            <div className='details-wrapper'>
+              <div className='details-data'>
+                <div className='details-data__item'>
+                  <h3>Name:</h3>
+                  <p>{detailsData.name}</p>
+                </div>
+                <div className='details-data__item'>
+                  <h3>Age:</h3>
+                  <p>{detailsData.age}</p>
+                </div>
+                <div className='details-data__item'>
+                  <h3>Email:</h3>
+                  <p>{detailsData.email}</p>
+                </div>
+                <div className='details-data__item'>
+                  <h3>Password:</h3>
+                  <p>{detailsData.password}</p>
+                </div>
+                <div className='details-data__item'>
+                  <h3>Confirmed Password:</h3>
+                  <p>{detailsData.confirmPassword}</p>
+                </div>
+                <div className='details-data__item'>
+                  <h3>Gender:</h3>
+                  <p>{detailsData.gender}</p>
+                </div>
+                <div className='details-data__item'>
+                  <h3>AcceptTerms:</h3>
+                  <p>true</p>
+                </div>
+              </div>
+              <img src={detailsData.picture}/>
+            </div>
+          </Modal>
+        )} */}
 
       </PageWrapper>
       <Footer></Footer>

@@ -1,4 +1,8 @@
 
+h2 
+  text-align: center
+  margin-bottom: aCalc(40)
+
 .form
   position: relative
   width: aCalc(1000)
@@ -6,6 +10,11 @@
   padding: aCalc(16) aCalc(20)
   border-radius: aCalc(6)
   background-color: #ffffff
+  +mob($sm)
+    padding: 160px 20px 16px
+    width: 100vw
+    height: 100vh
+    overflow-y: scroll
   &__close 
     position: absolute
     top: aCalc(16)
@@ -14,6 +23,12 @@
     border: none
     width: aCalc(20)
     height: aCalc(20)
+    +mob($sm)
+      width: 20px
+      right: 16px
+      top: auto
+      bottom: 16px
+      height: 20px
     img, svg 
       width: 100% 
       height: 100% 
@@ -27,6 +42,8 @@ form
     margin: aCalc(20) auto
   .form-item + .form-item 
     margin-top: aCalc(20)
+    +mob($sm)
+      margin-top: 16px
   .form-item 
     position: relative
     display: flex
@@ -34,6 +51,9 @@ form
     border-radius: aCalc(2)
     padding: aCalc(14)
     background-color: #868282
+    +mob($sm)
+      padding: 14px
+      border-radius: 2px
     label 
       color: #ffffff
       width: 20% 
@@ -41,6 +61,9 @@ form
       width: 90%
       padding: aCalc(10)
       border-radius: aCalc(2)
+      +mob($sm)
+        padding: 10px
+        border-radius: 2px
     p 
       position: absolute
       width: aCalc(300)

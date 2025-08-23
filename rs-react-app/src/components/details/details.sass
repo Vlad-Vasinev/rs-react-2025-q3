@@ -1,0 +1,22 @@
+
+.details-wrapper 
+  display: flex
+  gap: aCalc(40)
+  +mob($sm)
+    flex-direction: column
+    gap: 40px
+  img 
+    object-fit: cover
+    width: aCalc(300)
+    +mob($sm)
+      width: 100%
+
+.details-data
+  display: flex
+  flex-direction: column
+  gap: aCalc(20)
+  +mob($sm)
+    gap: 16px
+  &__item 
+    display: flex
+    gap: aCalc(20)
