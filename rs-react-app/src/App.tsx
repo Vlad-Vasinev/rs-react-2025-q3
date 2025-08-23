@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../src/styles/general/App.scss'
 
 import PageWrapper from './components/pageWrapper/pageWrapper'
@@ -22,6 +22,16 @@ const [modalOpen, setModalOpen] = useState(false);
 
   const detailsData = useSelector((state: RootState) => state.items.elements)
   const [details, setDetails] = useState(false)
+
+  const [animation, setAnimation] = useState(false)
+
+  useEffect(() => {
+    setAnimation(true)
+    const timer = setTimeout(() => {
+      setAnimation(false)
+    }, 2500)
+    return () => clearTimeout(timer)
+  }, [detailsData])
 
   function openModal(type: FormType) {
     setFormType(type);
@@ -48,7 +58,7 @@ const [modalOpen, setModalOpen] = useState(false);
           {details && (
             <>
               <h2>Selected info:</h2>
-              <div className='details-wrapper'>
+              <div className={`details-wrapper ${animation ? '_animation' : ''}`}>
                 <div className='details-data'>
                   <div className='details-data__item'>
                     <h3>Name:</h3>
