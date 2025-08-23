@@ -53,7 +53,7 @@ const [modalOpen, setModalOpen] = useState(false);
       <Header></Header>
       <PageWrapper>
 
-        <div className='btns-wrapper'>
+        <div className='btns-wrapper' data-testid="app-component">
           <button className='btn-primary' onClick={() => openModal("uncontrolled")}>Open Uncontrolled Form</button>
           {details && (
             <>
