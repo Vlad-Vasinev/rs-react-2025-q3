@@ -8,8 +8,6 @@ interface ModalProps {
   onClose: () => void;
 }
 
-// const modalRoot = document.getElementById("modal-root")!;
-
 export function Modal({ children, onClose }: ModalProps) {
 
   const modalRoot = document.getElementById("modal-root")!;

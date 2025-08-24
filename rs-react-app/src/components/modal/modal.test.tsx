@@ -1,4 +1,7 @@
 import App from "../../App";
+import { Modal } from "./modal";
+
+import {vi} from 'vitest'
 
 import { Provider } from "react-redux";
 import { store } from "../../store";
@@ -43,5 +46,41 @@ describe('modal.tsx', () => {
     expect(screen.queryByTestId('modal-test')).toBeNull()
 
   })
+
+    it("escape key is pressed - onClose works", () => {
+    const onClose = vi.fn();
+    render(<Modal onClose={onClose}>Modal content</Modal>);
+
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("clicking outside the modal content - onClose works", () => {
+    const onClose = vi.fn();
+    const { getByTestId } = render(<Modal onClose={onClose}>Modal content</Modal>);
+
+    fireEvent.click(getByTestId("modal-test"));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("clicking inside the modal content - onClose doesn't work", () => {
+    const onClose = vi.fn();
+    const { getByText } = render(<Modal onClose={onClose}>Modal content</Modal>);
+
+    fireEvent.click(getByText("Modal content"));
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it("clicking the close button - onClose works", () => {
+    const onClose = vi.fn();
+    const { getByTestId } = render(<Modal onClose={onClose}>Modal content</Modal>);
+
+    fireEvent.click(getByTestId("modal-close-test"));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 
 })

@@ -1,11 +1,9 @@
 import App from "../../App";
 
-import {vi} from 'vitest'
-
 import { Provider } from "react-redux";
 import { store } from "../../store";
 
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 describe('hook-form.tsx', () => {
@@ -25,13 +23,14 @@ describe('hook-form.tsx', () => {
 
   it('ReactHookForm component exists, all fields are working', async () => {
 
-    const mockSubmitHandler = vi.fn()
-
     render(
       <Provider store={store}>
         <App></App>
       </Provider>
     )
+
+    const state = store.getState()
+    expect(state.items).toBeDefined()
 
     const uncontrolledBtn = screen.getByTestId('uncontrolled-btn-test')
     const hookBtn = screen.getByTestId('hook-btn-test')
@@ -39,18 +38,21 @@ describe('hook-form.tsx', () => {
     expect(uncontrolledBtn).toBeInTheDocument()
     expect(hookBtn).toBeInTheDocument()
 
-    fireEvent.click(hookBtn)
+    await userEvent.click(hookBtn)
     expect(screen.getByTestId('modal-test')).toBeVisible()
     expect(screen.getByTestId('modal-close-test')).toBeVisible()
 
-    fireEvent.click(screen.getByTestId('modal-close-test'))
+    await userEvent.click(screen.getByTestId('modal-close-test'))
     expect(screen.queryByTestId('modal-test')).toBeNull()
 
-    fireEvent.click(hookBtn)
+    await userEvent.click(hookBtn)
     await waitFor(() => expect(screen.getByText(/React Hook Form/i)).toBeInTheDocument(), { timeout: 1500 })
     await waitFor(() => expect(screen.getByText(/Name Field/i)).toBeInTheDocument(), { timeout: 1500 })
     await waitFor(() => expect(screen.getByText(/Age Field/i)).toBeInTheDocument(), { timeout: 1500 })
     await waitFor(() => expect(screen.getByText(/Email Field/i)).toBeInTheDocument(), { timeout: 1500 })
+
+    const closeModal = screen.getByTestId('modal-close-test')
+    expect(closeModal).toBeInTheDocument()
 
     await waitFor(() => expect(screen.getAllByTestId('form-item-test').forEach((el) => {
       expect(el).toBeInTheDocument()
@@ -60,12 +62,12 @@ describe('hook-form.tsx', () => {
     const submitBtn = screen.getByTestId('submit-btn-test')
 
     await userEvent.clear(inputName)
-    fireEvent.click(submitBtn)
+    await userEvent.click(submitBtn)
     await waitFor(() => expect(screen.getByText(/Name is required/i)).toBeInTheDocument(), { timeout: 1500 })
 
     await userEvent.clear(inputName)
     await userEvent.type(inputName, 'vlad')
-    fireEvent.click(submitBtn)
+    await userEvent.click(submitBtn)
     await waitFor(() => expect(screen.getByText(/Name must start with an uppercase letter/i)).toBeInTheDocument(), { timeout: 1500 })
 
     await userEvent.type(screen.getByPlaceholderText(/name/i), 'Vlad D')
@@ -75,12 +77,12 @@ describe('hook-form.tsx', () => {
     await userEvent.type(screen.getByPlaceholderText(/confirm password/i), 'password123')
 
     const maleRadio = screen.getByRole('radio', { name: /^male$/i })
-    fireEvent.click(maleRadio)
+    await userEvent.click(maleRadio)
     expect(maleRadio).toBeChecked()
 
 
     const acceptTermsCheckbox = screen.getByRole('checkbox')
-    fireEvent.click(acceptTermsCheckbox)
+    await userEvent.click(acceptTermsCheckbox)
     expect(acceptTermsCheckbox).toBeChecked()
 
     const file = new File(['dummy content'], 'test.png', { type: 'image/png' })
@@ -92,37 +94,12 @@ describe('hook-form.tsx', () => {
     expect(fileInput.files).toHaveLength(1)
 
     const submitButton = screen.getByTestId('submit-btn-test')
-    fireEvent.click(submitButton)
+    await userEvent.click(submitButton)
 
     const errorMessages = screen.queryAllByText(/required|must be|invalid/i)
     expect(errorMessages.length).toBe(0)
 
-    const state = store.getState()
-    expect(state.items).toBeDefined()
-
-    // await waitFor(() => {
-    //   const newState = store.getState();
-    //   expect(newState.items.elements.name).toBe('Vlad D')
-    // }, { timeout: 3000 });
-    // await waitFor(() => {
-    //   expect(store.getState().items.elements.name).toBe('Vlad D')
-    // }, {timeout: 3000})
-    // await waitFor(() => {
-    //   expect(mockSubmitHandler).toHaveBeenCalled()
-    // })
-
-    // expect(mockSubmitHandler).toHaveBeenCalledWith(
-    //   expect.objectContaining({
-    //     name: 'Vlad D',
-    //     age: 30,
-    //     email: 'vlad@example.com',
-    //     password: 'password123',
-    //     confirmPassword: 'password123',
-    //     gender: 'male',
-    //     acceptTerms: true,
-    //     picture: expect.any(String), 
-    //   }),
-    // )
+    await waitFor(() => expect(screen.findByTestId('details-test')), { timeout: 1500 })
 
   })
 

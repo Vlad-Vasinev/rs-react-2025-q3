@@ -58,7 +58,7 @@ const [modalOpen, setModalOpen] = useState(false);
           {details && (
             <>
               <h2>Selected info:</h2>
-              <div className={`details-wrapper ${animation ? '_animation' : ''}`}>
+              <div data-testid="details-test" className={`details-wrapper ${animation ? '_animation' : ''}`}>
                 <div className='details-data'>
                   <div className='details-data__item'>
                     <h3>Name:</h3>
@@ -106,45 +106,6 @@ const [modalOpen, setModalOpen] = useState(false);
             )}
           </Modal>
         )}
-
-        {/* {details &&(
-          <Modal onClose={closeModal}>
-            <h2>Selected info:</h2>
-            <div className='details-wrapper'>
-              <div className='details-data'>
-                <div className='details-data__item'>
-                  <h3>Name:</h3>
-                  <p>{detailsData.name}</p>
-                </div>
-                <div className='details-data__item'>
-                  <h3>Age:</h3>
-                  <p>{detailsData.age}</p>
-                </div>
-                <div className='details-data__item'>
-                  <h3>Email:</h3>
-                  <p>{detailsData.email}</p>
-                </div>
-                <div className='details-data__item'>
-                  <h3>Password:</h3>
-                  <p>{detailsData.password}</p>
-                </div>
-                <div className='details-data__item'>
-                  <h3>Confirmed Password:</h3>
-                  <p>{detailsData.confirmPassword}</p>
-                </div>
-                <div className='details-data__item'>
-                  <h3>Gender:</h3>
-                  <p>{detailsData.gender}</p>
-                </div>
-                <div className='details-data__item'>
-                  <h3>AcceptTerms:</h3>
-                  <p>true</p>
-                </div>
-              </div>
-              <img src={detailsData.picture}/>
-            </div>
-          </Modal>
-        )} */}
 
       </PageWrapper>
       <Footer></Footer>
