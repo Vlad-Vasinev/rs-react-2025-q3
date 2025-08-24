@@ -16,8 +16,6 @@ const passwordRegex = {
 
 const GenderEnum = z.enum(["male", "female"] as const);
 
-//.refine((val) => /^[A-Z]/.test(val)
-
 const schema = z
   .object({
     name: z
