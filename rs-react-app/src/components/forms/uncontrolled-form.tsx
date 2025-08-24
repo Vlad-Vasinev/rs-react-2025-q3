@@ -6,12 +6,19 @@ import type { AppDispatch } from "../../store";
 
 import { addEl } from "../../store/dataSlice";
 
-const schema = z
+const passwordRegex = {
+  number: /\d/,  
+  upper: /[A-Z]/,
+  lower: /[a-z]/,
+  special: /[!@#$%^&*(),.?":{}|<>]/,
+};
+
+export const schema = z
   .object({
     name: z
       .string()
       .min(1, "Name is required")
-      .refine((val) => /^[A-Z]/.test(val), {
+      .refine((val) => /^\p{Lu}/u.test(val), {
         message: "Name must start with an uppercase letter",
       }),
     age: z
@@ -19,7 +26,21 @@ const schema = z
       .min(0, "Age cannot be negative")
       .max(99, "Age must be less than 100"),
     email: z.string().email("Invalid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .refine((val) => passwordRegex.number.test(val), {
+        message: "Password must contain at least one number",
+      })
+      .refine((val) => passwordRegex.upper.test(val), {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .refine((val) => passwordRegex.lower.test(val), {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .refine((val) => passwordRegex.special.test(val), {
+        message: "Password must contain at least one special character",
+      }),
     confirmPassword: z.string().min(1, "Confirm your password"),
     gender: z.enum(["male", "female"], "Select a gender"),
     acceptTerms: z.boolean().refine((val) => val === true, {

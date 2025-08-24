@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.67% </span>
+                <span class="strong">73.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>108/155</span>
+                <span class='fraction'>128/175</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">52.94% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>9/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.67% </span>
+                <span class="strong">73.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>108/155</span>
+                <span class='fraction'>128/175</span>
             </div>
         
             
@@ -260,7 +260,28 @@
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
 <a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -268,6 +289,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -465,12 +507,19 @@ import type { AppDispatch } from "../../store";
 &nbsp;
 import { addEl } from "../../store/dataSlice";
 &nbsp;
-const schema = z
+const passwordRegex = {
+  number: /\d/,  
+  upper: /[A-Z]/,
+  lower: /[a-z]/,
+  special: /[!@#$%^&amp;*(),.?":{}|&lt;&gt;]/,
+};
+&nbsp;
+export const schema = z
   .object({
     name: z
       .string()
       .min(1, "Name is required")
-      .refine(<span class="fstat-no" title="function not covered" >(val) =&gt; /^[A-Z]/.test(val), {</span>
+      .refine((val) =&gt; /^\p{Lu}/u.test(val), {
         message: "Name must start with an uppercase letter",
       }),
     age: z
@@ -478,22 +527,36 @@ const schema = z
       .min(0, "Age cannot be negative")
       .max(99, "Age must be less than 100"),
     email: z.string().email("Invalid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .refine((val) =&gt; passwordRegex.number.test(val), {
+        message: "Password must contain at least one number",
+      })
+      .refine((val) =&gt; passwordRegex.upper.test(val), {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .refine((val) =&gt; passwordRegex.lower.test(val), {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .refine((val) =&gt; passwordRegex.special.test(val), {
+        message: "Password must contain at least one special character",
+      }),
     confirmPassword: z.string().min(1, "Confirm your password"),
     gender: z.enum(["male", "female"], "Select a gender"),
-    acceptTerms: z.boolean().refine(<span class="fstat-no" title="function not covered" >(val) =&gt; val === true, {</span>
+    acceptTerms: z.boolean().refine((val) =&gt; val === true, {
       message: "You must accept terms and conditions",
     }),
     picture: z
     .string()
     .nonempty("Picture is required")
-    .refine(<span class="fstat-no" title="function not covered" >(val) =&gt; val.startsWith("data:image/"), {</span>
+    .refine((val) =&gt; val.startsWith("data:image/"), {
       message: "Picture must be an image",
     }),
 &nbsp;
 &nbsp;
   })
-  .refine(<span class="fstat-no" title="function not covered" >(data) =&gt; data.password === data.confirmPassword, {</span>
+  .refine((data) =&gt; data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
@@ -661,7 +724,7 @@ export function UncontrolledForm({ onSubmit }: UncontrolledFormProps) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-24T09:18:38.447Z
+                at 2025-08-24T13:48:54.721Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -16,12 +16,14 @@ const passwordRegex = {
 
 const GenderEnum = z.enum(["male", "female"] as const);
 
+//.refine((val) => /^[A-Z]/.test(val)
+
 const schema = z
   .object({
     name: z
       .string()
       .min(1, "Name is required")
-      .refine((val) => /^[A-Z]/.test(val), {
+      .refine((val) => /^\p{Lu}/u.test(val), {
         message: "Name must start with an uppercase letter",
       }),
     age: z

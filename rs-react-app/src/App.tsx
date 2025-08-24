@@ -11,7 +11,6 @@ import { Modal } from './components/modal/modal'
 
 import type { RootState } from './store'
 import { useSelector } from 'react-redux'
-import { fa } from 'zod/locales'
 
 type FormType = "uncontrolled" | "react-hook-form" | null
 
