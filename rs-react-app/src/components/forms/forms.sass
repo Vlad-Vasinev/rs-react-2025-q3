@@ -1,0 +1,192 @@
+
+h2 
+  text-align: center
+  margin-bottom: aCalc(40)
+
+.form
+  position: relative
+  width: aCalc(1000)
+  height: auto 
+  padding: aCalc(16) aCalc(20)
+  border-radius: aCalc(6)
+  background-color: #ffffff
+  +mob($sm)
+    padding: 160px 20px 16px
+    width: 100vw
+    height: 100vh
+    overflow-y: scroll
+  &__close 
+    position: absolute
+    top: aCalc(16)
+    right: aCalc(16)
+    cursor: pointer
+    border: none
+    width: aCalc(20)
+    height: aCalc(20)
+    +mob($sm)
+      width: 20px
+      right: 16px
+      top: auto
+      bottom: 16px
+      height: 20px
+    img, svg 
+      width: 100% 
+      height: 100% 
+      object-fit: cover
+
+form 
+  h2 
+    text-align: center
+    margin-bottom: aCalc(40)
+  fieldset
+    margin: aCalc(20) auto
+  .form-item + .form-item 
+    margin-top: aCalc(20)
+    +mob($sm)
+      margin-top: 16px
+  .form-item 
+    position: relative
+    display: flex
+    align-items: center
+    border-radius: aCalc(2)
+    padding: aCalc(14)
+    background-color: #868282
+    +mob($sm)
+      padding: 14px
+      border-radius: 2px
+    label 
+      color: #ffffff
+      width: 20% 
+    input
+      width: 90%
+      padding: aCalc(10)
+      border-radius: aCalc(2)
+      +mob($sm)
+        padding: 10px
+        border-radius: 2px
+    p 
+      position: absolute
+      width: aCalc(300)
+      height: unset
+      right: aCalc(-360)
+      padding: aCalc(20) aCalc(14)
+      top: 0
+      border-radius: aCalc(4)
+      background-color: red 
+      color:#ffffff
+  fieldset
+    position: relative
+    p 
+      position: absolute
+      width: aCalc(300)
+      height: unset
+      right: aCalc(-360)
+      padding: aCalc(20) aCalc(14)
+      top: 0
+      border-radius: aCalc(4)
+      background-color: red 
+      color:#ffffff
+  .form-itemCheckbox, .form-itemPicture
+    position: relative 
+    label 
+      display: flex
+      align-items: center
+      gap: aCalc(10)
+    p 
+      position: absolute
+      width: aCalc(300)
+      height: unset
+      left: aCalc(-360)
+      padding: aCalc(20) aCalc(14)
+      top: -150%
+      border-radius: aCalc(4)
+      background-color: red 
+      color:#ffffff
+    input 
+      position: absolute
+      opacity: 0
+      width: 0
+      height: 0
+      z-index: 100
+      &:checked + span 
+        background-color: #007BFF
+        border-color: #007BFF
+        position: relative
+      &:checked + span::after  
+        content: ""
+        position: absolute
+        left: 5px
+        top: 1px
+        width: 5px
+        height: 10px
+        border: solid white
+        border-width: 0 2px 2px 0
+        transform: rotate(45deg)
+    span
+      cursor: pointer
+      display: block
+      width: 18px
+      height: 18px
+      border: 2px solid #666
+      border-radius: 4px
+      margin-right: 8px
+      box-sizing: border-box
+      transition: background-color 0.3s, border-color 0.3s
+      &:hover 
+        border-color: #7fd8d4
+  .form-itemPicture
+    display: flex
+    gap: aCalc(10)
+    padding: aCalc(10)
+    input 
+      cursor: pointer
+      left: 0
+      opacity: 1
+      width: 100%
+      height: 100%
+      background-color: #f0884c
+  .radio-label
+    position: relative
+    padding-left: aCalc(28)
+    margin-right: aCalc(14)
+    cursor: pointer
+    user-select: none
+    input[type="radio"]
+      position: absolute
+      opacity: 0
+      width: 0
+      height: 0
+    span
+      position: absolute
+      left: 0
+      top: 50%
+      transform: translateY(-50%)
+      width: aCalc(18)
+      height: aCalc(18)
+      border-radius: 50%
+      border: aCalc(2) solid #555
+      background-color: #fff
+      box-sizing: border-box
+      &::after
+        content: ""
+        position: absolute
+        top: 50%
+        left: 50%
+        width: aCalc(10)
+        height: aCalc(10)
+        background-color: transparent
+        border-radius: 50%
+        transform: translate(-50%, -50%)
+        transition: background-color .2s ease
+    input[type="radio"]:checked + span::after
+      background-color: #f0884c
+
+
+  .form-itemPicture
+    p
+      top: 200%
+
+  button 
+    margin-top: aCalc(20)
+    @extend .btn-primary !optional
+    width: 100%

@@ -1,0 +1,28 @@
+
+.details-wrapper 
+  display: flex
+  gap: aCalc(40)
+  border: aCalc(3) solid transparent
+  border-radius: aCalc(2)
+  padding: aCalc(6)
+  transition: border-color 0.5s ease
+  +mob($sm)
+    flex-direction: column
+    gap: 40px
+  &._animation
+    border-color: #ffea2e
+  img 
+    object-fit: cover
+    width: aCalc(300)
+    +mob($sm)
+      width: 100%
+
+.details-data
+  display: flex
+  flex-direction: column
+  gap: aCalc(20)
+  +mob($sm)
+    gap: 16px
+  &__item 
+    display: flex
+    gap: aCalc(20)

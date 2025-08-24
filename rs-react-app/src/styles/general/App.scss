@@ -1,0 +1,10 @@
+@import './vars.scss';
+@import './mixins/_adaptive-properties.sass';
+@import './index.sass';
+@import './general.sass';
+
+@import '../../components/buttons/buttons.sass';
+@import '../../components/pageWrapper/pageWrapper.sass';
+@import '../../components/modal/modal.sass';
+@import '../../components/forms/forms.sass';
+@import '../../components/details/details.sass';
