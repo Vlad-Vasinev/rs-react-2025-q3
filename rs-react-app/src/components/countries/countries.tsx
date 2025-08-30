@@ -6,22 +6,15 @@ import loaderIcon from '../../assets/loadingIcon.svg'
 interface CountryEntry {
   year: number,
   population?: number,
-  cement_co2?: number,
-  cement_co2_per_capita?: number,
-  cumulative_co2?: number,
-  cumulative_cement_co2?: number,
-  cumulative_coal_co2?: number,
-  gas_co2?: number,
-  oil_co2?: number,
-  share_global_co2?: number,
-  share_global_coal_co2?: number,
-  share_global_cumulative_co2?: number,
-  share_global_cumulative_coal_co2?: number,
   co2?: number,
-  coal_co2? : number,
+  co2_per_capita?: number,
+  methane?: number,
+  oil_co2?: number,
+  temperature_change_from_co2?: number,
 }
 interface CountryData {
-  data: CountryEntry[];
+  iso_code: string,
+  data: CountryEntry[],
 }
 interface Countries {
   [countryName: string]: CountryData;
@@ -82,20 +75,25 @@ function Countries() {
         const entryForYear = countryData.data.find((entry) => entry.year === selectedYear);
 
         return (
-          <div key={countryName} style={{ marginBottom: "24px" }}>
-            <h2>{countryName}</h2>
+          <div className='countries' key={countryName} style={{ marginBottom: "24px" }}>
+            <h2><p>countryName:</p> {countryName}</h2>
+            <h2><p>iso_code:</p> {countryData.iso_code}</h2>
             {entryForYear ? (
               <table border={1} cellPadding={4} style={{ borderCollapse: "collapse" }}>
                 <thead>
                   <tr>
                     <th>Year</th>
                     <th>Population</th>
+                    <th>co2</th>
+                    <th>co2_per_capita</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>{entryForYear.year}</td>
-                    <td>{entryForYear.population !== undefined ? entryForYear.population.toLocaleString() : "-"}</td>
+                    <td>{entryForYear.population !== undefined ? entryForYear.population.toLocaleString() : "N/A"}</td>
+                    <td>{entryForYear.co2 !== undefined ? entryForYear.co2.toLocaleString() : "N/A"}</td>
+                    <td>{entryForYear.co2_per_capita !== undefined ? entryForYear.co2_per_capita.toLocaleString() : "N/A"}</td>
                   </tr>
                 </tbody>
               </table>
