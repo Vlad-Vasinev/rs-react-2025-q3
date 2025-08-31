@@ -1,0 +1,43 @@
+.modal 
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(0,0,0,0.5)
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 1000
+  &__wrapper 
+    background-color: #ffffff
+    padding: aCalc(20)
+    border-radius: aCalc(8)
+    width: aCalc(500)
+    position: relative
+    h3 
+      margin-bottom: aCalc(40)
+  .close-modal 
+    position: absolute
+    top: aCalc(16)
+    right: aCalc(16)
+    &:hover 
+      svg, img
+        transform: rotate(90deg)
+    svg, img
+      transition: transform .3s
+  &__row 
+    background-color: #f3f0f7
+    border-bottom: aCalc(2) solid #ffffff
+    transition: background-color .3s 
+    label 
+      cursor: pointer
+      width: 100%
+      display: block
+      padding: aCalc(10) 0
+      color: inherit
+      transition: color .3s
+    &:hover 
+      background-color: #2C56C2
+      label
+        color: #ffffff
