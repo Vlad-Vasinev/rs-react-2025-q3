@@ -22,6 +22,71 @@ interface Countries {
   [countryName: string]: CountryData;
 }
 
+type CountryDataEl = {
+  iso_code: string;
+  data: CountryEntry[];
+};
+type AvailableColumn = {
+  key: string;
+  label: string;
+};
+type CountryCardProps = {
+  countryName: string;
+  countryData: CountryDataEl;
+  selectedYear: number;
+  additionalColumns: string[];
+  availableColumns: AvailableColumn[];
+  animation?: boolean;
+};
+
+const CountryCard = React.memo(function CountryCard({
+  countryName,
+  countryData,
+  selectedYear,
+  additionalColumns,
+  availableColumns,
+  animation = false,
+}: CountryCardProps) {
+  const entryForYear = countryData.data.find((entry) => entry.year === selectedYear);
+
+  return (
+    <div className={`countries ${animation ? '_animation' : ''}`} style={{ marginBottom: "24px" }}>
+      <h2>{countryName}</h2>
+      <h3>ISO Code: {countryData.iso_code}</h3>
+
+      {entryForYear ? (
+        <table border={1} cellPadding={4} style={{ borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Population</th>
+              <th>CO2</th>
+              <th>CO2 per capita</th>
+              {additionalColumns.map((colKey) => {
+                const colLabel = availableColumns.find((c) => c.key === colKey)?.label || colKey;
+                return <th key={colKey}>{colLabel}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{entryForYear.year}</td>
+              <td>{entryForYear.population !== undefined ? entryForYear.population.toLocaleString() : "N/A"}</td>
+              <td>{entryForYear.co2 !== undefined ? entryForYear.co2.toLocaleString() : "N/A"}</td>
+              <td>{entryForYear.co2_per_capita !== undefined ? entryForYear.co2_per_capita.toLocaleString() : "N/A"}</td>
+              {additionalColumns.map((colKey) => (
+                <td key={colKey}>{entryForYear[colKey] ?? "N/A"}</td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      ) : (
+        <p>No data for selected year.</p>
+      )}
+    </div>
+  );
+});
+
 const countriesResource = createResource(
   fetch("../../../public/bigData/data.json")
     .then((res) => res.json())
@@ -145,51 +210,17 @@ function Countries() {
       )}
 
       {filtered.map(([countryName, countryData]) => {
-        const entryForYear = countryData.data.find(
-          (entry) => entry.year === selectedYear
-        );
         return (
-          <div
-            className={`countries ${animation ? '_animation' : ''}`}
-            key={countryName}style={{ marginBottom: "24px" }}
-          >
-            <h2>{countryName}</h2>
-            <h3>ISO Code: {countryData.iso_code}</h3>
-            {entryForYear ? (
-              <table border={1} cellPadding={4} style={{ borderCollapse: "collapse" }}>
-                <thead>
-                  <tr>
-                    <th>Year</th>
-                    <th>Population</th>
-                    <th>CO2</th>
-                    <th>CO2 per capita</th>
-                    {additionalColumns.map((colKey) => {
-                      const colLabel =
-                        availableColumns.find((c) => c.key === colKey)?.label ||
-                        colKey;
-                      return <th key={colKey}>{colLabel}</th>;
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{entryForYear.year}</td>
-                    <td>{entryForYear.population !== undefined ? entryForYear.population.toLocaleString() : "N/A"}</td>
-                    <td>{entryForYear.co2 !== undefined ? entryForYear.co2.toLocaleString() : "N/A"}</td>
-                    <td>{entryForYear.co2_per_capita !== undefined ? entryForYear.co2_per_capita.toLocaleString() : "N/A"}</td>
-                    {additionalColumns.map((colKey) => (
-                      <td key={colKey}>
-                        {entryForYear[colKey] ?? "N/A"}
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
-            ) : (
-              <p>No data for year {selectedYear}</p>
-            )}
-          </div>
-        );
+          <CountryCard
+            key={countryName}
+            countryName={countryName}
+            countryData={countryData}
+            selectedYear={selectedYear}
+            additionalColumns={additionalColumns}
+            availableColumns={availableColumns}
+            animation={animation}
+          />
+        )
       })}
     </div>
   );
