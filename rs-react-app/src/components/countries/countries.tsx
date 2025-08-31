@@ -132,10 +132,16 @@ function Countries() {
   }, [years, selectedYear])
 
   const filtered = useMemo(() => {
-    return Object.entries(countries)
-      .filter(([name]) => name.toLowerCase().includes(searchTerm.toLowerCase()))
-      .sort(([first], [next]) => first.localeCompare(next));
-  }, [countries, searchTerm]);
+  return Object.entries(countries)
+    .filter(([name]) => name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort(([nameA, dataA], [nameB, dataB]) => {
+      const popA = dataA.data.find((entry) => entry.year === selectedYear)?.population ?? 0;
+      const popB = dataB.data.find((entry) => entry.year === selectedYear)?.population ?? 0;
+      if (popA !== popB) return popB - popA;
+      return nameA.localeCompare(nameB);
+    });
+}, [countries, searchTerm, selectedYear]);
+
 
   const onSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

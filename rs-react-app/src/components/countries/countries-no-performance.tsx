@@ -66,10 +66,17 @@ function Countries() {
     );
   }
 
-  const filtered = Object.entries(countries).filter(([name]) =>
-    name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  filtered.sort(([name_first], [name_second]) => name_first.localeCompare(name_second));
+  const filtered = Object.entries(countries)
+  .filter(([name]) => name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  filtered.sort(([nameA, dataA], [nameB, dataB]) => {
+    const popA = dataA.data.find(entry => entry.year === selectedYear)?.population ?? 0;
+    const popB = dataB.data.find(entry => entry.year === selectedYear)?.population ?? 0;
+
+    if (popA !== popB) return popB - popA;
+    return nameA.localeCompare(nameB);
+  });
+
 
   return (
     <div>
